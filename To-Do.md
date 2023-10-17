@@ -1,6 +1,6 @@
 # Meeting 2
 ## Divison of Work
-
+Meeting 2 saw the division of tasks for the first milestone
 ### Class Implementation
 Aashna - Card Class
 Brian - Player
