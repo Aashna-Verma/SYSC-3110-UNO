@@ -11,6 +11,7 @@ import java.util.*;
 public class Player {
 
     private String name;
+    private int score;
     private ArrayList<Card> hand;
 
     /**
@@ -20,6 +21,7 @@ public class Player {
      */
     public Player(String name) {
         this.name = name;
+        this.score =0;
         hand = new ArrayList<Card>();
     }
 
@@ -29,6 +31,22 @@ public class Player {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * setter for score attribute
+     * @param score the player's score
+     */
+    public void setScore(int score){
+        this.score = score;
+    }
+
+    /**
+     * getter for score attribute
+     * @return the player's score
+     */
+    public int getScore(){
+        return this.score;
     }
 
     /**
@@ -65,6 +83,7 @@ public class Player {
         }
         return false;
     }
+
 
     /**
      * Represents the player and the cards in their hand
