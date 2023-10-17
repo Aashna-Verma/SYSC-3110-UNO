@@ -7,9 +7,13 @@
  */
 public enum Colour
 {
+    BLUE,
+    GREEN,
     RED,
     YELLOW,
-    GREEN,
-    BLUE,
+    PINK,
+    TEAL,
+    ORANGE,
+    PURPLE,
     WILD
 }
