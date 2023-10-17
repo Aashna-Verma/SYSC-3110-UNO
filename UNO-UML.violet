@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="21" class="java.beans.XMLDecoder">
+<java version="11.0.18" class="java.beans.XMLDecoder">
  <object class="com.horstmann.violet.ClassDiagramGraph">
   <void method="addNode">
    <object class="com.horstmann.violet.ClassNode" id="ClassNode0">
@@ -102,15 +102,16 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode2">
     <void property="attributes">
      <void property="text">
-      <string>- cards: ArrayDeque&lt;Card&gt;</string>
+      <string>- cards: ArrayList&lt;Card&gt;
+- deck: Arraydeque&lt;Card&gt;</string>
      </void>
     </void>
     <void property="methods">
      <void property="text">
       <string>+ Deck()
-+ populateDeck()
-+ addCard(Card)
-+ nextCard(): Card
++ populateDeck(): void
++ addCard(Card): void
++ getTopCard(): Card
 </string>
      </void>
     </void>
@@ -156,10 +157,9 @@
       <string>+ Player(String)
 + getName(): String
 + drawCard(Deck): boolean
-+ playCard(int): Card
-+setScore(int): void
-+getScore(): int
++ playCard(): Card
 + toString(): String
++ reset(): void
 </string>
      </void>
     </void>
