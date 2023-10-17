@@ -58,7 +58,7 @@ public class Player {
      * @return false if a card was unsuccessfully drawn
      */
     public boolean drawCard(Deck deck) {
-        Card nextCard = (Card) deck.nextCard();
+        Card nextCard = deck.getTopCard();
         if (nextCard != null){
             this.hand.add(nextCard);
             return true;

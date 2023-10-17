@@ -109,8 +109,8 @@
     <void property="methods">
      <void property="text">
       <string>+ Deck()
-+ populateDeck()
-+ addCard(Card)
++ populateDeck(): void
++ addCard(Card): void
 + getTopCard(): Card
 </string>
      </void>
