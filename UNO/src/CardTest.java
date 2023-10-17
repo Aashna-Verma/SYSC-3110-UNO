@@ -1,7 +1,7 @@
 /**
  * The test class for Card.
  *
- * @author  Aashna
+ * @author  Aashna Verma 101225434
  * @version 1.0
  */
 public class CardTest extends junit.framework.TestCase {
