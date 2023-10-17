@@ -1,3 +1,10 @@
+/**
+ * The Deck class
+ *
+ * @author Darren
+ * @version 1.1
+ */
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
