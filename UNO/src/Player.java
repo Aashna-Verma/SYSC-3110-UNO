@@ -45,7 +45,7 @@ public class Player {
      * getter for score attribute
      * @return the player's score
      */
-    public int setScore(){
+    public int getScore(){
         return this.score;
     }
 
@@ -83,6 +83,7 @@ public class Player {
         }
         return false;
     }
+
 
     /**
      * Represents the player and the cards in their hand
