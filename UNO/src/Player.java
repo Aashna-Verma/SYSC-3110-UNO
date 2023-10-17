@@ -93,8 +93,11 @@ public class Player {
     public String toString(){
         StringBuilder string = new StringBuilder();
         string.append(this.name + ": ");
+        int i = 1;
         for (Card card: this.hand){
-            string.append(card.toString() + ".");
+            string.append(i +". ");
+            string.append(card.toString() + "\n");
+            i++;
         }
         return string.toString();
     }
