@@ -36,8 +36,10 @@ public class Player {
      * @param
      * @return
      */
-    public playCard() {
-
+    public Card playCard(int i) {
+        Card removed_card = hand[i-1];
+        hand.remove(i-1);
+        return removed_card;
     }
 
     /*
