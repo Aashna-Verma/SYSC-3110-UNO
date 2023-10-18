@@ -16,14 +16,9 @@ public enum Value
     SEVEN,
     EIGHT,
     NINE,
-    DRAW_ONE,
-    DRAW_FIVE,
     SKIP,
-    SKIP_EVERYONE,
     REVERSE,
     WILD,
-    WILD_DRAW_TWO,
-    WILD_DRAW_COLOUR,
-    FLIP
+    WILD_DRAW_TWO
 }
 
