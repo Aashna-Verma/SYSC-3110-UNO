@@ -54,23 +54,22 @@ public class Deck {
         int j;
         for(i = 0; i < 2; i++) {
             for(j = 0; j <= 8; j++) {
-                this.cards.add(new Card(Value.values()[j], Value.values()[j], Colour.BLUE, Colour.PINK));
-                this.cards.add(new Card(Value.values()[j], Value.values()[j], Colour.GREEN, Colour.TEAL));
-                this.cards.add(new Card(Value.values()[j], Value.values()[j], Colour.RED, Colour.ORANGE));
-                this.cards.add(new Card(Value.values()[j], Value.values()[j], Colour.YELLOW, Colour.PURPLE));
+                this.cards.add(new Card(Value.values()[j], Colour.BLUE));
+                this.cards.add(new Card(Value.values()[j], Colour.GREEN));
+                this.cards.add(new Card(Value.values()[j], Colour.RED));
+                this.cards.add(new Card(Value.values()[j], Colour.YELLOW));
             }
         }
         for(i = 0; i < 2; i++) {
             for (j = 0; j < 4; j++) {
-                this.cards.add(new Card(Value.DRAW_ONE, Value.DRAW_FIVE, Colour.values()[j], Colour.values()[j+4]));
-                this.cards.add(new Card(Value.REVERSE, Value.REVERSE, Colour.values()[j], Colour.values()[j+4]));
-                this.cards.add(new Card(Value.SKIP, Value.SKIP_EVERYONE, Colour.values()[j], Colour.values()[j+4]));
-                this.cards.add(new Card(Value.FLIP, Value.FLIP, Colour.values()[j], Colour.values()[j+4]));
+                this.cards.add(new Card(Value.DRAW_ONE, Colour.values()[j]));
+                this.cards.add(new Card(Value.REVERSE, Colour.values()[j]));
+                this.cards.add(new Card(Value.SKIP, Colour.values()[j]));
             }
         }
         for(i = 0; i < 4; i++) {
-            this.cards.add(new Card(Value.WILD, Value.WILD, Colour.WILD, Colour.WILD));
-            this.cards.add(new Card(Value.WILD_DRAW_TWO, Value.WILD_DRAW_COLOUR, Colour.WILD, Colour.WILD));
+            this.cards.add(new Card(Value.WILD, Colour.WILD));
+            this.cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD));
         }
         Collections.shuffle(cards);
         this.deck.addAll(cards);
@@ -82,9 +81,7 @@ public class Deck {
      * @param card Card to be added to the top of deck
      */
     public void addCard(Card card){
-        if(Card.getSide() == Side.LIGHT) {
-            this.deck.addFirst(card);
-        } else this.deck.addLast(card);
+        this.deck.addFirst(card);
     }
 
     /**
@@ -92,9 +89,7 @@ public class Deck {
      *
      * @return Card
      */
-    public Card getTopCard(){
-        if (Card.getSide() == Side.LIGHT){
-            return this.deck.getFirst();
-        } else return this.deck.getLast();
+    public Card getTopCard() {
+        return this.deck.getFirst();
     }
 }

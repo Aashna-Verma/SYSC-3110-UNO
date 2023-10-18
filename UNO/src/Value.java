@@ -16,6 +16,7 @@ public enum Value
     SEVEN,
     EIGHT,
     NINE,
+    DRAW_ONE,
     SKIP,
     REVERSE,
     WILD,
