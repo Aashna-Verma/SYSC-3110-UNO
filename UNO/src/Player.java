@@ -50,6 +50,14 @@ public class Player {
     }
 
     /**
+     * getter for hand attribute
+     * @return an ArrayList representing the Player's hand
+     */
+    public ArrayList<Card> getHand(){
+        return this.hand;
+    }
+
+    /**
      * Play a card from the Players hand
      *
      * @param i the index of the card wished to be played
@@ -57,6 +65,7 @@ public class Player {
      * @return the card removed if valid
      * @return null if invalid card index
      */
+
     public Card playCard(int i) {
         try{
             Card removed_card = this.hand.get(i-1);
