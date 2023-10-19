@@ -31,9 +31,8 @@ A text-based, playable version of the Uno card game, allowing players to engage 
     * Access the repository: https://github.com/Aashna-Verma/SYSC-3110-UNO
 
 ## Installation
-1. Download SYSC3110_UNO project 
+1. Download SYSC3110_UNO project as a zip or in terminal use `git clone <HTTPS url>`
 ![Alt text](./images/git_download_info.png)
-  As a zip or in terminal use `git clone <HTTPS url>`
 2. Navigate to jar using `cd ~\UNO\out\artifacts\UNO_jar\UNO.jar`
 3. Run the jar using `java -jar UNO.jar`
 
