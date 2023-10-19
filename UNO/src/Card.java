@@ -45,7 +45,7 @@ public class Card {
      *
      * @return an Int of the cards score
      */
-    private int getScore(){
+    public int getScore(){
         return switch (getValue()) {
             case ONE -> 1;
             case TWO -> 2;
