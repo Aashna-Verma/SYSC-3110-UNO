@@ -85,11 +85,19 @@ public class Deck {
     }
 
     /**
+     * Removes the card from the top of the deck and returns it, if not card returns null
+     * @return Card
+     */
+    public Card removeCard(){
+        return deck.pollFirst();
+    }
+
+    /**
      * Returns the current top card of the deck
      *
      * @return Card
      */
     public Card getTopCard() {
-        return this.deck.getFirst();
+        return deck.getFirst();
     }
 }
