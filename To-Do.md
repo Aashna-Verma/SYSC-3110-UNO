@@ -28,3 +28,4 @@ Bonus:
 
 Issues:
 1. There are no checks for the deck being empty that prevent an exception from being thrown
+2. Test new methods in player
