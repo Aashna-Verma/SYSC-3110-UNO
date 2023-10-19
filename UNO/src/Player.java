@@ -9,7 +9,7 @@
 import java.util.*;
 
 public class Player {
-
+    public static final int MAX_HAND_SIZE = 7;
     private String name;
     private int score;
     private ArrayList<Card> hand;
@@ -21,7 +21,7 @@ public class Player {
      */
     public Player(String name) {
         this.name = name;
-        this.score =0;
+        this.score = 0;
         hand = new ArrayList<Card>();
     }
 
@@ -59,8 +59,8 @@ public class Player {
      */
     public Card playCard(int i) {
         try{
-            Card removed_card = this.hand.get(i-1);
-            this.hand.remove(i-1);
+            Card removed_card = this.hand.get(i - 1);
+            this.hand.remove(i - 1);
             return removed_card;
         }
         catch(IndexOutOfBoundsException e){
@@ -68,9 +68,21 @@ public class Player {
             return null;
         }
     }
+    /**
+     * Return a card to a player's hand. Called if the player tries to make an invalid move.
+     * @param card the card being returned to the player
+     */
+    public boolean addCard(Card c) {
+        if (hand.size() < MAX_HAND_SIZE) {
+            this.hand.add(c);
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Play a card from the Players hand
+     * 
      * @param deck the Deck to draw from
      * @return true if a card was successfully drawn
      * @return false if a card was unsuccessfully drawn
@@ -78,13 +90,11 @@ public class Player {
     public boolean drawCard(Deck deck) {
         Card nextCard = deck.getTopCard();
         if (nextCard != null){
-            this.hand.add(nextCard);
-            return true;
+            return addCard(nextCard); 
         }
         return false;
     }
-
-
+    
     /**
      * Represents the player and the cards in their hand
      * @return a string with the players name and hand
