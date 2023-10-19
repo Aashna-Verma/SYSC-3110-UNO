@@ -50,6 +50,18 @@ public class Player {
     }
 
     /**
+     * calculates the points the player's hand is worth
+     * @return the point worth of the players hand
+     */
+    public int getHandPoints(){
+        int points = 0;
+        for (Card card: hand){
+            points += card.getScore();
+        }
+        return points;
+    }
+
+    /**
      * getter for hand attribute
      * @return an ArrayList representing the Player's hand
      */
