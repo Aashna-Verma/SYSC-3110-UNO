@@ -50,6 +50,15 @@ public class Player {
     }
 
     /**
+     * Gets the number of cards in this player's hand
+     * 
+     * @return the number of cards the player has
+     */
+    public int getNumCards() {
+        return this.hand.size();
+    }
+    
+    /**
      * Play a card from the Players hand
      *
      * @param i the index of the card wished to be played
