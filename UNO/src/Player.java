@@ -60,13 +60,47 @@ public class Player {
     
     /**
      * Play a card from the Players hand
+     * Make a play depending on the input provided by a human player
+     * @param topCard the current card on top of the deck
+     * @return the card that this player has decided to play
+     */ 
+    public Card playCard (Card topCard, Deck deck) {
+        Scanner sc = new Scanner(System.in);
+        int choice = -1;
+        Card removed = null;
+        do {
+            System.out.println("Enter card index to play or 0 to draw a card:");
+            try {
+                // Subtract by one because the indexes given start at 1
+                choice = sc.nextInt() - 1;
+            } 
+            catch (Exception e) {
+                choice = -1;
+                System.out.println ("Enter an integer index");
+            }
+            if (choice >= 0 && choice < 7) {
+                if (choice == 0) {
+                    System.out.println("Drew a card: " + drawCard(deck));
+                }
+                else {
+                    removed = removeCard(choice);
+                    if (removed != null) {
+                        return removed;
+                    }
+                }
+            }
+            System.out.println("Invalid choice, choose again");
+        } while (true);
+    }
+    
+    /**
+     * Remove a card from the Players hand
      *
-     * @param i the index of the card wished to be played
+     * @param i the index of the card to be removed
      *
-     * @return the card removed if valid
-     * @return null if invalid card index
+     * @return the card removed if valid, null otherwise
      */
-    public Card playCard(int i) {
+    public Card removeCard(int i) {
         try{
             Card removed_card = this.hand.get(i - 1);
             this.hand.remove(i - 1);
@@ -93,15 +127,15 @@ public class Player {
      * Play a card from the Players hand
      * 
      * @param deck the Deck to draw from
-     * @return true if a card was successfully drawn
-     * @return false if a card was unsuccessfully drawn
+     * @return the card that was drawn and added to the hand, null if no card was drawn
      */
-    public boolean drawCard(Deck deck) {
+    public Card drawCard(Deck deck) {
         Card nextCard = deck.getTopCard();
         if (nextCard != null){
-            return addCard(nextCard); 
+            addCard(nextCard);
+            return nextCard; 
         }
-        return false;
+        return null;
     }
     
     /**
