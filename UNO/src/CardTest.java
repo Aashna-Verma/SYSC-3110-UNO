@@ -38,6 +38,15 @@ public class CardTest extends junit.framework.TestCase{
     }
 
     /**
+     * Makes sure the score is as expected
+     */
+    public void testScore(){
+        assertEquals("Score is incorrect", c_green_one.getScore(), 1);
+        assertEquals("Score is incorrect", c_wild_wild.getScore(), 40);
+        assertEquals("Score is incorrect", c_red_reverse.getScore(), 20);
+    }
+
+    /**
      * Makes sure the toString method returns the correct UNO notation
      */
     public void testToString(){
