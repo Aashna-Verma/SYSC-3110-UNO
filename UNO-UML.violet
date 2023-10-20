@@ -14,6 +14,7 @@
       <string>+ Card(Value, Colour)
 + getValue(): Value
 + getColour(): Colour
++ getScore(): int
 + toString(): String
 
 </string>
@@ -97,8 +98,7 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode2">
     <void property="attributes">
      <void property="text">
-      <string>- cards: ArrayList&lt;Card&gt;
-- deck: Arraydeque&lt;Card&gt;</string>
+      <string>- deck: Arraydeque&lt;Card&gt;</string>
      </void>
     </void>
     <void property="methods">

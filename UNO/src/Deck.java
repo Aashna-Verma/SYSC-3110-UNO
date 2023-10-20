@@ -1,8 +1,8 @@
 /**
  * The Deck class
  *
- * @author Darren
- * @version 1.1
+ * @author Darren Wallace 101233334
+ * @version 1.0
  */
 
 import java.util.ArrayDeque;
@@ -35,14 +35,12 @@ import java.util.Collections;
  * 4 Wild Draw Colour
  */
 public class Deck {
-    private ArrayList<Card> cards;
     private ArrayDeque<Card> deck;
 
     /**
      * Constructor for Deck
      */
     public Deck() {
-        cards = new ArrayList<>();
         deck = new ArrayDeque<>();
     }
 
@@ -50,26 +48,28 @@ public class Deck {
      * Populates and shuffles cards into a ready to play deck
      */
     public void populateDeck(){
+        ArrayList<Card> cards = new ArrayList<>();
+
         int i;
         int j;
         for(i = 0; i < 2; i++) {
             for(j = 0; j <= 8; j++) {
-                this.cards.add(new Card(Value.values()[j], Colour.BLUE));
-                this.cards.add(new Card(Value.values()[j], Colour.GREEN));
-                this.cards.add(new Card(Value.values()[j], Colour.RED));
-                this.cards.add(new Card(Value.values()[j], Colour.YELLOW));
+                cards.add(new Card(Value.values()[j], Colour.BLUE));
+                cards.add(new Card(Value.values()[j], Colour.GREEN));
+                cards.add(new Card(Value.values()[j], Colour.RED));
+                cards.add(new Card(Value.values()[j], Colour.YELLOW));
             }
         }
         for(i = 0; i < 2; i++) {
             for (j = 0; j < 4; j++) {
-                this.cards.add(new Card(Value.DRAW_ONE, Colour.values()[j]));
-                this.cards.add(new Card(Value.REVERSE, Colour.values()[j]));
-                this.cards.add(new Card(Value.SKIP, Colour.values()[j]));
+                cards.add(new Card(Value.DRAW_ONE, Colour.values()[j]));
+                cards.add(new Card(Value.REVERSE, Colour.values()[j]));
+                cards.add(new Card(Value.SKIP, Colour.values()[j]));
             }
         }
         for(i = 0; i < 4; i++) {
-            this.cards.add(new Card(Value.WILD, Colour.WILD));
-            this.cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD));
+            cards.add(new Card(Value.WILD, Colour.WILD));
+            cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD));
         }
         Collections.shuffle(cards);
         this.deck.addAll(cards);
@@ -85,7 +85,15 @@ public class Deck {
     }
 
     /**
-     * Returns the current top card of the deck
+     * Removes the card from the top of the deck and returns it, if not card returns null
+     * @return Card
+     */
+    public Card removeCard(){
+        return deck.pollFirst();
+    }
+
+    /**
+     * Returns the current top card of the deck, null if it is empty
      *
      * @return Card
      */

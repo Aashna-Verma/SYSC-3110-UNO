@@ -119,6 +119,18 @@ public class Player {
         }
     }
     /**
+     * Calculates the points the player's hand is worth
+     *
+     * @return the point worth of the players hand
+     */
+    public int getHandPoints(){
+        int points = 0;
+        for (Card card: hand){
+            points += card.getScore();
+        }
+        return points;
+    }
+    /**
      * Add a card to a players hand
      * 
      * @param card the card being returned to the player

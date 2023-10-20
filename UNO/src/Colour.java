@@ -11,9 +11,5 @@ public enum Colour
     GREEN,
     RED,
     YELLOW,
-    /*PINK,
-    TEAL,
-    ORANGE,
-    PURPLE,*/
-    WILD 
+    WILD
 }
