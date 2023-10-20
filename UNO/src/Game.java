@@ -166,7 +166,7 @@ public class Game {
 
         switch (choice.getValue()) {
             case DRAW_ONE:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One: " + nextPlayer(currentPlayer).drawCard(currentDeck));
+                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One: " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
                 break;
             case SKIP:
                 // Set to the next player, which will then skip the player
@@ -177,10 +177,12 @@ public class Game {
                 else if (direction == DIRECTIONS.BACKWARD) direction = DIRECTIONS.FORWARD;
                 break;
             case WILD_DRAW_TWO:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: " + nextPlayer(currentPlayer).drawCard(currentDeck) 
-                                    + " " + nextPlayer(currentPlayer).drawCard(currentDeck));
+                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()) 
+                                    + " " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
+                choice = handleWild(choice);
+                break;
             case WILD:
-                choice = handleWild();
+                choice = handleWild(choice);
                 break;
             default:
                 break;
@@ -196,25 +198,23 @@ public class Game {
      * 
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
-    private Card handleWild() {
-        if (topCard.getColour() == Colour.WILD) {
-            String colours = "";
-            for (Colour c: Colour.values()) {
-                colours += c + " ";
-            }
+    private Card handleWild(Card wild) {
+        if (wild.getColour() == Colour.WILD) {
             Colour chosenColour = null;
-            System.out.println("Choose a colour: " + colours);
             while (chosenColour == null) {
+                System.out.println("Choose a colour: BLUE GREEN RED YELLOW");
                 String input = scanner.nextLine();
                 for (Colour c: Colour.values()) {
-                    if (c.toString().equals(input)) {
+                    if (c.toString().equals(input) && !c.equals("WILD")) {
                         chosenColour = c;
                     }
                 }
             }
-            return new Card(topCard.getValue(), chosenColour);
+            // Create a new wild card with the same value, but with the chosen colour
+            return new Card(wild.getValue(), chosenColour);
         }
-        return topCard;
+        // This card isn't a wild, so just send it back
+        return wild;
     }
 
     /**
@@ -264,14 +264,22 @@ public class Game {
             int input = getPlayerInput();
             if (input == 0) {
                 // Draw a card
-                Card drawn = currentPlayer.drawCard(currentDeck);
+                Card drawn = currentDeck.removeCard();
+                System.out.println("Drew a card: " + drawn);
                 // Check if the card is valid
                 if (topCard.validWith(drawn)) {
                     System.out.println("Enter 0 to keep the card, or any number above 0 to play it");
                     if (getPlayerInput() > 0) {
                         choice = drawn;
                     }
+                    else {
+                        currentPlayer.drawCard(drawn);
+                    }
                 }
+                else {
+                    currentPlayer.drawCard(drawn);
+                }
+                // Drawing a card is the last action a player performs
                 chosen = true;
             }
             else {
@@ -296,3 +304,5 @@ public class Game {
         game.playGame();
     }
 }
+
+// :D

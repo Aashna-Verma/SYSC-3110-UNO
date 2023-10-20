@@ -102,15 +102,10 @@ public class Player {
      * @param deck the Deck to draw from
      * @return the card that was drawn and added to the hand, null if no card was drawn
      */
-    public Card drawCard(Deck deck) {
-        Card nextCard = deck.removeCard();
-        if (nextCard != null){
-            System.out.println("Drew a card: " + nextCard);
-            addCard(nextCard);
-            return nextCard; 
-        }
-        else {
-            System.out.println("No cards to draw");
+    public Card drawCard(Card drawn) {
+        if (drawn != null){
+            addCard(drawn);
+            return drawn; 
         }
         return null;
     }
@@ -120,7 +115,7 @@ public class Player {
      */
     public void drawHand(Deck deck) {
         for (int i = 0; i < STARTING_HAND_SIZE; i++) {
-            drawCard(deck);
+            drawCard(deck.removeCard());
         }
     }
     
