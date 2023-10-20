@@ -59,11 +59,11 @@ public class Player {
     }
     
     /**
-     * Play a card from the Players hand
-     * Make a play depending on the input provided by a human player
+     * Play a card from the Players hand, make a play depending on the input provided by a human player
      * @param topCard the current card on top of the deck
+     * @param deck the deck the player can draw from
      * @return the card that this player has decided to play
-     */ 
+     */
     public Card playCard (Card topCard, Deck deck) {
         Scanner sc = new Scanner(System.in);
         int choice = -1;
@@ -72,24 +72,33 @@ public class Player {
             System.out.println("Enter card index to play or 0 to draw a card:");
             try {
                 // Subtract by one because the indexes given start at 1
-                choice = sc.nextInt() - 1;
+                choice = sc.nextInt();
+                sc.nextLine();
             } 
             catch (Exception e) {
                 choice = -1;
                 System.out.println ("Enter an integer index");
             }
-            if (choice >= 0 && choice < 7) {
-                if (choice == 0) {
-                    System.out.println("Drew a card: " + drawCard(deck));
-                }
-                else {
-                    removed = removeCard(choice);
-                    if (removed != null) {
-                        return removed;
-                    }
+            // If the player's choice is a card in their hand
+            if (choice > 0 && choice < MAX_HAND_SIZE) {
+                removed = removeCard(choice - 1);
+                if (removed != null) {
+                    return removed;
                 }
             }
-            System.out.println("Invalid choice, choose again");
+            else if (choice == 0) {
+                Card drawn = drawCard(deck);
+                if (drawn != null) {
+                    System.out.println("Drew a card: " + drawCard(deck));
+        
+                }
+                else {
+                    System.out.println("No cards to draw");
+                }
+            }
+            else {
+                System.out.println("Invalid choice, choose again");
+            }
         } while (true);
     }
     
@@ -137,6 +146,15 @@ public class Player {
         }
         return null;
     }
+    /**
+     * Draws the maximum number of cards the player can have
+     * @param deck The deck to draw from
+     */
+    public void drawHand(Deck deck) {
+        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+            drawCard(deck);
+        }
+    }
     
     /**
      * Represents the player and the cards in their hand
@@ -145,7 +163,17 @@ public class Player {
     @Override
     public String toString(){
         StringBuilder string = new StringBuilder();
-        string.append(this.name + ": ");
+        string.append(this.name + ":\n");
+        string.append(handToString());
+        return string.toString();
+    }
+    /**
+     * Output the cards of the player
+     * 
+     * @return a string with the player's hand
+     */
+    public String handToString() {
+        StringBuilder string = new StringBuilder();
         int i = 1;
         for (Card card: this.hand){
             string.append(i +". ");
