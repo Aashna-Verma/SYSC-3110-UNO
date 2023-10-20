@@ -80,8 +80,8 @@ public class Deck {
      *
      * @param card Card to be added to the top of deck
      */
-    public void addCard(Card card){
-        this.deck.addFirst(card);
+    public boolean addCard(Card card){
+        return this.deck.offerFirst(card);
     }
 
     /**
