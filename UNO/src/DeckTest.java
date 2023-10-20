@@ -6,14 +6,17 @@
  */
 
 public class DeckTest extends junit.framework.TestCase{
-    void populateDeck() {
+    public void test_populateDeck() {
         Deck deck = new Deck();
         deck.populateDeck();
+        assertNotNull(deck);
     }
 
-    void addCard() {
+    public void test_addCard() {
+
     }
 
-    void getTopCard() {
+    public void test_getTopCard() {
+
     }
 }
