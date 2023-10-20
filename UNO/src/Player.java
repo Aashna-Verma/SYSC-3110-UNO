@@ -9,7 +9,7 @@
 import java.util.*;
 
 public class Player {
-    public static final int MAX_HAND_SIZE = 7;
+    public static final int STARTING_HAND_SIZE = 7;
     private String name;
     private int score;
     private ArrayList<Card> hand;
@@ -80,7 +80,7 @@ public class Player {
                 System.out.println ("Enter an integer index");
             }
             // If the player's choice is a card in their hand
-            if (choice > 0 && choice < MAX_HAND_SIZE) {
+            if (choice > 0 && choice < hand.size()) {
                 removed = removeCard(choice - 1);
                 if (removed != null) {
                     return removed;
@@ -106,10 +106,9 @@ public class Player {
      * Remove a card from the Players hand
      *
      * @param i the index of the card to be removed
-     *
      * @return the card removed if valid, null otherwise
      */
-    public Card removeCard(int i) {
+    private Card removeCard(int i) {
         try{
             Card removed_card = this.hand.get(i - 1);
             this.hand.remove(i - 1);
@@ -121,15 +120,13 @@ public class Player {
         }
     }
     /**
-     * Return a card to a player's hand. Called if the player tries to make an invalid move.
+     * Add a card to a players hand
+     * 
      * @param card the card being returned to the player
+     * @return true, always
      */
     public boolean addCard(Card c) {
-        if (hand.size() < MAX_HAND_SIZE) {
-            this.hand.add(c);
-            return true;
-        }
-        return false;
+        return this.hand.add(c);
     }
 
     /**
@@ -151,7 +148,7 @@ public class Player {
      * @param deck The deck to draw from
      */
     public void drawHand(Deck deck) {
-        for (int i = 0; i < MAX_HAND_SIZE; i++) {
+        for (int i = 0; i < STARTING_HAND_SIZE; i++) {
             drawCard(deck);
         }
     }
