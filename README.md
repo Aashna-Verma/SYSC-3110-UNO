@@ -33,6 +33,9 @@ A text-based, playable version of the Uno card game, allowing players to engage 
 2. Navigate to jar using `cd ~\UNO\out\artifacts\UNO_jar\UNO.jar`
 3. Run the jar using `java -jar UNO.jar`
 
+## Copyright
+Uno® is a registered trademark of Mattel, Inc. This software is an unofficial implementation of the Uno card game and is not affiliated with or endorsed by Mattel, Inc. All rights to the original Uno card game and its trademarks are owned by Mattel, Inc.
+
 ## Contributors
 Aashna Verma 101225434  
 Brian Tran 101231003  
