@@ -49,15 +49,22 @@ public class Card {
     }
 
     /**
-     * Checks if compareTo could be played on this card, and the other way around
+     * Checks if compareTo could be played on this card or the other way around
      * @param compareTo the card to be compared with
      * @return true if playing compareTo on this would be a valid move, false otherwise
      */
     public boolean validWith(Card compareTo) {
-        if (compareTo.getValue() == this.getValue()) {
+        if (compareTo == null) {
+            return false;
+        }
+        // A wild can be played on anything
+        else if (compareTo.getColour() == Colour.WILD || this.getColour() == Colour.WILD) {
             return true;
         }
-        if (compareTo.getColour() == this.getColour()) {
+        else if (compareTo.getValue() == this.getValue()) {
+            return true;
+        }
+        else if (compareTo.getColour() == this.getColour()) {
             return true;
         }
         return false;
