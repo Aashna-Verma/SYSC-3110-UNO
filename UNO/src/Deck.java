@@ -54,22 +54,21 @@ public class Deck {
         int j;
         for(i = 0; i < 2; i++) {
             for(j = 0; j <= 8; j++) {
-                this.cards.add(new Card(Value.values()[j], Colour.BLUE));
-                this.cards.add(new Card(Value.values()[j], Colour.GREEN));
-                this.cards.add(new Card(Value.values()[j], Colour.RED));
-                this.cards.add(new Card(Value.values()[j], Colour.YELLOW));
+                for (Colour c: Colour.values()) {
+                    this.cards.add(new Card(Value.values()[j], c));
+                }
             }
         }
         for(i = 0; i < 2; i++) {
-            for (j = 0; j < 4; j++) {
-                this.cards.add(new Card(Value.DRAW_ONE, Colour.values()[j]));
-                this.cards.add(new Card(Value.REVERSE, Colour.values()[j]));
-                this.cards.add(new Card(Value.SKIP, Colour.values()[j]));
+            for (Colour c: Colour.values()) {
+                this.cards.add(new Card(Value.DRAW_ONE, c));
+                this.cards.add(new Card(Value.REVERSE, c));
+                this.cards.add(new Card(Value.SKIP, c));
             }
         }
-        for(i = 0; i < 4; i++) {
-            this.cards.add(new Card(Value.WILD, Colour.WILD));
-            this.cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD));
+        for(Colour c: Colour.values()) {
+            this.cards.add(new Card(Value.WILD, c));
+            this.cards.add(new Card(Value.WILD_DRAW_TWO, c));
         }
         Collections.shuffle(cards);
         this.deck.addAll(cards);
@@ -90,6 +89,7 @@ public class Deck {
      * @return Card
      */
     public Card getTopCard() {
-        return this.deck.getFirst();
+        if (this.deck.isEmpty()) System.out.println("Deck is empty!");
+        return this.deck.pollFirst();
     }
 }
