@@ -67,39 +67,40 @@ public class Player {
     public Card playCard (Card topCard, Deck deck) {
         Scanner sc = new Scanner(System.in);
         int choice = -1;
-        Card removed = null;
-        do {
-            System.out.println("Enter card index to play or 0 to draw a card:");
-            try {
-                // Subtract by one because the indexes given start at 1
-                choice = sc.nextInt();
-                sc.nextLine();
-            } 
-            catch (Exception e) {
-                choice = -1;
-                System.out.println ("Enter an integer index");
+        System.out.println("Enter card index to play or 0 to draw a card:");
+        try {
+            // Subtract by one because the indexes given start at 1
+            choice = sc.nextInt();
+            sc.nextLine();
+        } 
+        catch (Exception e) {
+            choice = -1;
+            System.out.println ("Enter an integer index");
+        }
+        // If the player's choice is a card in their hand
+        if (choice > 0 && choice <= hand.size()) {
+            Card removed = removeCard(choice);
+            if (removed != null) {
+                sc.close();
+                return removed;
             }
-            // If the player's choice is a card in their hand
-            if (choice > 0 && choice < hand.size()) {
-                removed = removeCard(choice - 1);
-                if (removed != null) {
-                    return removed;
-                }
-            }
-            else if (choice == 0) {
-                Card drawn = drawCard(deck);
-                if (drawn != null) {
-                    System.out.println("Drew a card: " + drawCard(deck));
-        
-                }
-                else {
-                    System.out.println("No cards to draw");
-                }
+        }
+        else if (choice == 0) {
+            Card drawn = drawCard(deck);
+            if (drawn != null) {
+                System.out.println("Drew a card: " + drawn);
+                sc.close();
+                return null;
             }
             else {
-                System.out.println("Invalid choice, choose again");
+                System.out.println("No cards to draw");
             }
-        } while (true);
+        }
+        else {
+            System.out.println("Invalid choice, choose again");
+        }
+        sc.close();
+        return null;
     }
     
     /**
@@ -110,9 +111,7 @@ public class Player {
      */
     private Card removeCard(int i) {
         try{
-            Card removed_card = this.hand.get(i - 1);
-            this.hand.remove(i - 1);
-            return removed_card;
+            return this.hand.remove(i - 1);
         }
         catch(IndexOutOfBoundsException e){
             System.out.println("Invalid card index\n");
