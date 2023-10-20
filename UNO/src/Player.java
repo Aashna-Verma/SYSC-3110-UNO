@@ -59,57 +59,12 @@ public class Player {
     }
     
     /**
-     * Play a card from the Players hand, make a play depending on the input provided by a human player
-     * @param topCard the current card on top of the deck
-     * @param deck the deck the player can draw from
-     * @return the card that this player has decided to play
-     */
-    public Card playCard (Card topCard, Deck deck) {
-        Scanner sc = new Scanner(System.in);
-        int choice = -1;
-        System.out.println("Enter card index to play or 0 to draw a card:");
-        try {
-            // Subtract by one because the indexes given start at 1
-            choice = sc.nextInt();
-            sc.nextLine();
-        } 
-        catch (Exception e) {
-            choice = -1;
-            System.out.println ("Enter an integer index");
-        }
-        // If the player's choice is a card in their hand
-        if (choice > 0 && choice <= hand.size()) {
-            Card removed = removeCard(choice);
-            if (removed != null) {
-                sc.close();
-                return removed;
-            }
-        }
-        else if (choice == 0) {
-            Card drawn = drawCard(deck);
-            if (drawn != null) {
-                System.out.println("Drew a card: " + drawn);
-                sc.close();
-                return null;
-            }
-            else {
-                System.out.println("No cards to draw");
-            }
-        }
-        else {
-            System.out.println("Invalid choice, choose again");
-        }
-        sc.close();
-        return null;
-    }
-    
-    /**
      * Remove a card from the Players hand
      *
      * @param i the index of the card to be removed
      * @return the card removed if valid, null otherwise
      */
-    private Card removeCard(int i) {
+    public Card removeCard(int i) {
         try{
             return this.hand.remove(i - 1);
         }
@@ -118,6 +73,7 @@ public class Player {
             return null;
         }
     }
+
     /**
      * Calculates the points the player's hand is worth
      *
@@ -147,10 +103,14 @@ public class Player {
      * @return the card that was drawn and added to the hand, null if no card was drawn
      */
     public Card drawCard(Deck deck) {
-        Card nextCard = deck.getTopCard();
+        Card nextCard = deck.removeCard();
         if (nextCard != null){
+            System.out.println("Drew a card: " + nextCard);
             addCard(nextCard);
             return nextCard; 
+        }
+        else {
+            System.out.println("No cards to draw");
         }
         return null;
     }

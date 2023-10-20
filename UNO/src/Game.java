@@ -9,6 +9,7 @@ import java.util.Scanner;
  */
 public class Game {
     private enum DIRECTIONS { FORWARD, BACKWARD };
+    private final int WINNING_SCORE = 500;
     private DIRECTIONS direction;
     private ArrayList<Player> players;
     private Player currentPlayer;
@@ -20,11 +21,9 @@ public class Game {
     public Game() {
         // Populate players list later
         players = new ArrayList<>();
+        direction = DIRECTIONS.FORWARD;
         currentDeck = new Deck();
         pile = new Deck();
-        currentDeck.populateDeck();
-        topCard = currentDeck.getTopCard();
-        direction = DIRECTIONS.FORWARD;
     }
 
     /**
@@ -37,45 +36,51 @@ public class Game {
             // Start the game
             int turnsTaken = 0;
             boolean gameOver = false;
-
+            // Game loop
             do {
-                if (turnsTaken == 0) {
-                    System.out.println("Starting Card: " + topCard);
-                } else {
-                    System.out.println("Played: " + topCard);
-                }
-                // Ask player to make a choice of what to play, then validate that choice
-                Card choice = null;
+                // Set up the round
+                boolean roundOver = false;
+                currentDeck = new Deck();
+                pile = new Deck();
+                currentDeck.populateDeck();
+                topCard = currentDeck.removeCard();
+                drawHands();
+                // Round loop
                 do {
-                    printRoundInfo();
-                    choice = currentPlayer.playCard(topCard, currentDeck);
-                    if (choice == null) {
-                        continue;
-                    }
-                    else if (choice.validWith(topCard)) {
-                        topCard = choice;
+                    if (turnsTaken == 0) {
+                        System.out.println("Starting Card: " + topCard);
                     } else {
-                        System.out.println("Card doesn't match the top card, try again");
-                        currentPlayer.addCard(choice);
-                        choice = null;
+                        System.out.println("Played: " + topCard);
                     }
-                } while (choice == null);
-                // The current card is no longer needed
-                pile.addCard(topCard);
-                // The top card is now the played card
-                topCard = choice;
-                // Run an action based on the card that was played, and advance the player
-                processChoice(topCard);
-                // Check if this player has won
-                if (currentPlayer.getNumCards() == 0) {
-                    System.out.println("Game ended: " + currentPlayer.getName() + " has won");
-                    gameOver = true;
+                    processChoice(playCard());
+
+                    // Check if this player has won
+                    if (currentPlayer.getNumCards() == 0) {
+                        System.out.println("Round over:" + currentPlayer.getName() + " has won");
+                        currentPlayer.setScore(currentPlayer.getScore() + getPoints());
+                        roundOver = true;
+                    }
+                    // The deck is empty, so end the game
+                    else if (currentDeck.getTopCard() == null) {
+                        System.out.println("Round over, deck empty. No winner");
+                        roundOver = true;
+                    }
+                    // Move onto the next player if nobody has won yet
+                    else {
+                        // Move onto the next player
+                        currentPlayer = nextPlayer(currentPlayer);
+                        // Keep track of how many turns have passed
+                        turnsTaken++;
+                    }
+                } while (!roundOver);
+                for (Player p: players) {
+                    if (p.getScore() >= WINNING_SCORE) {
+                        System.out.println(p.getName() + " has won! With a score of " + p.getScore());
+                        gameOver = true;
+                    }
                 }
-                // Move onto the next player
-                currentPlayer = nextPlayer(currentPlayer);
-                // Keep track of how many turns have passed
-                turnsTaken++;
-            } while (!gameOver);
+            } while (!gameOver); 
+            
         }
     }
     /**
@@ -91,7 +96,7 @@ public class Game {
         }
         else if (direction == DIRECTIONS.BACKWARD) {
             int nextPlayerIndex = players.indexOf(player) - 1;
-            return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size()); 
+            return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1); 
         }
         return player;
     }
@@ -103,10 +108,9 @@ public class Game {
     private boolean configurePlayers() {
         int numPlayers = 0;
         do {
-            System.out.println("Enter the number of players (2-4)");
+            System.out.print("Enter the number of players (2-4): ");
             try {
-                numPlayers = scanner.nextInt();
-                scanner.nextLine();
+                numPlayers = Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
                 numPlayers = -1;
             }
@@ -119,20 +123,50 @@ public class Game {
             // Create the player and give them their starting conditions
             Player newPlayer = new Player(name);
             players.add(newPlayer);
-            newPlayer.drawHand(currentDeck);
         }
         currentPlayer = players.get(0);
         return true;
     }
+
+    /**
+     * Makes the players each draw a hand from the current deck
+     */
+    private void drawHands() {
+        for (Player p: players) {
+            p.drawHand(currentDeck);
+        }
+    }
+
+    /**
+     * Returns the points the current player gets from winning the round
+     * 
+     * @param choice
+     */
+    private int getPoints() {
+        int total = 0;
+        // Confirm the player has won
+        if (currentPlayer.getNumCards() == 0) {
+            for (Player p: players) {
+                if (p != currentPlayer) {
+                    total += p.getHandPoints();
+                }
+            }
+        }
+        return total;
+    }
+
     /**
      * Decide what to do based on the card played. Can change the current player and the top card
      * 
      * @param choice The card that was played on the currentPlayer's turn
      */
     private void processChoice(Card choice) {
+        // Don't do anything with no choice
+        if (choice == null) { return; }
+
         switch (choice.getValue()) {
             case DRAW_ONE:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One " + nextPlayer(currentPlayer).drawCard(currentDeck));
+                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One: " + nextPlayer(currentPlayer).drawCard(currentDeck));
                 break;
             case SKIP:
                 // Set to the next player, which will then skip the player
@@ -142,25 +176,27 @@ public class Game {
                 if (direction == DIRECTIONS.FORWARD) direction = DIRECTIONS.BACKWARD;
                 else if (direction == DIRECTIONS.BACKWARD) direction = DIRECTIONS.FORWARD;
                 break;
-            case WILD:
-                handleWild();
-                break;
             case WILD_DRAW_TWO:
-                handleWild();
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two " + nextPlayer(currentPlayer).drawCard(currentDeck) 
+                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: " + nextPlayer(currentPlayer).drawCard(currentDeck) 
                                     + " " + nextPlayer(currentPlayer).drawCard(currentDeck));
+            case WILD:
+                choice = handleWild();
                 break;
             default:
                 break;
         }
+        // The current card is no longer needed
+        pile.addCard(topCard);
+        // The top card is now the played card
+        topCard = choice;
     }
 
     /**
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
      * 
-     * @return The colour chosen for the wild card
+     * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
-    private void handleWild() {
+    private Card handleWild() {
         if (topCard.getColour() == Colour.WILD) {
             String colours = "";
             for (Colour c: Colour.values()) {
@@ -176,8 +212,9 @@ public class Game {
                     }
                 }
             }
-            topCard = new Card(topCard.getValue(), chosenColour);
+            return new Card(topCard.getValue(), chosenColour);
         }
+        return topCard;
     }
 
     /**
@@ -190,6 +227,70 @@ public class Game {
         System.out.println(currentPlayer.handToString());
         System.out.println("Top card: " + topCard);
     }
+
+    /**
+     * Play a card from the current players hand, make a play depending on the input provided by a human player, continues asking for input
+     * until an integer is provided
+     * 
+     * @return A number representing the player's choice of what to do
+     */
+    private int getPlayerInput () {
+        int choice = -1;
+        do {
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            }
+            catch (Exception e) {
+                System.out.println("Enter an integer value");
+                return -1;
+            }
+        } while (choice == -1);
+        return choice;
+    }
+
+    /**
+     * Gets the current player to play a card, and then returns the card they play
+     * @return
+     */
+    private Card playCard() {
+        // The card being played
+        Card choice = null;
+        boolean chosen = false;
+        // Ask player to make a choice of what to play, then validate that choice
+        do {
+            printRoundInfo();
+            // choice = currentPlayer.performAction(, currentDeck);
+            System.out.println("Enter card index to play or 0 to draw a card:");
+            int input = getPlayerInput();
+            if (input == 0) {
+                // Draw a card
+                Card drawn = currentPlayer.drawCard(currentDeck);
+                // Check if the card is valid
+                if (topCard.validWith(drawn)) {
+                    System.out.println("Enter 0 to keep the card, or any number above 0 to play it");
+                    if (getPlayerInput() > 0) {
+                        choice = drawn;
+                    }
+                }
+                chosen = true;
+            }
+            else {
+                choice = currentPlayer.removeCard(input);
+                if (choice != null) {
+                    if (topCard.validWith(choice)) {
+                        chosen = true;
+                    }
+                    else {
+                        System.out.println("Choice not valid with top card, try again");
+                        currentPlayer.addCard(choice);
+                        choice = null;
+                    }
+                }
+            }
+        } while (!chosen);
+        return choice;
+    }
+
     public static void main(String[] args) {
         Game game = new Game();
         game.playGame();
