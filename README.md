@@ -36,6 +36,7 @@ A text-based, playable version of the Uno card game, allowing players to engage 
 ## Copyright
 Uno® is a registered trademark of Mattel, Inc. This software is an unofficial implementation of the Uno card game and is not affiliated with or endorsed by Mattel, Inc. All rights to the original Uno card game and its trademarks are owned by Mattel, Inc.
 
+For more information on Uno, including: rules, history, etc, visit: https://en.wikipedia.org/wiki/Uno_(card_game)
 ## Contributors
 Aashna Verma 101225434  
 Brian Tran 101231003  
