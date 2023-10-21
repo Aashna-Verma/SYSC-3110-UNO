@@ -9,7 +9,7 @@
 import java.util.*;
 
 public class Player {
-    public static final int STARTING_HAND_SIZE = 7;
+    public static final int STARTING_HAND_SIZE = 2;
     private String name;
     private int score;
     private ArrayList<Card> hand;
@@ -71,6 +71,10 @@ public class Player {
             System.out.println("Invalid card index\n");
             return null;
         }
+    }
+
+    public void resetHand(){
+        this.hand = new ArrayList<Card>();
     }
 
     /**
