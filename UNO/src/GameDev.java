@@ -65,7 +65,10 @@ public class GameDev {
                         turnsTaken = 0;
                         rounds++;
 
-                        System.out.println("Entering Round " + rounds);
+                        for (Player player: players){
+                            System.out.println(player.getName() + "'s score:" + player.getScore());
+                        }
+                        System.out.println("\nEntering Round " + rounds);
 
                     }
                     // The deck is empty, so end the game
