@@ -33,9 +33,10 @@ public class GameDev {
     public void playGame() {
         configurePlayers();
         // Main game loop
-
+        while (true) {
             // Start the game
             int turnsTaken = 0;
+            int rounds = 0;
             boolean gameOver = false;
             // Game loop
             do {
@@ -47,6 +48,7 @@ public class GameDev {
                 topCard = currentDeck.removeCard();
                 drawHands();
                 // Round loop
+                System.out.println("");
                 do {
                     if (turnsTaken == 0) {
                         System.out.println("Starting Card: " + topCard);
@@ -57,9 +59,14 @@ public class GameDev {
 
                     // Check if this player has won
                     if (currentPlayer.getNumCards() == 0) {
-                        System.out.println("Round over:" + currentPlayer.getName() + " has won");
+                        System.out.println("Round over: " + currentPlayer.getName() + " has won");
                         currentPlayer.setScore(currentPlayer.getScore() + getPoints());
                         roundOver = true;
+                        turnsTaken = 0;
+                        rounds++;
+
+                        System.out.println("Entering Round " + rounds);
+
                     }
                     // The deck is empty, so end the game
                     else if (currentDeck.getTopCard() == null) {
@@ -82,9 +89,8 @@ public class GameDev {
                 }
             } while (!gameOver);
 
-
+        }
     }
-
     /**
      * Returns the next player to play in the game
      * player The player who's turn it currently is
@@ -102,7 +108,6 @@ public class GameDev {
         }
         return player;
     }
-
     /**
      * Uses the console to add new players to the game
      *
@@ -141,8 +146,8 @@ public class GameDev {
     }
 
     /**
-     * Returns the points the current player gets from winning the round
-     *
+     * Calculates the points the current player gets from winning the round
+     * @return the total points of all players hand EXCEPT the winning players
      */
     public int getPoints() {
         int total = 0;
@@ -264,6 +269,7 @@ public class GameDev {
             // choice = currentPlayer.performAction(, currentDeck);
             System.out.println("Enter card index to play or 0 to draw a card:");
             int input = getPlayerInput();
+            System.out.println("");
             if (input == 0) {
                 // Draw a card
                 Card drawn = currentDeck.removeCard();
@@ -302,7 +308,7 @@ public class GameDev {
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        GameDev game = new GameDev();
         game.playGame();
     }
 
