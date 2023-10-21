@@ -51,9 +51,9 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode1">
     <void property="attributes">
      <void property="text">
-      <string>- &lt;&lt;enum&gt;&gt; DIRECTIONS = {FORWARDS, BACKWARDS}
-- WINNING_SCORE = 500 : int
-- direction: DIRECTIONS
+      <string>- &lt;&lt;enum&gt;&gt; Direction = {FORWARDS, BACKWARDS}
+- WINNING_SCORE: int = 500
+- direction: Directions
 - players: ArrayList&lt;Player&gt;
 - currentPlayer: Player
 - topCard Card
@@ -89,19 +89,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>980.0</double>
+      <double>990.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>50.0</double>
+      <double>40.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>980.0</double>
-     <double>50.0</double>
+     <double>990.0</double>
+     <double>40.0</double>
     </void>
    </object>
   </void>
@@ -153,7 +153,7 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode3">
     <void property="attributes">
      <void property="text">
-      <string>&lt;u&gt;+ STARTING_HAND_SIZE = 7&lt;/u&gt;
+      <string>&lt;u&gt;+ STARTING_HAND_SIZE: int = 7&lt;/u&gt;
 -  name: String
 -  score: int
 -  hand: ArrayList&lt;Card&gt;</string>
