@@ -35,6 +35,7 @@ public class Game {
         while (true) {
             // Start the game
             int turnsTaken = 0;
+            int rounds = 0;
             boolean gameOver = false;
             // Game loop
             do {
@@ -46,6 +47,7 @@ public class Game {
                 topCard = currentDeck.removeCard();
                 drawHands();
                 // Round loop
+                System.out.println("");
                 do {
                     if (turnsTaken == 0) {
                         System.out.println("Starting Card: " + topCard);
@@ -56,9 +58,14 @@ public class Game {
 
                     // Check if this player has won
                     if (currentPlayer.getNumCards() == 0) {
-                        System.out.println("Round over:" + currentPlayer.getName() + " has won");
+                        System.out.println("Round over: " + currentPlayer.getName() + " has won");
                         currentPlayer.setScore(currentPlayer.getScore() + getPoints());
                         roundOver = true;
+                        turnsTaken = 0;
+                        rounds++;
+
+                        System.out.println("Entering Round " + rounds);
+
                     }
                     // The deck is empty, so end the game
                     else if (currentDeck.getTopCard() == null) {
@@ -138,9 +145,8 @@ public class Game {
     }
 
     /**
-     * Returns the points the current player gets from winning the round
-     * 
-     * @param choice
+     * Calculates the points the current player gets from winning the round
+     * @return the total points of all players hand EXCEPT the winning players
      */
     private int getPoints() {
         int total = 0;
@@ -262,6 +268,7 @@ public class Game {
             // choice = currentPlayer.performAction(, currentDeck);
             System.out.println("Enter card index to play or 0 to draw a card:");
             int input = getPlayerInput();
+            System.out.println("");
             if (input == 0) {
                 // Draw a card
                 Card drawn = currentDeck.removeCard();

@@ -15,8 +15,7 @@ public class Player {
     private ArrayList<Card> hand;
 
     /**
-     *Constructor for class Player
-     *
+     * Constructor for class Player
      * @param name The name of the player
      */
     public Player(String name) {
@@ -34,7 +33,7 @@ public class Player {
     }
 
     /**
-     * setter for score attribute
+     * Setter for score attribute
      * @param score the player's score
      */
     public void setScore(int score){
@@ -42,7 +41,7 @@ public class Player {
     }
 
     /**
-     * getter for score attribute
+     * Getter for score attribute
      * @return the player's score
      */
     public int getScore(){
@@ -50,8 +49,7 @@ public class Player {
     }
 
     /**
-     * Gets the number of cards in this player's hand
-     * 
+     * Gets the # of cards in this player's hand
      * @return the number of cards the player has
      */
     public int getNumCards() {
@@ -66,6 +64,7 @@ public class Player {
      */
     public Card removeCard(int i) {
         try{
+            //card 0 is to pick up, however in the hand attribute 0 is the players' first card
             return this.hand.remove(i - 1);
         }
         catch(IndexOutOfBoundsException e){
@@ -76,7 +75,6 @@ public class Player {
 
     /**
      * Calculates the points the player's hand is worth
-     *
      * @return the point worth of the players hand
      */
     public int getHandPoints(){
@@ -86,20 +84,21 @@ public class Player {
         }
         return points;
     }
+
     /**
      * Add a card to a players hand
      * 
-     * @param card the card being returned to the player
-     * @return true, always
+     * @param c the card added to the players hand
+     * @return true if the add was successful, otherwise false
      */
     public boolean addCard(Card c) {
         return this.hand.add(c);
     }
 
     /**
-     * Play a card from the Players hand
+     * Draw a card to the Players hand
      * 
-     * @param deck the Deck to draw from
+     * @param drawn the card requested to be drawn
      * @return the card that was drawn and added to the hand, null if no card was drawn
      */
     public Card drawCard(Card drawn) {
@@ -109,8 +108,9 @@ public class Player {
         }
         return null;
     }
+
     /**
-     * Draws the maximum number of cards the player can have
+     * Draws the maximum number of cards the player can have to its hand
      * @param deck The deck to draw from
      */
     public void drawHand(Deck deck) {
@@ -130,9 +130,9 @@ public class Player {
         string.append(handToString());
         return string.toString();
     }
+
     /**
-     * Output the cards of the player
-     * 
+     * Represents the cards of the player hand
      * @return a string with the player's hand
      */
     public String handToString() {
