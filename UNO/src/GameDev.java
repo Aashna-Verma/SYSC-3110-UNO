@@ -33,7 +33,7 @@ public class GameDev {
     public void playGame() {
         configurePlayers();
         // Main game loop
-        while (true) {
+
             // Start the game
             int turnsTaken = 0;
             boolean gameOver = false;
@@ -82,7 +82,7 @@ public class GameDev {
                 }
             } while (!gameOver);
 
-        }
+
     }
 
     /**
