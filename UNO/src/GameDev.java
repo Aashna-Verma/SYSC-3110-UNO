@@ -36,7 +36,7 @@ public class GameDev {
         while (true) {
             // Start the game
             int turnsTaken = 0;
-            int rounds = 0;
+            int rounds = 1;
             boolean gameOver = false;
             // Game loop
             do {
@@ -48,8 +48,8 @@ public class GameDev {
                 topCard = currentDeck.removeCard();
                 drawHands();
                 // Round loop
-                System.out.println("");
                 do {
+                    System.out.println("\nEntering Round " + rounds);
                     if (turnsTaken == 0) {
                         System.out.println("Starting Card: " + topCard);
                     } else {
@@ -66,9 +66,8 @@ public class GameDev {
                         rounds++;
 
                         for (Player player: players){
-                            System.out.println(player.getName() + "'s score:" + player.getScore());
+                            System.out.println(player.getName() + "'s score: " + player.getScore());
                         }
-                        System.out.println("\nEntering Round " + rounds);
 
                     }
                     // The deck is empty, so end the game
@@ -220,6 +219,7 @@ public class GameDev {
                     }
                 }
             }
+            System.out.println("");
             // Create a new wild card with the same value, but with the chosen colour
             return new Card(wild.getValue(), chosenColour);
         }
