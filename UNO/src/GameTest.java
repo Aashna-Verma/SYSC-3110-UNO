@@ -71,14 +71,15 @@ public class GameTest extends junit.framework.TestCase {
         }
     }
 
-    public void testGetPoints(){
+    public void testGetPoints() {
         Player p3 = new Player("p3");
         p_list.add(p3);
+        for (int i = 1; i < 21; i++) {
+            game.getCurrentDeck().addCard(new Card(Value.ONE, Colour.RED));
+        }
 
+        for (int j = 1; j < 7; j++) {
+            p1.removeCard(1);
+        }
     }
-
-
-
-
-
 }
