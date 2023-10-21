@@ -15,6 +15,7 @@
 + getValue(): Value
 + getColour(): Colour
 + getScore(): int
++ validWith(Card): boolean
 + toString(): String
 
 </string>
@@ -31,19 +32,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>560.0</double>
+      <double>530.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>460.0</double>
+      <double>480.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>560.0</double>
-     <double>460.0</double>
+     <double>530.0</double>
+     <double>480.0</double>
     </void>
    </object>
   </void>
@@ -75,7 +76,8 @@
 + handleWild(Card): Card
 + printRoundInfo(): void
 + getPlayerInput(): int
-+ playCard(): Card</string>
++ playCard(): Card
++ &lt;u&gt;main(String[]): void&lt;u/&gt;</string>
      </void>
     </void>
     <void property="name">
@@ -89,19 +91,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>990.0</double>
+      <double>980.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>40.0</double>
+      <double>30.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>990.0</double>
-     <double>40.0</double>
+     <double>980.0</double>
+     <double>30.0</double>
     </void>
    </object>
   </void>
@@ -118,6 +120,7 @@
       <string>+ Deck()
 + populateDeck(): void
 + addCard(Card): void
++ removeCard(Card): boolean
 + getTopCard(): Card
 </string>
      </void>
@@ -171,6 +174,7 @@
 + addCard(Card): boolean
 + drawCard(Deck): Card
 + drawHand(Deck): void
++ resetHand(): void
 + toString(): String
 + handToString(): String
 </string>
@@ -187,19 +191,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double3"/>
-      <double>540.0</double>
+      <double>510.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double3"/>
-      <double>40.0</double>
+      <double>60.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>540.0</double>
-     <double>40.0</double>
+     <double>510.0</double>
+     <double>60.0</double>
     </void>
    </object>
   </void>
@@ -217,14 +221,10 @@ SEVEN
 EIGHT
 NINE
 DRAW_ONE
-DRAW_FIVE
 SKIP
-SKIP_EVERYONE
 REVERSE
 WILD
-WILD_DRAW_TWO
-WILD_DRAW_COLOUR
-FLIP</string>
+WILD_DRAW_TWO</string>
      </void>
     </void>
     <void property="name">
@@ -340,6 +340,9 @@ Colour</string>
    <object class="com.horstmann.violet.ClassRelationshipEdge">
     <void property="bentStyle">
      <object class="com.horstmann.violet.BentStyle" field="HVH"/>
+    </void>
+    <void property="endLabel">
+     <string>2.4</string>
     </void>
     <void property="startArrowHead">
      <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
