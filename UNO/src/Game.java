@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Game {
     private enum Direction { FORWARD, BACKWARD };
     private final int WINNING_SCORE = 500;
-    private Direction direction;
+    private GameDev.Direction direction;
     private ArrayList<Player> players;
     private Player currentPlayer;
     private Card topCard;
@@ -21,7 +21,7 @@ public class Game {
     public Game() {
         // Populate players list later
         players = new ArrayList<>();
-        direction = Direction.FORWARD;
+        direction = GameDev.Direction.FORWARD;
         currentDeck = new Deck();
         pile = new Deck();
     }
@@ -32,63 +32,63 @@ public class Game {
     public void playGame() {
         configurePlayers();
         // Main game loop
-        while (true) {
-            // Start the game
-            int turnsTaken = 0;
-            int rounds = 0;
-            boolean gameOver = false;
-            // Game loop
+        // Start the game
+        int turnsTaken = 0;
+        int rounds = 1;
+        boolean gameOver = false;
+        // Game loop
+        do {
+            // Set up the round
+            boolean roundOver = false;
+            currentDeck = new Deck();
+            pile = new Deck();
+            currentDeck.populateDeck();
+            topCard = currentDeck.removeCard();
+            drawHands();
+            // Round loop
             do {
-                // Set up the round
-                boolean roundOver = false;
-                currentDeck = new Deck();
-                pile = new Deck();
-                currentDeck.populateDeck();
-                topCard = currentDeck.removeCard();
-                drawHands();
-                // Round loop
-                System.out.println("");
-                do {
-                    if (turnsTaken == 0) {
-                        System.out.println("Starting Card: " + topCard);
-                    } else {
-                        System.out.println("Played: " + topCard);
-                    }
-                    processChoice(playCard());
-
-                    // Check if this player has won
-                    if (currentPlayer.getNumCards() == 0) {
-                        System.out.println("Round over: " + currentPlayer.getName() + " has won");
-                        currentPlayer.setScore(currentPlayer.getScore() + getPoints());
-                        roundOver = true;
-                        turnsTaken = 0;
-                        rounds++;
-
-                        System.out.println("Entering Round " + rounds);
-
-                    }
-                    // The deck is empty, so end the game
-                    else if (currentDeck.getTopCard() == null) {
-                        System.out.println("Round over, deck empty. No winner");
-                        roundOver = true;
-                    }
-                    // Move onto the next player if nobody has won yet
-                    else {
-                        // Move onto the next player
-                        currentPlayer = nextPlayer(currentPlayer);
-                        // Keep track of how many turns have passed
-                        turnsTaken++;
-                    }
-                } while (!roundOver);
-                for (Player p: players) {
-                    if (p.getScore() >= WINNING_SCORE) {
-                        System.out.println(p.getName() + " has won! With a score of " + p.getScore());
-                        gameOver = true;
-                    }
+                if (turnsTaken == 0) {
+                    System.out.println("\nEntering Round " + rounds);
+                    System.out.println("Starting Card: " + topCard);
+                } else {
+                    System.out.println("Played: " + topCard);
                 }
-            } while (!gameOver); 
-            
-        }
+                processChoice(playCard());
+
+                // Check if this player has won
+                if (currentPlayer.getNumCards() == 0) {
+                    System.out.println("Round " + rounds + " over: " + currentPlayer.getName() + " has won");
+                    currentPlayer.setScore(currentPlayer.getScore() + getPoints());
+                    roundOver = true;
+                    turnsTaken = 0;
+                    rounds++;
+
+                    for (Player player: players){
+                        System.out.println(player.getName() + "'s score: " + player.getScore());
+                    }
+
+                }
+                // The deck is empty, so end the game
+                else if (currentDeck.getTopCard() == null) {
+                    System.out.println("Round over, deck empty. No winner");
+                    roundOver = true;
+                }
+                // Move onto the next player if nobody has won yet
+                else {
+                    // Move onto the next player
+                    currentPlayer = nextPlayer(currentPlayer);
+                    // Keep track of how many turns have passed
+                    turnsTaken++;
+                }
+            } while (!roundOver);
+
+            for (Player p: players) {
+                if (p.getScore() >= WINNING_SCORE) {
+                    System.out.println(p.getName() + " has won! With a score of " + p.getScore());
+                    gameOver = true;
+                }
+            }
+        } while (!gameOver);
     }
     /**
      * Returns the next player to play in the game
@@ -96,20 +96,20 @@ public class Game {
      * @return The next player who's turn it is, or the current player if nobody is next
      */
     private Player nextPlayer(Player player) {
-        if (direction == Direction.FORWARD) {
+        if (direction == GameDev.Direction.FORWARD) {
             int nextPlayerIndex = players.indexOf(player) + 1;
             // The next index going forward is 0 if the index is outsize of the ArrayList
-            return players.get(nextPlayerIndex < players.size() ? nextPlayerIndex : 0);    
+            return players.get(nextPlayerIndex < players.size() ? nextPlayerIndex : 0);
         }
-        else if (direction == Direction.BACKWARD) {
+        else if (direction == GameDev.Direction.BACKWARD) {
             int nextPlayerIndex = players.indexOf(player) - 1;
-            return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1); 
+            return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
         return player;
     }
     /**
      * Uses the console to add new players to the game
-     * 
+     *
      * @return True if players have been added, false otherwise
      */
     private boolean configurePlayers() {
@@ -125,7 +125,7 @@ public class Game {
 
         // Get player names and create the players
         for (int i = 0; i < numPlayers; i++) {
-            System.out.print("Enter a name for Player " + String.valueOf(i) + ": ");
+            System.out.print("Enter a name for Player " + String.valueOf(i+1) + ": ");
             String name = scanner.nextLine();
             // Create the player and give them their starting conditions
             Player newPlayer = new Player(name);
@@ -140,6 +140,7 @@ public class Game {
      */
     private void drawHands() {
         for (Player p: players) {
+            p.resetHand();
             p.drawHand(currentDeck);
         }
     }
@@ -163,7 +164,7 @@ public class Game {
 
     /**
      * Decide what to do based on the card played. Can change the current player and the top card
-     * 
+     *
      * @param choice The card that was played on the currentPlayer's turn
      */
     private void processChoice(Card choice) {
@@ -172,19 +173,21 @@ public class Game {
 
         switch (choice.getValue()) {
             case DRAW_ONE:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One: " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
+                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One: "
+                        + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
                 break;
             case SKIP:
                 // Set to the next player, which will then skip the player
-                currentPlayer = nextPlayer(currentPlayer); 
+                currentPlayer = nextPlayer(currentPlayer);
                 break;
             case REVERSE:
-                if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
-                else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
+                if (direction == GameDev.Direction.FORWARD) direction = GameDev.Direction.BACKWARD;
+                else if (direction == GameDev.Direction.BACKWARD) direction = GameDev.Direction.FORWARD;
                 break;
             case WILD_DRAW_TWO:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()) 
-                                    + " " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
+                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: "
+                        + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard())
+                        + ", " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
                 choice = handleWild(choice);
                 break;
             case WILD:
@@ -201,7 +204,7 @@ public class Game {
 
     /**
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
-     * 
+     *
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Card handleWild(Card wild) {
@@ -216,6 +219,7 @@ public class Game {
                     }
                 }
             }
+            System.out.println("");
             // Create a new wild card with the same value, but with the chosen colour
             return new Card(wild.getValue(), chosenColour);
         }
@@ -237,7 +241,7 @@ public class Game {
     /**
      * Play a card from the current players hand, make a play depending on the input provided by a human player, continues asking for input
      * until an integer is provided
-     * 
+     *
      * @return A number representing the player's choice of what to do
      */
     private int getPlayerInput () {
@@ -247,7 +251,7 @@ public class Game {
                 choice = Integer.parseInt(scanner.nextLine());
             }
             catch (Exception e) {
-                System.out.println("Enter an integer value");
+                System.out.print("Enter an integer value");
                 return -1;
             }
         } while (choice == -1);
@@ -272,7 +276,7 @@ public class Game {
             if (input == 0) {
                 // Draw a card
                 Card drawn = currentDeck.removeCard();
-                System.out.println("Drew a card: " + drawn);
+                System.out.println("Drew a card: " + drawn + "\n");
                 // Check if the card is valid
                 if (topCard.validWith(drawn)) {
                     System.out.println("Enter 0 to keep the card, or any number above 0 to play it");
@@ -282,6 +286,7 @@ public class Game {
                     else {
                         currentPlayer.drawCard(drawn);
                     }
+                    System.out.println("");
                 }
                 else {
                     currentPlayer.drawCard(drawn);
@@ -311,5 +316,3 @@ public class Game {
         game.playGame();
     }
 }
-
-// :D
