@@ -65,7 +65,7 @@ public class GameTest extends junit.framework.TestCase {
         game.drawHands();
 
         // 7 cards distributed
-        for(int j=1; j<7; j++) {
+        for(int j=0; j<7; j++) {
             assertNotNull("There are not at least " + j + " cards in p1's hand", p1.removeCard(1));
             assertNotNull("There are not at least " + j + " cards in p2's hand", p2.removeCard(1));
         }
@@ -74,12 +74,19 @@ public class GameTest extends junit.framework.TestCase {
     public void testGetPoints() {
         Player p3 = new Player("p3");
         p_list.add(p3);
-        for (int i = 1; i < 21; i++) {
+        game.setPlayers(p_list);
+        for (int i = 0; i < 21; i++) {
             game.getCurrentDeck().addCard(new Card(Value.ONE, Colour.RED));
         }
-
-        for (int j = 1; j < 7; j++) {
+        game.drawHands();
+        for (int j = 0; j < 7; j++) {
             p1.removeCard(1);
         }
+        game.setCurrentPlayer(p1);
+
+        // p1 = 0 cards, p2 = 7*RED ONE, p2 = 8*RED ONE
+        assertEquals("Total points were not summed correctly", 14, game.getPoints());
     }
+
+
 }
