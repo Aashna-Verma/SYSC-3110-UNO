@@ -47,6 +47,7 @@ public class GameTest extends junit.framework.TestCase {
         assertEquals("Game did not move forward from p4 to p1", game.nextPlayer(p4), p1);
 
         // backward direction
+        game.setDirection(GameDev.Direction.BACKWARD);
         assertEquals("Game did not move backwards from p1 to p4", game.nextPlayer(p1), p4);
         assertEquals("Game did not move backwards from p4 to p3", game.nextPlayer(p4), p3);
         assertEquals("Game did not move backwards from p3 to p2", game.nextPlayer(p3), p2);

@@ -9,7 +9,7 @@
 import java.util.*;
 
 public class Player {
-    public static final int STARTING_HAND_SIZE = 2;
+    public static final int STARTING_HAND_SIZE = 7;
     private String name;
     private int score;
     private ArrayList<Card> hand;

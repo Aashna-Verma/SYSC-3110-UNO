@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class GameDev {
     public enum Direction { FORWARD, BACKWARD };
-    private final int WINNING_SCORE = 50;
+    private final int WINNING_SCORE = 500;
     private Direction direction;
     private ArrayList<Player> players;
     private Player currentPlayer;
