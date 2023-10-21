@@ -2,15 +2,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Game allows users to play a game of UNO Flip
- * 
- * @author Angus Jull
+ * GameDev is the all accessible version of the Game class
+ * This is used for the developers so tests can be run when changes are made
+ *
+ * @author Angus Jull, Aashna Verma
  * @version 1.0
  */
-public class Game {
-    private enum Direction { FORWARD, BACKWARD };
+public class GameDev {
+    public enum Direction { FORWARD, BACKWARD };
     private final int WINNING_SCORE = 500;
-    private GameDev.Direction direction;
+    private Direction direction;
     private ArrayList<Player> players;
     private Player currentPlayer;
     private Card topCard;
@@ -18,10 +19,10 @@ public class Game {
     private Deck pile; // discard pile
     private static Scanner scanner = new Scanner(System.in); // input for game
 
-    public Game() {
+    public GameDev() {
         // Populate players list later
         players = new ArrayList<>();
-        direction = GameDev.Direction.FORWARD;
+        direction = Direction.FORWARD;
         currentDeck = new Deck();
         pile = new Deck();
     }
@@ -95,13 +96,13 @@ public class Game {
      * player The player who's turn it currently is
      * @return The next player who's turn it is, or the current player if nobody is next
      */
-    private Player nextPlayer(Player player) {
-        if (direction == GameDev.Direction.FORWARD) {
+    public Player nextPlayer(Player player) {
+        if (direction == Direction.FORWARD) {
             int nextPlayerIndex = players.indexOf(player) + 1;
             // The next index going forward is 0 if the index is outsize of the ArrayList
             return players.get(nextPlayerIndex < players.size() ? nextPlayerIndex : 0);
         }
-        else if (direction == GameDev.Direction.BACKWARD) {
+        else if (direction == Direction.BACKWARD) {
             int nextPlayerIndex = players.indexOf(player) - 1;
             return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
@@ -112,7 +113,7 @@ public class Game {
      *
      * @return True if players have been added, false otherwise
      */
-    private boolean configurePlayers() {
+    public boolean configurePlayers() {
         int numPlayers = 0;
         do {
             System.out.print("Enter the number of players (2-4): ");
@@ -138,7 +139,7 @@ public class Game {
     /**
      * Makes the players each draw a hand from the current deck
      */
-    private void drawHands() {
+    public void drawHands() {
         for (Player p: players) {
             p.resetHand();
             p.drawHand(currentDeck);
@@ -149,7 +150,7 @@ public class Game {
      * Calculates the points the current player gets from winning the round
      * @return the total points of all players hand EXCEPT the winning players
      */
-    private int getPoints() {
+    public int getPoints() {
         int total = 0;
         // Confirm the player has won
         if (currentPlayer.getNumCards() == 0) {
@@ -167,7 +168,7 @@ public class Game {
      *
      * @param choice The card that was played on the currentPlayer's turn
      */
-    private void processChoice(Card choice) {
+    public void processChoice(Card choice) {
         // Don't do anything with no choice
         if (choice == null) { return; }
 
@@ -181,8 +182,8 @@ public class Game {
                 currentPlayer = nextPlayer(currentPlayer);
                 break;
             case REVERSE:
-                if (direction == GameDev.Direction.FORWARD) direction = GameDev.Direction.BACKWARD;
-                else if (direction == GameDev.Direction.BACKWARD) direction = GameDev.Direction.FORWARD;
+                if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
+                else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
                 break;
             case WILD_DRAW_TWO:
                 System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: "
@@ -207,7 +208,7 @@ public class Game {
      *
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
-    private Card handleWild(Card wild) {
+    public Card handleWild(Card wild) {
         if (wild.getColour() == Colour.WILD) {
             Colour chosenColour = null;
             while (chosenColour == null) {
@@ -230,7 +231,7 @@ public class Game {
     /**
      * Print out information for the current Player
      */
-    private void printRoundInfo() {
+    public void printRoundInfo() {
         System.out.println(currentPlayer.getName() + "'s Turn");
         System.out.println("Current Side: Light");
         System.out.println("Your cards:");
@@ -244,7 +245,7 @@ public class Game {
      *
      * @return A number representing the player's choice of what to do
      */
-    private int getPlayerInput () {
+    public int getPlayerInput () {
         int choice = -1;
         do {
             try {
@@ -262,7 +263,7 @@ public class Game {
      * Gets the current player to play a card, and then returns the card they play
      * @return
      */
-    private Card playCard() {
+    public Card playCard() {
         // The card being played
         Card choice = null;
         boolean chosen = false;
@@ -276,7 +277,7 @@ public class Game {
             if (input == 0) {
                 // Draw a card
                 Card drawn = currentDeck.removeCard();
-                System.out.println("Drew a card: " + drawn + "\n");
+                System.out.println("Drew a card: " + drawn);
                 // Check if the card is valid
                 if (topCard.validWith(drawn)) {
                     System.out.println("Enter 0 to keep the card, or any number above 0 to play it");
@@ -312,7 +313,22 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
+        GameDev game = new GameDev();
         game.playGame();
     }
+
+    public void setDirection(Direction d){this.direction = d;}
+    public void setPlayers(ArrayList<Player> p_list){this.players = p_list;}
+    public void setCurrentPlayer(Player p){this.currentPlayer = p;}
+    public void setTopCard(Card c){this.topCard = c;}
+    public void setCurrentDeck(Deck d){this.currentDeck = d;}
+    public void setPile(Deck p){this.pile = p;}
+    public Direction getDirection(){return this.direction;}
+
+    public ArrayList<Player> getPlayers(){return this.players;}
+    public Player getCurrentPlayer(){return this.currentPlayer;}
+    public Card getTopCard(){return this.topCard;}
+    public Deck getCurrentDeck(){return this.currentDeck;}
+    public Deck getPile(){return this.pile;}
 }
+

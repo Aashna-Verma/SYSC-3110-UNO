@@ -86,16 +86,16 @@ public class Deck {
 
     /**
      * Removes the card from the top of the deck and returns it, if not card returns null
-     * @return Card
+     * @return The top card of the deck, null if it is empty
      */
     public Card removeCard(){
         return deck.pollFirst();
     }
 
     /**
-     * Returns the current top card of the deck
+     * Returns the current top card of the deck, null if it is empty
      *
-     * @return Card
+     * @return The top card of the deck, null if it is empty
      */
     public Card getTopCard() {
         return this.deck.peekFirst();
