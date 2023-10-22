@@ -1,6 +1,13 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
+/**
+ * Test class for Player
+ *
+ * @author Brian Tran 101231003
+ * @version 1.0
+ */
+
 public class PlayerTest{
     private Player player;
 
