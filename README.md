@@ -23,20 +23,14 @@ A text-based, playable version of the Uno card game, allowing players to engage 
 ## System requirements
 
 * Java Runtime Environment (JRE 8 or later)
-    * Download: https://www.oracle.com/ca-en/java/technologies/downloads/
-
-* Access to Github
-    * Login or create a Github account: https://github.com/
-    * Access the repository: https://github.com/Aashna-Verma/SYSC-3110-UNO
-
-## Installation
-Download SYSC3110_UNO project as a zip or in terminal use `git clone <HTTPS url>`
-![Alt text](./images/git_download_info.png)
+    * Download: https://www.oracle.com/ca-en/java/technologies/downloads/#java21
 
 ## User Manual
-1. Navigate to jar using `cd ~\UNO\out\artifacts\UNO_jar\UNO.jar`
+1. Using the cmd, navigate to UNO.jar using `cd <filepath>`
 2. Run the jar using `java -jar UNO.jar`
 3. Follow the instructions on the terminal and enjoy!!
+
+![Alt text](image.png)
 
 ## Copyright
 Uno® is a registered trademark of Mattel, Inc. This software is an unofficial implementation of the Uno card game and is not affiliated with or endorsed by Mattel, Inc. All rights to the original Uno card game and its trademarks are owned by Mattel, Inc.
