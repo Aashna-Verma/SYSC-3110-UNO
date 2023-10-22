@@ -18,6 +18,10 @@ public class Game {
     private Deck pile; // discard pile
     private static Scanner scanner = new Scanner(System.in); // input for game
 
+
+    /**
+     * Constructor for Game
+     */
     public Game() {
         // Populate players list later
         players = new ArrayList<>();
@@ -90,9 +94,10 @@ public class Game {
             }
         } while (!gameOver);
     }
+
     /**
      * Returns the next player to play in the game
-     * player The player who's turn it currently is
+     * @param player The player who's turn it currently is
      * @return The next player who's turn it is, or the current player if nobody is next
      */
     private Player nextPlayer(Player player) {
@@ -107,9 +112,9 @@ public class Game {
         }
         return player;
     }
+
     /**
      * Uses the console to add new players to the game
-     *
      * @return True if players have been added, false otherwise
      */
     private boolean configurePlayers() {
@@ -164,7 +169,6 @@ public class Game {
 
     /**
      * Decide what to do based on the card played. Can change the current player and the top card
-     *
      * @param choice The card that was played on the currentPlayer's turn
      */
     private void processChoice(Card choice) {
@@ -204,7 +208,6 @@ public class Game {
 
     /**
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
-     *
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Card handleWild(Card wild) {

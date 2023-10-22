@@ -73,6 +73,9 @@ public class Player {
         }
     }
 
+    /**
+     * Resets the players hand to an empty hand
+     */
     public void resetHand(){
         this.hand = new ArrayList<Card>();
     }
