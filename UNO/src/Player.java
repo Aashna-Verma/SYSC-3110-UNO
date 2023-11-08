@@ -152,4 +152,12 @@ public class Player {
         }
         return string.toString();
     }
+
+    /**
+     * Returns hand of the player
+     * @return ArrayList of Cards in a players hand
+     */
+    public ArrayList getHand(){
+        return hand;
+    }
 }
