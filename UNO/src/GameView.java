@@ -82,9 +82,11 @@ public class GameView extends JFrame {
     private void updateHandView(Player player){
         for(int i = player.getNumCards()-1; i >= 0; i--){
             JButton button = new JButton();
-            button.setText(player.getHand().get(i).toString());
-            button.setPreferredSize(new Dimension(60, 150));
             handPanel.add(button);
+            Card card = player.getHand().get(i);
+            button.setText(card.toString());
+            button.setIcons(card.getIconImage(0.3));
+            button.setPreferredSize(new Dimension(60, 150));
         }
         gameFrame.add(handPanel, BorderLayout.SOUTH);
     }
