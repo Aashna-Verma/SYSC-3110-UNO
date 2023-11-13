@@ -19,8 +19,7 @@ public class Game {
     private Deck pile; // discard pile
     private boolean gameOver;
     private String statusString;
-    private Card statusCard1;
-    private Card statusCard2;
+    private Card statusCard;
     private ArrayList<View> views;
 
     /**
@@ -91,12 +90,8 @@ public class Game {
         return statusString;
     }
 
-    public Card getStatusCard1() {
-        return statusCard1;
-    }
-
-    public Card getStatusCard2() {
-        return statusCard2;
+    public Card getStatusCard() {
+        return statusCard;
     }
 
     /**
@@ -115,7 +110,7 @@ public class Game {
     private void drawCard(){
         Card drawn = currentDeck.removeCard();
         statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
-        statusCard1 = drawn;
+        statusCard = drawn;
 
         //updateStatusPanel(drawn);
         //updateNextPlayerButton(UN-GREY);
@@ -205,8 +200,6 @@ public class Game {
                 Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 choice = handleWild(choice);
                 statusString = choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
-                statusCard1 = drawn1;
-                statusCard2 = drawn2;
                 //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
                 break;
             case WILD:
