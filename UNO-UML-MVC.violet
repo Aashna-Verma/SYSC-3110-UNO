@@ -5,15 +5,24 @@
    <object class="com.horstmann.violet.ClassNode" id="ClassNode0">
     <void property="attributes">
      <void property="text">
-      <string>- buttons: ArrayList&lt;JButton&gt;
-- TDB</string>
+      <string>-gameFrame: JFrame
+-handPanel: JPanel
+-drawCardPanel: JPanel
+-drawCard: JButton
+-statusNext: JPanel
+-nextPlayer: JButton
+-gameStatus: JTextArea
+-currCard: JLabel</string>
      </void>
     </void>
     <void property="methods">
      <void property="text">
       <string>+ GameView()
 + vewPlayerCount(): int
++ viewPickWildCard(): String
 + updateGameView(): void
+- updateHandView(Player): void
+- updateStatusText(): void //TBD
 
 </string>
      </void>
@@ -29,19 +38,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>400.0</double>
+      <double>230.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>70.0</double>
+      <double>30.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>400.0</double>
-     <double>70.0</double>
+     <double>230.0</double>
+     <double>30.0</double>
     </void>
    </object>
   </void>
