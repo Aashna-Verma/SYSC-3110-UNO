@@ -21,7 +21,7 @@
 + vewPlayerCount(): int
 + viewPickWildCard(): String
 + updateGameView(): void
-- updateHandView(Player): void
+- updateHandView(Player, Card): void
 - updateStatusText(): void //TBD
 
 </string>
@@ -38,19 +38,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>230.0</double>
+      <double>470.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>30.0</double>
+      <double>120.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>230.0</double>
-     <double>30.0</double>
+     <double>470.0</double>
+     <double>120.0</double>
     </void>
    </object>
   </void>
