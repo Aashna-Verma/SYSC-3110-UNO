@@ -125,7 +125,15 @@ public class Player {
             drawCard(deck.removeCard());
         }
     }
-    
+
+    /**
+     * Gets the players hand
+     * @return the players hand as an ArrayList of Cards
+     */
+    public ArrayList<Card> getHand(){
+        return this.hand;
+    }
+
     /**
      * Represents the player and the cards in their hand
      * @return a string with the players name and hand
