@@ -157,7 +157,7 @@ public class Player {
      * Returns hand of the player
      * @return ArrayList of Cards in a players hand
      */
-    public ArrayList getHand(){
+    public ArrayList<Card> getHand(){
         return hand;
     }
 }
