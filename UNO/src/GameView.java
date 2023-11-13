@@ -61,7 +61,7 @@ public class GameView extends JFrame {
         return (int) selectionObject;
     }
     public String viewPickWildCard(){
-        Object[] colours = {"Red", "Blue", "Green", "Yellow"};
+        Object[] colours = {"RED", "BLUE", "GREEN", "YELLOW"};
         Object selectionObject = JOptionPane.showInputDialog(null, "Choose a colour:", "Wild Card Colour", JOptionPane.PLAIN_MESSAGE, null, colours, colours[0]);
         System.out.println(selectionObject.toString());
         return selectionObject.toString();
@@ -101,9 +101,8 @@ public class GameView extends JFrame {
         Card card = new Card(Value.ONE, Colour.RED);
         Player player = new Player("Player 1");
         player.drawHand(deck);
-        player.drawCard(card);
         GameView view = new GameView();
         view.updateGameView(player, card);
-        //view.viewPickWildCard();
+        view.viewPickWildCard();
     }
 }
