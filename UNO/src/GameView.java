@@ -71,7 +71,8 @@ public class GameView extends JFrame {
         //Updates Current player title
         currCard.setBorder(BorderFactory.createTitledBorder(player.getName()));
         //Updates top card of pile
-        currCard.setText(topCard.toString());
+        //currCard.setText(topCard.toString());
+        currCard.setIcon(topCard.getImageIcon(0.8));
         //Disable skipping turn before playing
         nextPlayer.setEnabled(false);
 
@@ -84,8 +85,8 @@ public class GameView extends JFrame {
             JButton button = new JButton();
             handPanel.add(button);
             Card card = player.getHand().get(i);
-            button.setText(card.toString());
-            button.setIcon(card.getImageIcon(0.3));
+            //button.setText(card.toString());
+            button.setIcon(card.getImageIcon(0.25));
             button.setPreferredSize(new Dimension(60, 150));
         }
         gameFrame.add(handPanel, BorderLayout.SOUTH);

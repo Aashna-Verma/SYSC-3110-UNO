@@ -23,7 +23,7 @@ public class Card {
     public Card(Value value, Colour colour){
         this.VALUE = value;
         this.COLOUR = colour;
-        this.ICON_IMAGE = new ImageIcon("/cardImgs" + getColour().toString() + "_" + getValue().toString() + ".png");
+        this.ICON_IMAGE = new ImageIcon("cardImgs/" + getColour().toString() + "_" + getValue().toString() + ".png");
     }
 
     /**
