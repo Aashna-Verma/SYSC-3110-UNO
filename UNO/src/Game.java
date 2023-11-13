@@ -5,7 +5,8 @@ import java.util.Scanner;
  * Game allows users to play a game of UNO Flip
  * 
  * @author Angus Jull
- * @version 1.0
+ * @author  Brian Tran - Modified for MVC
+ * @version 2.0
  */
 public class Game {
     private enum Direction { FORWARD, BACKWARD };
