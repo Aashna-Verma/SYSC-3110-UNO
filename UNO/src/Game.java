@@ -18,15 +18,18 @@ public class Game {
     private Deck currentDeck; // deck being played with
     private Deck pile; // discard pile
     private boolean gameOver;
+    private boolean roundOver;
     private String statusString;
     private Card statusCard;
-    private ArrayList<View> views;
+    private View gameView;
 
     /**
      * Constructor for Game
+     * @param gameView the view to be updated
      * @param numPlayers the number of players in the game
      */
-    public Game(int numPlayers) {
+    public Game(View gameView, int numPlayers) {
+        this.gameView = gameView;
         // Populate players list later
         players = new ArrayList<>();
         direction = Game.Direction.FORWARD;
@@ -38,7 +41,7 @@ public class Game {
         topCard = currentDeck.removeCard();
 
         gameOver = false;
-
+        roundOver = false;
         //initialize players and draw their hands
         for (int i = 0; i < numPlayers; i++) {
             // Create the player and give them their starting conditions
@@ -49,7 +52,7 @@ public class Game {
         }
         currentPlayer = players.get(0);
         statusString = null;
-        statusCard1 = null;
+        statusCard = null;
 
         update();
         //updatePlayerLabelView(currentPLayer.getName());
@@ -58,20 +61,12 @@ public class Game {
         //Status panel should start empty
         //updateNextPlayerButton(GREY_OUT)
     }
-    /**
-     * Adds a view to listen to the model
-     */
-    public void addView(View view){
-        views.add(view);
-    }
 
     /**
      * Updates every view
      */
     private void update(){
-        for (View v: views){
-            v.update();
-        }
+        gameView.update();
     }
 
     public Player getCurrentPlayer() {
@@ -111,6 +106,7 @@ public class Game {
         Card drawn = currentDeck.removeCard();
         statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
         statusCard = drawn;
+        roundOver = true;
 
         //updateStatusPanel(drawn);
         //updateNextPlayerButton(UN-GREY);
@@ -133,6 +129,7 @@ public class Game {
                 currentPlayer.setScore(currentPlayer.getScore() + getPoints());
                 if (currentPlayer.getScore() == WINNING_SCORE) {
                     //Call method IN CONTROLLER to generate popup displaying winner
+                    roundOver = true;
                     gameOver = true;
                 }
                 else{
@@ -217,6 +214,7 @@ public class Game {
         pile.addCard(topCard);
         // The top card is now the played card
         topCard = choice;
+        roundOver = true;
         update();
     }
 
