@@ -67,9 +67,11 @@ public class GameView extends JFrame {
         return selectionObject.toString();
     }
 
-    public void updateGameView(Player player){
+    public void updateGameView(Player player, Card topCard){
         //Updates Current player title
         currCard.setBorder(BorderFactory.createTitledBorder(player.getName()));
+        //Updates top card of pile
+        currCard.setText(topCard.toString());
         //Disable skipping turn before playing
         nextPlayer.setEnabled(false);
 
@@ -98,7 +100,7 @@ public class GameView extends JFrame {
         player.drawHand(deck);
         player.drawCard(card);
         GameView view = new GameView();
-        view.updateGameView(player);
+        view.updateGameView(player, card);
         //view.viewPickWildCard();
     }
 }
