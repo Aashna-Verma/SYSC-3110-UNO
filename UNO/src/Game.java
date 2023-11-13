@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Game {
     private enum Direction { FORWARD, BACKWARD };
     private final int WINNING_SCORE = 500;
-    private GameDev.Direction direction;
+    private Game.Direction direction;
     private ArrayList<Player> players;
     private Player currentPlayer;
     private Card topCard;
@@ -18,10 +18,14 @@ public class Game {
     private Deck pile; // discard pile
     private static Scanner scanner = new Scanner(System.in); // input for game
 
+
+    /**
+     * Constructor for Game
+     */
     public Game() {
         // Populate players list later
         players = new ArrayList<>();
-        direction = GameDev.Direction.FORWARD;
+        direction = Game.Direction.FORWARD;
         currentDeck = new Deck();
         pile = new Deck();
     }
@@ -90,26 +94,27 @@ public class Game {
             }
         } while (!gameOver);
     }
+
     /**
      * Returns the next player to play in the game
-     * player The player who's turn it currently is
+     * @param player The player who's turn it currently is
      * @return The next player who's turn it is, or the current player if nobody is next
      */
     private Player nextPlayer(Player player) {
-        if (direction == GameDev.Direction.FORWARD) {
+        if (direction == Game.Direction.FORWARD) {
             int nextPlayerIndex = players.indexOf(player) + 1;
             // The next index going forward is 0 if the index is outsize of the ArrayList
             return players.get(nextPlayerIndex < players.size() ? nextPlayerIndex : 0);
         }
-        else if (direction == GameDev.Direction.BACKWARD) {
+        else if (direction == Game.Direction.BACKWARD) {
             int nextPlayerIndex = players.indexOf(player) - 1;
             return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
         return player;
     }
+
     /**
      * Uses the console to add new players to the game
-     *
      * @return True if players have been added, false otherwise
      */
     private boolean configurePlayers() {
@@ -164,7 +169,6 @@ public class Game {
 
     /**
      * Decide what to do based on the card played. Can change the current player and the top card
-     *
      * @param choice The card that was played on the currentPlayer's turn
      */
     private void processChoice(Card choice) {
@@ -181,8 +185,8 @@ public class Game {
                 currentPlayer = nextPlayer(currentPlayer);
                 break;
             case REVERSE:
-                if (direction == GameDev.Direction.FORWARD) direction = GameDev.Direction.BACKWARD;
-                else if (direction == GameDev.Direction.BACKWARD) direction = GameDev.Direction.FORWARD;
+                if (direction == Game.Direction.FORWARD) direction = Game.Direction.BACKWARD;
+                else if (direction == Game.Direction.BACKWARD) direction = Game.Direction.FORWARD;
                 break;
             case WILD_DRAW_TWO:
                 System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: "
@@ -204,7 +208,6 @@ public class Game {
 
     /**
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
-     *
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Card handleWild(Card wild) {
@@ -311,7 +314,7 @@ public class Game {
         return choice;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         Game game = new Game();
         game.playGame();
     }

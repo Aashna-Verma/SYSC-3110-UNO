@@ -5,7 +5,6 @@
  * @author  Aashna Verma 101225434
  * @version 1.0
  */
-import java.util.HashMap;
 
 public class Card {
     private final Value VALUE;

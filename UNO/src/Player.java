@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  *This is the Player class within the UNO game which represents a player on the UNO game.
  *Each player has a hand compromised of cards they must play during the game.
@@ -5,8 +7,6 @@
  * @author Brian Tran 101231003
  * @version 1.0
  */
-
-import java.util.*;
 
 public class Player {
     public static final int STARTING_HAND_SIZE = 7;
@@ -73,6 +73,9 @@ public class Player {
         }
     }
 
+    /**
+     * Resets the players hand to an empty hand
+     */
     public void resetHand(){
         this.hand = new ArrayList<Card>();
     }
