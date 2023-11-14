@@ -5,52 +5,37 @@ import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameView extends JFrame {
+public class GameView extends JFrame implements View{
     private JFrame gameFrame;
-    private JPanel handPanel;
-    private JPanel drawCardPanel;
-    private JButton drawCard;
-    private JPanel statusNext;
-    private JButton nextPlayer;
-    private JTextArea gameStatus;
-    private JLabel currCard;
-
-    //initialize model
+    private Game game;
+    private HandView hand;
+    private DrawCardView drawCardPanel;
+    private TopCardView currCard;
+    private StatusNextView statusNext;
 
     /**
      * Constructor creates initial game frame that will start by asking how many players
      */
-    public GameView(){
-        viewPlayerCount();
+    public GameView(Game game){
+        this.game = game;
+        //views
+        hand = new HandView();
+        drawCardPanel = new DrawCardView();
+        currCard = new TopCardView();
+        statusNext = new StatusNextView();
 
+        //main frame
         gameFrame = new JFrame();
-        handPanel = new JPanel(new GridLayout(1,0));
-        drawCardPanel = new JPanel(new BorderLayout());
-        statusNext = new JPanel(new BorderLayout());
-        gameStatus = new JTextArea();
-        currCard = new JLabel();
 
         gameFrame.setTitle("UNO");
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setSize(1000, 650);
 
-        drawCard = new JButton("Draw Card");
-        drawCard.setPreferredSize(new Dimension(150, 50));
-        drawCardPanel.add(drawCard, BorderLayout.SOUTH);
-
-        nextPlayer = new JButton("Next Player");
-        nextPlayer.setPreferredSize(new Dimension(150, 50));
-        gameStatus.setLineWrap(true);
-        gameStatus.setEditable(false);
-        gameStatus.setText("*THIS IS SAMPLE TEXT*\nStatus:\n Player X Drew a Red One");
-        statusNext.add(gameStatus, BorderLayout.CENTER);
-        statusNext.add(nextPlayer, BorderLayout.SOUTH);
-
-        gameFrame.add(currCard, BorderLayout.CENTER);
-        gameFrame.add(statusNext, BorderLayout.WEST);
-        gameFrame.add(drawCardPanel, BorderLayout.EAST);
-        gameFrame.add(handPanel, BorderLayout.SOUTH);
+        gameFrame.add(currCard.getView(), BorderLayout.CENTER);
+        gameFrame.add(statusNext.getView(), BorderLayout.WEST);
+        gameFrame.add(drawCardPanel.getView(), BorderLayout.EAST);
+        gameFrame.add(hand.getView(), BorderLayout.SOUTH);
 
         gameFrame.setVisible(true);
     }
@@ -67,43 +52,28 @@ public class GameView extends JFrame {
         return selectionObject.toString();
     }
 
-    public void updateGameView(Player player, Card topCard){
-        //Updates Current player title
-        currCard.setBorder(BorderFactory.createTitledBorder(player.getName()));
-        //Updates top card of pile
-        //currCard.setText(topCard.toString());
-        currCard.setIcon(topCard.getImageIcon(0.6));
-        //Disable skipping turn before playing
-        nextPlayer.setEnabled(false);
-
-        updateHandView(player);
-
-        updateStatusText();
-    }
-    private void updateHandView(Player player){
-        for(int i = player.getNumCards()-1; i >= 0; i--){
-            JButton button = new JButton();
-            handPanel.add(button);
-            Card card = player.getHand().get(i);
-            //button.setText(card.toString());
-            button.setIcon(card.getImageIcon(0.2));
-            button.setPreferredSize(new Dimension(60, 150));
-        }
-        gameFrame.add(handPanel, BorderLayout.SOUTH);
-    }
-    private void updateStatusText(){
-
+    @Override
+    public void update(Game game) {
+        currCard.update(game);
+        hand.update(game);
+        drawCardPanel.update(game);
     }
 
     public static void main(String[] args)  {
+        /*
         Deck deck = new Deck();
         deck.populateDeck();
         Card card = new Card(Value.ONE, Colour.RED);
         Player player = new Player("Player 1");
         player.drawHand(deck);
         System.out.println(player.getHand().toString());
-        GameView view = new GameView();
-        view.updateGameView(player, card);
+
+        Game game = new Game(2);
+        GameView view = new GameView(game);
+        game.addView(view);
+        view.update(game);
         view.viewPickWildCard();
+
+         */
     }
 }

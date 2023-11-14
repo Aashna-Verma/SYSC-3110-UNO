@@ -21,15 +21,13 @@ public class Game {
     private boolean roundOver;
     private String statusString;
     private Card statusCard;
-    private View gameView;
+    private GameView gameView;
 
     /**
      * Constructor for Game
-     * @param gameView the view to be updated
      * @param numPlayers the number of players in the game
      */
-    public Game(View gameView, int numPlayers) {
-        this.gameView = gameView;
+    public Game(int numPlayers) {
         // Populate players list later
         players = new ArrayList<>();
         direction = Game.Direction.FORWARD;
@@ -61,12 +59,15 @@ public class Game {
         //Status panel should start empty
         //updateNextPlayerButton(GREY_OUT)
     }
+    public void addView(GameView gameView){
+        this.gameView = gameView;
+    }
 
     /**
      * Updates every view
      */
     private void update(){
-        gameView.update();
+        gameView.update(this);
     }
 
     public Player getCurrentPlayer() {
