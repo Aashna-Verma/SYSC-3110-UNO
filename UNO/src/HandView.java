@@ -13,19 +13,26 @@ public class HandView implements View {
     public JPanel getView(){
         return handPanel;
     }
+    public void newHand() {
+
+    }
+
     @Override
     public void update(Game game){
         player = game.getCurrentPlayer();
-        for(int i = player.getNumCards()-1; i >= 0; i--){
+        handPanel.removeAll();
+        for(int i = player.getNumCards()-1; i >= 0; i--) {
             JButton button = new JButton();
             handPanel.add(button);
             Card card = player.getHand().get(i);
-            button.setActionCommand(i+"");
+            // Cards are 1 indexed (from requirements)
+            button.setActionCommand((i + 1) + "");
             button.setIcon(card.getImageIcon(0.2));
             button.setPreferredSize(new Dimension(60, 150));
             button.addActionListener(listener);
         }
         //gameFrame.add(handPanel, BorderLayout.SOUTH);
+        handPanel.updateUI();
     }
     /**
      * Add an action listener to this view for the card buttons

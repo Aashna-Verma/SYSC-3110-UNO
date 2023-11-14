@@ -49,13 +49,17 @@ public class GameView extends JFrame implements View {
     public String viewPickWildCard(){
         Object[] colours = {"RED", "BLUE", "GREEN", "YELLOW"};
         Object selectionObject = JOptionPane.showInputDialog(null, "Choose a colour:", "Wild Card Colour", JOptionPane.PLAIN_MESSAGE, null, colours, colours[0]);
-        System.out.println(selectionObject.toString());
+        if (selectionObject == null) { return null; }
         return selectionObject.toString();
     }
-    public void addListener (ActionListener l) {
+    public void addNextListener (ActionListener l) {
         statusNext.addListener(l);
-        hand.addListener(l);
+    }
+    public void addDrawListener (ActionListener l) {
         drawCardPanel.addListener(l);
+    }
+    public void addHandListener (ActionListener l) {
+        hand.addListener(l);
     }
     @Override
     public void update(Game game) {
