@@ -29,6 +29,8 @@ public class DrawCardView implements View{
             text += p.getName() + ": " + p.getScore() + "\n";
         }
         scoreLabel.setText(text);
-        //draw out button when turn over TODO
+        if(game.isRoundOver()){
+            drawCard.setEnabled(false);
+        }
     }
 }

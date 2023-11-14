@@ -25,7 +25,6 @@ public class HandView implements View {
             button.setPreferredSize(new Dimension(60, 150));
             button.addActionListener(listener);
         }
-        //gameFrame.add(handPanel, BorderLayout.SOUTH);
     }
     /**
      * Add an action listener to this view for the card buttons

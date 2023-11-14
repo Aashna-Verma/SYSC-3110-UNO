@@ -14,6 +14,7 @@ public class StatusNextView implements View {
         nextPlayer = new JButton("Next Player");
         nextPlayer.setActionCommand("NextPlayer");
         nextPlayer.setPreferredSize(new Dimension(150, 50));
+        nextPlayer.setEnabled(false);
         gameStatus.setLineWrap(true);
         gameStatus.setEditable(false);
         gameStatus.setText("*THIS IS SAMPLE TEXT*\nStatus:\n Player X Drew a Red One");
@@ -25,7 +26,9 @@ public class StatusNextView implements View {
     }
     @Override
     public void update(Game game) {
-        //disable next player button beginning of turn TODO
+        if(game.isRoundOver()){
+            nextPlayer.setEnabled(true);
+        }
     }
     /**
      * Add an action listener to this view for the next player button
