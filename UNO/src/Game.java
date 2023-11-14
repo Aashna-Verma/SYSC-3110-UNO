@@ -134,6 +134,7 @@ public class Game {
         if (!roundOver && !gameOver) {
             Card choice = currentPlayer.removeCard(input);
             if (topCard.validWith(choice)) {
+                statusString = "Played a card: " + choice.toString() + "\n";
                 processChoice(choice);
                 if (currentPlayer.getNumCards() == 0) {
                     currentPlayer.setScore(currentPlayer.getScore() + getPoints());
@@ -160,6 +161,7 @@ public class Game {
      */
     public boolean advanceCurrentPlayer() {
         if (roundOver && !gameOver) {
+            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
             currentPlayer = nextPlayer(currentPlayer);
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
@@ -192,7 +194,8 @@ public class Game {
     }
 
     /**
-     * Decide what to do based on the card played. Can change the current player and the top card
+     * Decide what to do based on the card played. Can change the current player and the top card.
+     * Append to the status string with what is done with the player's choice
      * @param choice The card that was played on the currentPlayer's turn
      */
     private void processChoice(Card choice) {
@@ -202,32 +205,32 @@ public class Game {
         switch (choice.getValue()) {
             case DRAW_ONE -> {
                 Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
+                statusString += "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
             }
             //updateStatus(drawn);
             case SKIP -> {
                 // Set to the next player, which will then skip the player
                 //updateStatus(NEXT PLAYER SKIPPED)
                 skipNextPlayer = true;
-                statusString = "Next player is skipped.";
+                statusString += "Next player is skipped.";
             }
             case REVERSE -> {
                 if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
                 else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
-                statusString = "Direction reversed.";
+                statusString += "Direction reversed.";
             }
             case WILD_DRAW_TWO -> {
                 Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 choice = handleWild(choice);
                 if (choice == null) { return; } // Don't go to the next round or continue handling
-                statusString = choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+                statusString += choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
             }
             //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
             case WILD -> {
                 choice = handleWild(choice);
                 if (choice == null) { return; } // Don't go to the next round or continue handling
-                statusString = choice.getColour() + " has been chosen.";
+                statusString += choice.getColour() + " has been chosen.";
             }
             //updateSatus(NEW_COLOUR: choice.getColour());
             default -> {

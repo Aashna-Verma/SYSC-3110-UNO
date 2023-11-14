@@ -13,9 +13,9 @@ public class StatusNextView implements View {
 
         nextPlayer = new JButton("Next Player");
         nextPlayer.setActionCommand("NextPlayer");
-        nextPlayer.setPreferredSize(new Dimension(150, 50));
+        nextPlayer.setPreferredSize(new Dimension(200, 50));
         nextPlayer.setEnabled(false);
-        gameStatus.setLineWrap(true);
+        gameStatus.setLineWrap(false);
         gameStatus.setEditable(false);
         statusNext.add(gameStatus, BorderLayout.CENTER);
         statusNext.add(nextPlayer, BorderLayout.SOUTH);
