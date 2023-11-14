@@ -110,18 +110,20 @@ public class Game {
     }
 
     /**
-     * Triggered when player clicks draw card
+     * Makes the current player draw a card and ends the round
      */
-    private void drawCard(){
-        Card drawn = currentDeck.removeCard();
-        statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
-        statusCard = drawn;
-        roundOver = true;
+    public void drawCard(){
+        if (!roundOver) {
+            Card drawn = currentDeck.removeCard();
+            statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
+            statusCard = drawn;
+            roundOver = true;
 
-        //updateStatusPanel(drawn);
-        //updateNextPlayerButton(UN-GREY);
-        update();
-        currentPlayer.drawCard(drawn);
+            //updateStatusPanel(drawn);
+            //updateNextPlayerButton(UN-GREY);
+            update();
+            currentPlayer.drawCard(drawn);
+        }
     }
 
     /**
@@ -131,31 +133,43 @@ public class Game {
      * @return false if the play was invalid
      */
     public boolean playCard(int input) {
-        Card choice = currentPlayer.removeCard(input);
-        if (topCard.validWith(choice)) {
-            topCard = choice;
-            processChoice(choice);
-            if (currentPlayer.getNumCards() == 0){
-                currentPlayer.setScore(currentPlayer.getScore() + getPoints());
-                if (currentPlayer.getScore() == WINNING_SCORE) {
-                    //Call method IN CONTROLLER to generate popup displaying winner
-                    roundOver = true;
-                    gameOver = true;
+        if (!roundOver && !gameOver) {
+            Card choice = currentPlayer.removeCard(input);
+            if (topCard.validWith(choice)) {
+                processChoice(choice);
+                if (currentPlayer.getNumCards() == 0) {
+                    currentPlayer.setScore(currentPlayer.getScore() + getPoints());
+                    if (currentPlayer.getScore() == WINNING_SCORE) {
+                        // Generate win popup here
+                        gameOver = true;
+                    } else {
+                        // Call method IN CONTROLLER to generate popup displaying scores
+                    }
+                    update();
                 }
-                else{
-                    //Call method IN CONTROLLER to generate popup displaying scores
-                }
+                return true;
+            } else {
+                currentPlayer.addCard(choice);
+                statusString = "Invalid card choice.";
                 update();
+                return false;
             }
+        }
+        return false;
+    }
+
+    /**
+     * Changes the current player in the current direction, and sets the round to no longer be over
+     * @return true if the player was changed, false otherwise
+     */
+    public boolean advanceCurrentPlayer() {
+        if (roundOver) {
+            currentPlayer = nextPlayer(currentPlayer);
+            roundOver = false; // Next round starts
+            update();
             return true;
         }
-        else {
-            statusString = "Invalid card choice.";
-
-            update();
-            //updateStatusPanel(Invalid choice);
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -173,10 +187,6 @@ public class Game {
             int nextPlayerIndex = players.indexOf(player) - 1;
             return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
-        update();
-        //updateCurrentPlayerLabel();
-        //UpdateTopCardView
-        //updateNextPlayerButton(GreyOut);
         return player;
     }
 
@@ -189,33 +199,38 @@ public class Game {
         if (choice == null) { return; }
 
         switch (choice.getValue()) {
-            case DRAW_ONE:
+            case DRAW_ONE -> {
                 Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
-                //updateStatus(drawn);
-            case SKIP:
+            }
+            //updateStatus(drawn);
+            case SKIP -> {
                 // Set to the next player, which will then skip the player
                 //updateStatus(NEXT PLAYER SKIPPED)
                 currentPlayer = nextPlayer(currentPlayer);
                 statusString = "Next player is skipped.";
-            case REVERSE:
-                if (direction == Game.Direction.FORWARD) direction = Game.Direction.BACKWARD;
-                else if (direction == Game.Direction.BACKWARD) direction = Game.Direction.FORWARD;
+            }
+            case REVERSE -> {
+                if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
+                else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
                 statusString = "Direction reversed.";
-            case WILD_DRAW_TWO:
+            }
+            case WILD_DRAW_TWO -> {
                 Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 choice = handleWild(choice);
+                if (choice == null) { return; } // Don't go to the next round or continue handling
                 statusString = choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
-                //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
-                break;
-            case WILD:
+            }
+            //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
+            case WILD -> {
                 choice = handleWild(choice);
+                if (choice == null) { return; } // Don't go to the next round or continue handling
                 statusString = choice.getColour() + " has been chosen.";
-                //updateSatus(NEW_COLOUR: choice.getColour());
-                break;
-            default:
-                break;
+            }
+            //updateSatus(NEW_COLOUR: choice.getColour());
+            default -> {
+            }
         }
         //updatePlayerHand(GREY_OUT);
         //updateNextPlayerButton(UN_GREY);
@@ -234,11 +249,13 @@ public class Game {
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Card handleWild(Card wild) {
-        Colour chosenColour = null;
-        //chosenColour = getNewColourPopUp() <- METHOD IN CONTROLLER
-
-        // Create a new wild card with the same value, but with the chosen colour
-        return new Card(wild.getValue(), chosenColour);
+        String chosen = gameView.viewPickWildCard();
+        if (chosen == null) {
+            return null;
+        }
+        else {
+            return new Card(wild.getValue(), Colour.valueOf(chosen));
+        }
     }
 
     /**
