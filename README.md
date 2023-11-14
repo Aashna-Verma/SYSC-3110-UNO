@@ -1,6 +1,6 @@
 # SYSC-3110-UNO
 _Final group project for SYSC 3110_  
-__Current Status: Milestone 1__
+__Current Status: Milestone 2__
 
 ## Table of content
 * [Project Description](#project-description)  
@@ -12,10 +12,10 @@ __Current Status: Milestone 1__
 
 ## Project Description
 
-A text-based, playable version of the Uno card game, allowing players to engage through the console using keyboard input. Within this version, players will have the capability to:
+A playable version of the Uno card game, allowing players to engage through the console using buttons on the Java GUI. Within this version, players will have the capability to:
 
 1. View their drawn cards.
-2. Place cards using the official notation as detailed in the Wikipedia link.
+2. Place cards.
 3. Draw one card.
 4. Execute actions associated with special cards, including Reverse, Skip, Wild, and Wild Draw Two cards.
 5. Observe the resultant state of the cards, presented in text format.
