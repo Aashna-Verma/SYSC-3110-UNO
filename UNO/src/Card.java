@@ -23,7 +23,7 @@ public class Card {
     public Card(Value value, Colour colour){
         this.VALUE = value;
         this.COLOUR = colour;
-        if (colour == Colour.WILD){
+        if (VALUE == VALUE.WILD || VALUE == VALUE.WILD_DRAW_TWO){
             this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getValue().toString() + "_WILD" + ".png");
         } else {
             this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
