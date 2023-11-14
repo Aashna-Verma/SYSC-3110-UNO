@@ -1,15 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class StatusNextView implements View{
+public class StatusNextView implements View {
     private JPanel statusNext;
     private JButton nextPlayer;
     private JTextArea gameStatus;
-    public void StatusNextView(){
+
+    public StatusNextView(){
         statusNext = new JPanel(new BorderLayout());
         gameStatus = new JTextArea();
 
         nextPlayer = new JButton("Next Player");
+        nextPlayer.setActionCommand("NextPlayer");
         nextPlayer.setPreferredSize(new Dimension(150, 50));
         gameStatus.setLineWrap(true);
         gameStatus.setEditable(false);
@@ -23,5 +26,12 @@ public class StatusNextView implements View{
     @Override
     public void update(Game game) {
         //disable next player button beginning of turn TODO
+    }
+    /**
+     * Add an action listener to this view for the next player button
+     * @param l the listener to be added to the next player button
+     */
+    public void addListener(ActionListener l) {
+        nextPlayer.addActionListener(l);
     }
 }

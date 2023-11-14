@@ -51,16 +51,21 @@ public class Game {
         currentPlayer = players.get(0);
         statusString = null;
         statusCard = null;
-
-        update();
         //updatePlayerLabelView(currentPLayer.getName());
         //updateTopCardView(topCard);
         //updateHandView(currentPlayer.getHand());
         //Status panel should start empty
         //updateNextPlayerButton(GREY_OUT)
     }
+    public int getNumPlayers(){
+        return players.size();
+    }
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
     public void addView(GameView gameView){
         this.gameView = gameView;
+        update();
     }
 
     /**

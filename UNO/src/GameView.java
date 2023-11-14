@@ -1,11 +1,12 @@
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameView extends JFrame implements View{
+public class GameView extends JFrame implements View {
     private JFrame gameFrame;
     private Game game;
     private HandView hand;
@@ -40,7 +41,7 @@ public class GameView extends JFrame implements View{
         gameFrame.setVisible(true);
     }
 
-    public int viewPlayerCount(){
+    static public int viewPlayerCount(){
         Object[] options = {2, 3, 4};
         Object selectionObject = JOptionPane.showInputDialog(null, "How many players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return (int) selectionObject;
@@ -51,7 +52,11 @@ public class GameView extends JFrame implements View{
         System.out.println(selectionObject.toString());
         return selectionObject.toString();
     }
-
+    public void addListener (ActionListener l) {
+        statusNext.addListener(l);
+        hand.addListener(l);
+        drawCardPanel.addListener(l);
+    }
     @Override
     public void update(Game game) {
         currCard.update(game);

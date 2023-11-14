@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class TopCardView implements View{
     private JLabel currCard;
-    public void TopCardView(){
+    public TopCardView(){
         currCard = new JLabel();
     }
     public JLabel getView(){
