@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Game allows users to play a game of UNO Flip
@@ -19,6 +18,7 @@ public class Game {
     private Deck pile; // discard pile
     private boolean gameOver;
     private boolean roundOver;
+    private boolean skipNextPlayer; // For skip cards
     private String statusString;
     private Card statusCard;
     private GameView gameView;
@@ -40,6 +40,7 @@ public class Game {
 
         gameOver = false;
         roundOver = false;
+        skipNextPlayer = false;
         //initialize players and draw their hands
         for (int i = 0; i < numPlayers; i++) {
             // Create the player and give them their starting conditions
@@ -113,26 +114,23 @@ public class Game {
      * Makes the current player draw a card and ends the round
      */
     public void drawCard(){
-        if (!roundOver) {
+        if (!roundOver && !gameOver) {
             Card drawn = currentDeck.removeCard();
             statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
             statusCard = drawn;
             roundOver = true;
-
-            //updateStatusPanel(drawn);
-            //updateNextPlayerButton(UN-GREY);
-            update();
             currentPlayer.drawCard(drawn);
+            update();
         }
     }
 
     /**
      * Plays a card from the players hand to the deck
+     *
      * @param input the index of the card selected to play
-     * @return true if the play was valid
      * @return false if the play was invalid
      */
-    public boolean playCard(int input) {
+    public void playCard(int input) {
         if (!roundOver && !gameOver) {
             Card choice = currentPlayer.removeCard(input);
             if (topCard.validWith(choice)) {
@@ -142,20 +140,18 @@ public class Game {
                     if (currentPlayer.getScore() == WINNING_SCORE) {
                         // Generate win popup here
                         gameOver = true;
+                        gameView.displayWinPopup(currentPlayer);
                     } else {
-                        // Call method IN CONTROLLER to generate popup displaying scores
+                        gameView.displayScorePopup();
                     }
-                    update();
                 }
-                return true;
             } else {
+                // The play was invalid, so give back the card
                 currentPlayer.addCard(choice);
                 statusString = "Invalid card choice.";
-                update();
-                return false;
             }
+            update();
         }
-        return false;
     }
 
     /**
@@ -163,8 +159,13 @@ public class Game {
      * @return true if the player was changed, false otherwise
      */
     public boolean advanceCurrentPlayer() {
-        if (roundOver) {
+        if (roundOver && !gameOver) {
             currentPlayer = nextPlayer(currentPlayer);
+            // A skip card was played, so don't just go to the next player
+            if (skipNextPlayer) {
+                currentPlayer = nextPlayer(currentPlayer);
+                skipNextPlayer = false;
+            }
             roundOver = false; // Next round starts
             update();
             return true;
@@ -207,7 +208,7 @@ public class Game {
             case SKIP -> {
                 // Set to the next player, which will then skip the player
                 //updateStatus(NEXT PLAYER SKIPPED)
-                currentPlayer = nextPlayer(currentPlayer);
+                skipNextPlayer = true;
                 statusString = "Next player is skipped.";
             }
             case REVERSE -> {
@@ -249,7 +250,7 @@ public class Game {
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Card handleWild(Card wild) {
-        String chosen = gameView.viewPickWildCard();
+        String chosen = GameView.viewPickWildCard();
         if (chosen == null) {
             return null;
         }

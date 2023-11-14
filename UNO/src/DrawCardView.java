@@ -12,6 +12,7 @@ public class DrawCardView implements View{
         drawCard.setActionCommand("DrawCard");
         drawCard.setPreferredSize(new Dimension(150, 50));
         scoreLabel = new JTextArea();
+        scoreLabel.setEditable(false);
         scoreLabel.setBorder(BorderFactory.createTitledBorder("GAME SCORE"));
         drawCardPanel.add(scoreLabel, BorderLayout.CENTER);
         drawCardPanel.add(drawCard, BorderLayout.SOUTH);
@@ -29,8 +30,6 @@ public class DrawCardView implements View{
             text += p.getName() + ": " + p.getScore() + "\n";
         }
         scoreLabel.setText(text);
-        if(game.isRoundOver()){
-            drawCard.setEnabled(false);
-        }
+        drawCard.setEnabled(!game.isRoundOver());
     }
 }

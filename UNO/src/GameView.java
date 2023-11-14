@@ -46,12 +46,23 @@ public class GameView extends JFrame implements View {
         Object selectionObject = JOptionPane.showInputDialog(null, "How many players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return (int) selectionObject;
     }
-    public String viewPickWildCard(){
+    static public String viewPickWildCard(){
         Object[] colours = {"RED", "BLUE", "GREEN", "YELLOW"};
         Object selectionObject = JOptionPane.showInputDialog(null, "Choose a colour:", "Wild Card Colour", JOptionPane.PLAIN_MESSAGE, null, colours, colours[0]);
         if (selectionObject == null) { return null; }
         return selectionObject.toString();
     }
+
+    /**
+     * Stub function - display the scores of each player in a popup (the game has ended and is tied)
+     */
+    static public void displayScorePopup() {}
+
+    /**
+     * Stub function - display the winner of the game
+     * @param p the winner
+     */
+    static public void displayWinPopup(Player p) {}
     public void addNextListener (ActionListener l) {
         statusNext.addListener(l);
     }
@@ -66,6 +77,7 @@ public class GameView extends JFrame implements View {
         currCard.update(game);
         hand.update(game);
         drawCardPanel.update(game);
+        statusNext.update(game);
     }
 
     public static void main(String[] args)  {

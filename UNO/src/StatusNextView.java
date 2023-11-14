@@ -17,7 +17,6 @@ public class StatusNextView implements View {
         nextPlayer.setEnabled(false);
         gameStatus.setLineWrap(true);
         gameStatus.setEditable(false);
-        gameStatus.setText("*THIS IS SAMPLE TEXT*\nStatus:\n Player X Drew a Red One");
         statusNext.add(gameStatus, BorderLayout.CENTER);
         statusNext.add(nextPlayer, BorderLayout.SOUTH);
     }
@@ -26,9 +25,8 @@ public class StatusNextView implements View {
     }
     @Override
     public void update(Game game) {
-        if(game.isRoundOver()){
-            nextPlayer.setEnabled(true);
-        }
+        nextPlayer.setEnabled(game.isRoundOver());
+        gameStatus.setText(game.getStatusString());
     }
     /**
      * Add an action listener to this view for the next player button
