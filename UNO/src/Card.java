@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * The Card class within the UNO game which represents a card in the UNO game.
  * Each card has a value and a colour
@@ -9,6 +12,7 @@
 public class Card {
     private final Value VALUE;
     private final Colour COLOUR;
+    private final ImageIcon ICON_IMAGE;
 
     /**
      * Constructor for Card
@@ -19,6 +23,7 @@ public class Card {
     public Card(Value value, Colour colour){
         this.VALUE = value;
         this.COLOUR = colour;
+        this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
     }
 
     /**
@@ -70,6 +75,10 @@ public class Card {
     @Override
     public String toString(){
         return this.getColour().toString() + " " + this.getValue().toString();
+    }
+
+    public ImageIcon getImageIcon(double scale){
+        return new ImageIcon(this.ICON_IMAGE.getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
     }
 
     /**

@@ -1,3 +1,3 @@
 public interface View {
-    public void update();
+    public void update(Game game);
 }
