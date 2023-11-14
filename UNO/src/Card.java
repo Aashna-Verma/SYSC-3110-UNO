@@ -23,7 +23,7 @@ public class Card {
     public Card(Value value, Colour colour){
         this.VALUE = value;
         this.COLOUR = colour;
-        this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getColour().toString() + "_" + getValue().toString() + ".png");
+        this.ICON_IMAGE = new ImageIcon("cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
     }
 
     /**
@@ -78,7 +78,7 @@ public class Card {
     }
 
     public ImageIcon getImageIcon(double scale){
-        return new ImageIcon(this.ICON_IMAGE.getImage().getScaledInstance((int)(scale * 375), (int)(scale * 528), Image.SCALE_SMOOTH));
+        return new ImageIcon(this.ICON_IMAGE.getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
     }
 
     /**

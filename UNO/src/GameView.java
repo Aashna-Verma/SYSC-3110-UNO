@@ -72,7 +72,7 @@ public class GameView extends JFrame {
         currCard.setBorder(BorderFactory.createTitledBorder(player.getName()));
         //Updates top card of pile
         //currCard.setText(topCard.toString());
-        currCard.setIcon(topCard.getImageIcon(0.8));
+        currCard.setIcon(topCard.getImageIcon(0.6));
         //Disable skipping turn before playing
         nextPlayer.setEnabled(false);
 
@@ -86,7 +86,7 @@ public class GameView extends JFrame {
             handPanel.add(button);
             Card card = player.getHand().get(i);
             //button.setText(card.toString());
-            button.setIcon(card.getImageIcon(0.25));
+            button.setIcon(card.getImageIcon(0.2));
             button.setPreferredSize(new Dimension(60, 150));
         }
         gameFrame.add(handPanel, BorderLayout.SOUTH);
@@ -101,6 +101,7 @@ public class GameView extends JFrame {
         Card card = new Card(Value.ONE, Colour.RED);
         Player player = new Player("Player 1");
         player.drawHand(deck);
+        System.out.println(player.getHand().toString());
         GameView view = new GameView();
         view.updateGameView(player, card);
         view.viewPickWildCard();
