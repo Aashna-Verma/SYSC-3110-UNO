@@ -81,6 +81,10 @@ public class Game {
         return gameOver;
     }
 
+    public boolean isRoundOver() {
+        return roundOver;
+    }
+
     public String getStatusString() {
         return statusString;
     }
