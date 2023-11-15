@@ -24,9 +24,9 @@ public class Card {
         this.VALUE = value;
         this.COLOUR = colour;
         if (VALUE == Value.WILD || VALUE == Value.WILD_DRAW_TWO){
-            this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getValue().toString() + "_WILD" + ".png");
+            this.ICON_IMAGE = new ImageIcon("cardImgs/" + getValue().toString() + "_WILD" + ".png");
         } else {
-            this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
+            this.ICON_IMAGE = new ImageIcon("cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
         }
     }
 

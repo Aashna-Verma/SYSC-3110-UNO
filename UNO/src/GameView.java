@@ -76,21 +76,4 @@ public class GameView extends JFrame implements View {
         statusNext.update(game);
     }
 
-    public static void main(String[] args)  {
-        /*
-        Deck deck = new Deck();
-        deck.populateDeck();
-        Card card = new Card(Value.ONE, Colour.RED);
-        Player player = new Player("Player 1");
-        player.drawHand(deck);
-        System.out.println(player.getHand().toString());
-
-        Game game = new Game(2);
-        GameView view = new GameView(game);
-        game.addView(view);
-        view.update(game);
-        view.viewPickWildCard();
-
-         */
-    }
 }

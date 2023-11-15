@@ -5,10 +5,10 @@ public class GameController {
     private DrawCardListener drawListener;
     private NextPlayerListener nextListener;
 
-    public GameController() {
-        int numPlayers = GameView.viewPlayerCount();
-        model = new Game(numPlayers);
-        view = new GameView(model);
+    public GameController(Game model, GameView view) {
+
+        this.model = model;
+        this.view = view;
         handListener = new HandListener(model);
         drawListener = new DrawCardListener(model);
         nextListener = new NextPlayerListener(model);
@@ -21,7 +21,9 @@ public class GameController {
         model.addView(view);
     }
     public static void main(String[] args) {
-        new GameController();
+        Game game = new Game(GameView.viewPlayerCount());
+        GameView view = new GameView(game);
+        new GameController(game, view);
     }
 }
 

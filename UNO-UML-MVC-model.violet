@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="21" class="java.beans.XMLDecoder">
+<java version="17.0.6" class="java.beans.XMLDecoder">
  <object class="com.horstmann.violet.ClassDiagramGraph">
   <void method="addNode">
    <object class="com.horstmann.violet.ClassNode" id="ClassNode0">
     <void property="attributes">
      <void property="text">
       <string>- VALUE: Value
-- COLOUR: Colour</string>
+- COLOUR: Colour
+- ICON_IMAGE: ImageIcon </string>
      </void>
     </void>
     <void property="methods">
@@ -15,6 +16,7 @@
 + getValue(): Value
 + getColour(): Colour
 + getScore(): int
++ getImageIcon(scale: double)
 + validWith(Card): boolean
 + toString(): String
 
@@ -32,19 +34,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>530.0</double>
+      <double>310.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>480.0</double>
+      <double>620.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>530.0</double>
-     <double>480.0</double>
+     <double>310.0</double>
+     <double>620.0</double>
     </void>
    </object>
   </void>
@@ -57,27 +59,40 @@
 - direction: Directions
 - players: ArrayList&lt;Player&gt;
 - currentPlayer: Player
-- topCard Card
+- topCard: Card
 - currentDeck: Deck
 - pile: Deck
-&lt;u&gt;- scanner: Scanner&lt;u/&gt;
+- gameOver: boolean
+- roundOver:boolean
+- skipNextPlayer: boolean
+- statusString: String
+- statusCard: Card
+- gameView: GameView
 </string>
      </void>
     </void>
     <void property="methods">
      <void property="text">
-      <string>+ Game()
-+ playGame(): void
-+ nextPlayer(Player): Player
-+ configurePlayer(): boolean
-+ drawHands(): void
+      <string>+ Game(int)
++ getNumPlayers(): int
++ getPlayers(): ArrayList&lt;Players&gt;
++ addView(GameView): void
+- update(): void
++ getCurrentPlayer(): void
++ getTopCard(): void
++ isGameOver():boolean
++ isRoundOver():boolean
++ getStatusString():String
++ getStatusCard(): Card
+- nextPlayer(Player): Player
+- drawHands(): void
++ drawCard(): void
++ playCard(int): void
++ advanceCurrentPlayer(): boolean
+- processChoice(Card): void
+- handleWild(Card): Card
 + getPoints(): int
-+ processChoice(Card): void
-+ handleWild(Card): Card
-+ printRoundInfo(): void
-+ getPlayerInput(): int
-+ playCard(): Card
-+ &lt;u&gt;main(String[]): void&lt;u/&gt;</string>
+</string>
      </void>
     </void>
     <void property="name">
@@ -91,7 +106,7 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>980.0</double>
+      <double>700.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -102,7 +117,7 @@
      </void>
     </void>
     <void method="setLocation">
-     <double>980.0</double>
+     <double>700.0</double>
      <double>30.0</double>
     </void>
    </object>
@@ -136,19 +151,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double2"/>
-      <double>950.0</double>
+      <double>630.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double2"/>
-      <double>490.0</double>
+      <double>650.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>950.0</double>
-     <double>490.0</double>
+     <double>630.0</double>
+     <double>650.0</double>
     </void>
    </object>
   </void>
@@ -175,6 +190,7 @@
 + drawCard(Deck): Card
 + drawHand(Deck): void
 + resetHand(): void
++ getHand(): ArrayList&lt;Card&gt;
 + toString(): String
 + handToString(): String
 </string>
@@ -191,19 +207,19 @@
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double3"/>
-      <double>510.0</double>
+      <double>310.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double3"/>
-      <double>60.0</double>
+      <double>140.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>510.0</double>
-     <double>60.0</double>
+     <double>310.0</double>
+     <double>140.0</double>
     </void>
    </object>
   </void>
@@ -239,19 +255,19 @@ Value</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double4"/>
-      <double>190.0</double>
+      <double>20.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double4"/>
-      <double>30.0</double>
+      <double>190.0</double>
      </void>
     </void>
     <void method="setLocation">
+     <double>20.0</double>
      <double>190.0</double>
-     <double>30.0</double>
     </void>
    </object>
   </void>
@@ -278,19 +294,42 @@ Colour</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>190.0</double>
+      <double>20.0</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>410.0</double>
+      <double>530.0</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>190.0</double>
-     <double>410.0</double>
+     <double>20.0</double>
+     <double>530.0</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode"/>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double6">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double6"/>
+      <double>1500.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double6"/>
+      <double>850.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1500.0</double>
+     <double>850.0</double>
     </void>
    </object>
   </void>
