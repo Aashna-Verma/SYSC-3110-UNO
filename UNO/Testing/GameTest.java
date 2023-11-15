@@ -38,7 +38,7 @@ public class GameTest extends junit.framework.TestCase {
         game = new GameDev(2);
     }
 
-    public void  testNextPlayer(){
+    public void testNextPlayer(){
         game = new GameDev(4);
         ArrayList<Player> players = game.getPlayers();
 
@@ -83,6 +83,5 @@ public class GameTest extends junit.framework.TestCase {
         // p1 = 0 cards, p2 = 7*RED ONE, p2 = 8*RED ONE
         assertEquals("Total points were not summed correctly", 14, game.getPoints());
     }
-
 
 }
