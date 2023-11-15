@@ -26,9 +26,9 @@ public class Card {
         this.VALUE = value;
         this.COLOUR = colour;
         if (VALUE == Value.WILD || VALUE == Value.WILD_DRAW_TWO){
-            url = Card.class.getResource( getValue().toString() + "_WILD" + ".png");
+            url = Card.class.getResource( "cardImgs/" + getValue().toString() + "_WILD" + ".png");
         } else {
-            url = Card.class.getResource(getValue().toString() + "_" + getColour().toString() + ".png");
+            url = Card.class.getResource("cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
         }
         this.ICON_IMAGE = new ImageIcon(url);
     }
