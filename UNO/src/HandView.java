@@ -5,16 +5,18 @@ import java.sql.Array;
 import java.util.ArrayList;
 
 public class HandView implements View {
+    private JScrollPane scrollPane;
     private JPanel handPanel;
     private ActionListener listener; // Store the listener, because this object regularly deletes and creates new buttons
     private ArrayList<JButton> cardButtons;
 
     public HandView(){
         handPanel = new JPanel(new GridLayout(1,0));
+        scrollPane = new JScrollPane(handPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         cardButtons = new ArrayList<>();
     }
-    public JPanel getView(){
-        return handPanel;
+    public JScrollPane getView(){
+        return scrollPane;
     }
 
     @Override
