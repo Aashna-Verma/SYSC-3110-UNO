@@ -173,6 +173,7 @@ public class Game {
                 skipNextPlayer = false;
             }
             roundOver = false; // Next round starts
+            statusCard = null;
             update();
             return true;
         }
