@@ -18,7 +18,8 @@ A playable version of the Uno card game, allowing players to engage through the 
 2. Place cards.
 3. Draw one card.
 4. Execute actions associated with special cards, including Reverse, Skip, Wild, and Wild Draw Two cards.
-5. Observe the resultant state of the cards, presented in text format.
+5. Observe the resultant state of the cards.
+6. __Experience the UNO game with a full Graphical User Interface.__
 
 ## System requirements
 
