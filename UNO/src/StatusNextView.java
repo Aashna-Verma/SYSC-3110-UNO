@@ -1,19 +1,24 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class StatusNextView implements View{
+public class StatusNextView implements View {
     private JPanel statusNext;
     private JButton nextPlayer;
     private JTextArea gameStatus;
-    public void StatusNextView(){
+    private JLabel drawImg;
+
+    public StatusNextView(){
         statusNext = new JPanel(new BorderLayout());
         gameStatus = new JTextArea();
+        drawImg = new JLabel();
 
         nextPlayer = new JButton("Next Player");
-        nextPlayer.setPreferredSize(new Dimension(150, 50));
+        nextPlayer.setActionCommand("NextPlayer");
+        nextPlayer.setPreferredSize(new Dimension(200, 50));
+        nextPlayer.setEnabled(false);
         gameStatus.setLineWrap(true);
         gameStatus.setEditable(false);
-        gameStatus.setText("*THIS IS SAMPLE TEXT*\nStatus:\n Player X Drew a Red One");
         statusNext.add(gameStatus, BorderLayout.CENTER);
         statusNext.add(nextPlayer, BorderLayout.SOUTH);
     }
@@ -22,6 +27,21 @@ public class StatusNextView implements View{
     }
     @Override
     public void update(Game game) {
-        //disable next player button beginning of turn TODO
+        nextPlayer.setEnabled(game.isRoundOver());
+        gameStatus.setText(game.getStatusString());
+        if(game.getStatusCard() != null){
+            drawImg.setIcon(game.getStatusCard().getImageIcon(0.2));
+            statusNext.add(drawImg, BorderLayout.NORTH);
+        }else {
+            statusNext.remove(drawImg);
+        }
+        statusNext.updateUI();
+    }
+    /**
+     * Add an action listener to this view for the next player button
+     * @param l the listener to be added to the next player button
+     */
+    public void addListener(ActionListener l) {
+        nextPlayer.addActionListener(l);
     }
 }

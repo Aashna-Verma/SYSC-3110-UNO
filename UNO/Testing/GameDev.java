@@ -2,138 +2,101 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * GameDev is the all accessible version of the Game class
- * This is used for the developers so tests can be run when changes are made
+ * GameDev allows users to play a game of UNO Flip
  *
- * @author Angus Jull, Aashna Verma
- * @version 1.0
+ * @author Angus Jull
+ * @author  Brian Tran - Modified for MVC
+ * @version 2.0
  */
 public class GameDev {
     public enum Direction { FORWARD, BACKWARD };
-    private final int WINNING_SCORE = 500;
-    private Direction direction;
-    private ArrayList<Player> players;
-    private Player currentPlayer;
-    private Card topCard;
-    private Deck currentDeck; // deck being played with
-    private Deck pile; // discard pile
-    private static Scanner scanner = new Scanner(System.in); // input for game
+    public final int WINNING_SCORE = 500;
+    public GameDev.Direction direction;
+    public ArrayList<Player> players;
+    public Player currentPlayer;
+    public Card topCard;
+    public Deck currentDeck; // deck being played with
+    public Deck pile; // discard pile
+    public boolean gameOver;
+    public boolean roundOver;
+    public String statusString;
+    public Card statusCard;
+    public GameView gameView;
 
-    public GameDev() {
+    /**
+     * Constructor for Game
+     * @param numPlayers the number of players in the game
+     */
+    public GameDev(int numPlayers) {
         // Populate players list later
         players = new ArrayList<>();
-        direction = Direction.FORWARD;
+        direction = GameDev.Direction.FORWARD;
+
+        //populate deck to draw from
         currentDeck = new Deck();
         pile = new Deck();
-    }
+        currentDeck.populateDeck();
+        topCard = currentDeck.removeCard();
 
-    /**
-     * Plays a game of UNO Flip
-     */
-    public void playGame() {
-        configurePlayers();
-        // Main game loop
-        // Start the game
-        int turnsTaken = 0;
-        int rounds = 1;
-        boolean gameOver = false;
-        // Game loop
-        do {
-            // Set up the round
-            boolean roundOver = false;
-            currentDeck = new Deck();
-            pile = new Deck();
-            currentDeck.populateDeck();
-            topCard = currentDeck.removeCard();
-            drawHands();
-            // Round loop
-            do {
-                if (turnsTaken == 0) {
-                    System.out.println("\nEntering Round " + rounds);
-                    System.out.println("Starting Card: " + topCard);
-                } else {
-                    System.out.println("Played: " + topCard);
-                }
-                processChoice(playCard());
-
-                // Check if this player has won
-                if (currentPlayer.getNumCards() == 0) {
-                    System.out.println("Round " + rounds + " over: " + currentPlayer.getName() + " has won");
-                    currentPlayer.setScore(currentPlayer.getScore() + getPoints());
-                    roundOver = true;
-                    turnsTaken = 0;
-                    rounds++;
-
-                    for (Player player: players){
-                        System.out.println(player.getName() + "'s score: " + player.getScore());
-                    }
-
-                }
-                // The deck is empty, so end the game
-                else if (currentDeck.getTopCard() == null) {
-                    System.out.println("Round over, deck empty. No winner");
-                    roundOver = true;
-                }
-                // Move onto the next player if nobody has won yet
-                else {
-                    // Move onto the next player
-                    currentPlayer = nextPlayer(currentPlayer);
-                    // Keep track of how many turns have passed
-                    turnsTaken++;
-                }
-            } while (!roundOver);
-
-            for (Player p: players) {
-                if (p.getScore() >= WINNING_SCORE) {
-                    System.out.println(p.getName() + " has won! With a score of " + p.getScore());
-                    gameOver = true;
-                }
-            }
-        } while (!gameOver);
-    }
-    /**
-     * Returns the next player to play in the game
-     * player The player who's turn it currently is
-     * @return The next player who's turn it is, or the current player if nobody is next
-     */
-    public Player nextPlayer(Player player) {
-        if (direction == Direction.FORWARD) {
-            int nextPlayerIndex = players.indexOf(player) + 1;
-            // The next index going forward is 0 if the index is outsize of the ArrayList
-            return players.get(nextPlayerIndex < players.size() ? nextPlayerIndex : 0);
-        }
-        else if (direction == Direction.BACKWARD) {
-            int nextPlayerIndex = players.indexOf(player) - 1;
-            return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
-        }
-        return player;
-    }
-    /**
-     * Uses the console to add new players to the game
-     *
-     * @return True if players have been added, false otherwise
-     */
-    public boolean configurePlayers() {
-        int numPlayers = 0;
-        do {
-            System.out.print("Enter the number of players (2-4): ");
-            try {
-                numPlayers = Integer.parseInt(scanner.nextLine());
-            } catch (Exception e) {
-                numPlayers = -1;
-            }
-        } while (numPlayers < 2 || numPlayers > 4);
-
-        // Get player names and create the players
+        gameOver = false;
+        roundOver = false;
+        //initialize players and draw their hands
         for (int i = 0; i < numPlayers; i++) {
-            System.out.print("Enter a name for Player " + String.valueOf(i+1) + ": ");
-            String name = scanner.nextLine();
             // Create the player and give them their starting conditions
+            String name = "Player " + (i+1);
             Player newPlayer = new Player(name);
             players.add(newPlayer);
+            drawHands();
         }
         currentPlayer = players.get(0);
-        return true;
+        statusString = null;
+        statusCard = null;
+        //updatePlayerLabelView(currentPLayer.getName());
+        //updateTopCardView(topCard);
+        //updateHandView(currentPlayer.getHand());
+        //Status panel should start empty
+        //updateNextPlayerButton(GREY_OUT)
+    }
+    public int getNumPlayers(){
+        return players.size();
+    }
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+    public void addView(GameView gameView){
+        this.gameView = gameView;
+        update();
+    }
+
+    /**
+     * Updates every view
+     */
+    public int update(){
+        return 1;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Card getTopCard() {
+        return topCard;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public boolean isRoundOver() {
+        return roundOver;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public Card getStatusCard() {
+        return statusCard;
     }
 
     /**
@@ -144,6 +107,138 @@ public class GameDev {
             p.resetHand();
             p.drawHand(currentDeck);
         }
+    }
+
+    /**
+     * Triggered when player clicks draw card
+     */
+    public void drawCard(){
+        Card drawn = currentDeck.removeCard();
+        statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
+        statusCard = drawn;
+        roundOver = true;
+
+        //updateStatusPanel(drawn);
+        //updateNextPlayerButton(UN-GREY);
+        update();
+        currentPlayer.drawCard(drawn);
+    }
+
+    /**
+     * Plays a card from the players hand to the deck
+     * @param input the index of the card selected to play
+     * @return true if the play was valid
+     * @return false if the play was invalid
+     */
+    public boolean playCard(int input) {
+        Card choice = currentPlayer.removeCard(input);
+        if (topCard.validWith(choice)) {
+            topCard = choice;
+            processChoice(choice);
+            if (currentPlayer.getNumCards() == 0){
+                currentPlayer.setScore(currentPlayer.getScore() + getPoints());
+                if (currentPlayer.getScore() == WINNING_SCORE) {
+                    //Call method IN CONTROLLER to generate popup displaying winner
+                    roundOver = true;
+                    gameOver = true;
+                }
+                else{
+                    //Call method IN CONTROLLER to generate popup displaying scores
+                }
+                update();
+            }
+            return true;
+        }
+        else {
+            statusString = "Invalid card choice.";
+
+            update();
+            //updateStatusPanel(Invalid choice);
+            return false;
+        }
+    }
+
+    /**
+     * Returns the next player to play in the game
+     * @param player The player who's turn it currently is
+     * @return The next player who's turn it is, or the current player if nobody is next
+     */
+    public Player nextPlayer(Player player) {
+        if (direction == GameDev.Direction.FORWARD) {
+            int nextPlayerIndex = players.indexOf(player) + 1;
+            // The next index going forward is 0 if the index is outsize of the ArrayList
+            return players.get(nextPlayerIndex < players.size() ? nextPlayerIndex : 0);
+        }
+        else if (direction == GameDev.Direction.BACKWARD) {
+            int nextPlayerIndex = players.indexOf(player) - 1;
+            return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
+        }
+        update();
+        //updateCurrentPlayerLabel();
+        //UpdateTopCardView
+        //updateNextPlayerButton(GreyOut);
+        return player;
+    }
+
+    /**
+     * Decide what to do based on the card played. Can change the current player and the top card
+     * @param choice The card that was played on the currentPlayer's turn
+     */
+    public void processChoice(Card choice) {
+        // Don't do anything with no choice
+        if (choice == null) { return; }
+
+        switch (choice.getValue()) {
+            case DRAW_ONE:
+                Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
+                statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
+                //updateStatus(drawn);
+            case SKIP:
+                // Set to the next player, which will then skip the player
+                //updateStatus(NEXT PLAYER SKIPPED)
+                currentPlayer = nextPlayer(currentPlayer);
+                statusString = "Next player is skipped.";
+            case REVERSE:
+                if (direction == GameDev.Direction.FORWARD) direction = GameDev.Direction.BACKWARD;
+                else if (direction == GameDev.Direction.BACKWARD) direction = GameDev.Direction.FORWARD;
+                statusString = "Direction reversed.";
+            case WILD_DRAW_TWO:
+                Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
+                Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
+                choice = handleWild(choice);
+                statusString = choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+                //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
+                break;
+            case WILD:
+                choice = handleWild(choice);
+                statusString = choice.getColour() + " has been chosen.";
+                //updateSatus(NEW_COLOUR: choice.getColour());
+                break;
+            default:
+                break;
+        }
+        //updatePlayerHand(GREY_OUT);
+        //updateNextPlayerButton(UN_GREY);
+
+        // The current card is no longer needed
+        pile.addCard(topCard);
+        // The top card is now the played card
+        topCard = choice;
+        roundOver = true;
+        update();
+    }
+
+
+    /**
+     * Handle the user input for playing a wild card, in choosing a colour and setting that colour
+     * @return A card with the chosen colour, or the top card if the top card is not a wild card.
+     */
+    public Card handleWild(Card wild) {
+        Colour chosenColour = null;
+        //chosenColour = getNewColourPopUp() <- METHOD IN CONTROLLER
+
+        // Create a new wild card with the same value, but with the chosen colour
+        return new Card(wild.getValue(), chosenColour);
     }
 
     /**
@@ -162,173 +257,4 @@ public class GameDev {
         }
         return total;
     }
-
-    /**
-     * Decide what to do based on the card played. Can change the current player and the top card
-     *
-     * @param choice The card that was played on the currentPlayer's turn
-     */
-    public void processChoice(Card choice) {
-        // Don't do anything with no choice
-        if (choice == null) { return; }
-
-        switch (choice.getValue()) {
-            case DRAW_ONE:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw one card due to Draw One: "
-                        + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
-                break;
-            case SKIP:
-                // Set to the next player, which will then skip the player
-                currentPlayer = nextPlayer(currentPlayer);
-                break;
-            case REVERSE:
-                if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
-                else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
-                break;
-            case WILD_DRAW_TWO:
-                System.out.println(nextPlayer(currentPlayer).getName() + " has to draw two cards due to Wild Draw Two: "
-                        + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard())
-                        + ", " + nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()));
-                choice = handleWild(choice);
-                break;
-            case WILD:
-                choice = handleWild(choice);
-                break;
-            default:
-                break;
-        }
-        // The current card is no longer needed
-        pile.addCard(topCard);
-        // The top card is now the played card
-        topCard = choice;
-    }
-
-    /**
-     * Handle the user input for playing a wild card, in choosing a colour and setting that colour
-     *
-     * @return A card with the chosen colour, or the top card if the top card is not a wild card.
-     */
-    public Card handleWild(Card wild) {
-        if (wild.getColour() == Colour.WILD) {
-            Colour chosenColour = null;
-            while (chosenColour == null) {
-                System.out.println("Choose a colour: BLUE GREEN RED YELLOW");
-                String input = scanner.nextLine();
-                for (Colour c: Colour.values()) {
-                    if (c.toString().equals(input) && !c.equals("WILD")) {
-                        chosenColour = c;
-                    }
-                }
-            }
-            System.out.println("");
-            // Create a new wild card with the same value, but with the chosen colour
-            return new Card(wild.getValue(), chosenColour);
-        }
-        // This card isn't a wild, so just send it back
-        return wild;
-    }
-
-    /**
-     * Print out information for the current Player
-     */
-    public void printRoundInfo() {
-        System.out.println(currentPlayer.getName() + "'s Turn");
-        System.out.println("Current Side: Light");
-        System.out.println("Your cards:");
-        System.out.println(currentPlayer.handToString());
-        System.out.println("Top card: " + topCard);
-    }
-
-    /**
-     * Play a card from the current players hand, make a play depending on the input provided by a human player, continues asking for input
-     * until an integer is provided
-     *
-     * @return A number representing the player's choice of what to do
-     */
-    public int getPlayerInput () {
-        int choice = -1;
-        do {
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-            }
-            catch (Exception e) {
-                System.out.print("Enter an integer value");
-                return -1;
-            }
-        } while (choice == -1);
-        return choice;
-    }
-
-    /**
-     * Gets the current player to play a card, and then returns the card they play
-     * @return
-     */
-    public Card playCard() {
-        // The card being played
-        Card choice = null;
-        boolean chosen = false;
-        // Ask player to make a choice of what to play, then validate that choice
-        do {
-            printRoundInfo();
-            // choice = currentPlayer.performAction(, currentDeck);
-            System.out.println("Enter card index to play or 0 to draw a card:");
-            int input = getPlayerInput();
-            System.out.println("");
-            if (input == 0) {
-                // Draw a card
-                Card drawn = currentDeck.removeCard();
-                System.out.println("Drew a card: " + drawn);
-                // Check if the card is valid
-                if (topCard.validWith(drawn)) {
-                    System.out.println("Enter 0 to keep the card, or any number above 0 to play it");
-                    if (getPlayerInput() > 0) {
-                        choice = drawn;
-                    }
-                    else {
-                        currentPlayer.drawCard(drawn);
-                    }
-                    System.out.println("");
-                }
-                else {
-                    currentPlayer.drawCard(drawn);
-                }
-                // Drawing a card is the last action a player performs
-                chosen = true;
-            }
-            else {
-                choice = currentPlayer.removeCard(input);
-                if (choice != null) {
-                    if (topCard.validWith(choice)) {
-                        chosen = true;
-                    }
-                    else {
-                        System.out.println("Choice not valid with top card, try again");
-                        currentPlayer.addCard(choice);
-                        choice = null;
-                    }
-                }
-            }
-        } while (!chosen);
-        return choice;
-    }
-
-    public static void main(String[] args) {
-        GameDev game = new GameDev();
-        game.playGame();
-    }
-
-    public void setDirection(Direction d){this.direction = d;}
-    public void setPlayers(ArrayList<Player> p_list){this.players = p_list;}
-    public void setCurrentPlayer(Player p){this.currentPlayer = p;}
-    public void setTopCard(Card c){this.topCard = c;}
-    public void setCurrentDeck(Deck d){this.currentDeck = d;}
-    public void setPile(Deck p){this.pile = p;}
-    public Direction getDirection(){return this.direction;}
-
-    public ArrayList<Player> getPlayers(){return this.players;}
-    public Player getCurrentPlayer(){return this.currentPlayer;}
-    public Card getTopCard(){return this.topCard;}
-    public Deck getCurrentDeck(){return this.currentDeck;}
-    public Deck getPile(){return this.pile;}
 }
-

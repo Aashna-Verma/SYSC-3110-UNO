@@ -1,11 +1,13 @@
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameView extends JFrame implements View{
+public class GameView extends JFrame implements View {
     private JFrame gameFrame;
     private Game game;
     private HandView hand;
@@ -39,41 +41,39 @@ public class GameView extends JFrame implements View{
 
         gameFrame.setVisible(true);
     }
-
-    public int viewPlayerCount(){
+    static public int viewPlayerCount(){
         Object[] options = {2, 3, 4};
         Object selectionObject = JOptionPane.showInputDialog(null, "How many players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return (int) selectionObject;
     }
-    public String viewPickWildCard(){
+    static public String viewPickWildCard(){
         Object[] colours = {"RED", "BLUE", "GREEN", "YELLOW"};
         Object selectionObject = JOptionPane.showInputDialog(null, "Choose a colour:", "Wild Card Colour", JOptionPane.PLAIN_MESSAGE, null, colours, colours[0]);
-        System.out.println(selectionObject.toString());
+        if (selectionObject == null) { return null; }
         return selectionObject.toString();
     }
-
+    public void displayRoundWinPopup(Player p) {
+        JOptionPane.showMessageDialog(null,"Round Win: "+ p.getName() + "\nStarting Next Round");
+    }
+    public void displayWinPopup(Player p) {
+        JOptionPane.showMessageDialog(null,"WINNER: "+ p.getName());
+        gameFrame.dispatchEvent(new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
+    }
+    public void addNextListener (ActionListener l) {
+        statusNext.addListener(l);
+    }
+    public void addDrawListener (ActionListener l) {
+        drawCardPanel.addListener(l);
+    }
+    public void addHandListener (ActionListener l) {
+        hand.addListener(l);
+    }
     @Override
     public void update(Game game) {
         currCard.update(game);
         hand.update(game);
         drawCardPanel.update(game);
+        statusNext.update(game);
     }
 
-    public static void main(String[] args)  {
-        /*
-        Deck deck = new Deck();
-        deck.populateDeck();
-        Card card = new Card(Value.ONE, Colour.RED);
-        Player player = new Player("Player 1");
-        player.drawHand(deck);
-        System.out.println(player.getHand().toString());
-
-        Game game = new Game(2);
-        GameView view = new GameView(game);
-        game.addView(view);
-        view.update(game);
-        view.viewPickWildCard();
-
-         */
-    }
 }
