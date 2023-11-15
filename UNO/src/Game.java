@@ -1,3 +1,4 @@
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
@@ -12,6 +13,7 @@ public class Game {
     private final int WINNING_SCORE = 500;
     private Game.Direction direction;
     private ArrayList<Player> players;
+    private int numPlayers;
     private Player currentPlayer;
     private Card topCard;
     private Deck currentDeck; // deck being played with
@@ -28,10 +30,20 @@ public class Game {
      * @param numPlayers the number of players in the game
      */
     public Game(int numPlayers) {
-        // Populate players list later
+        this.numPlayers = numPlayers;
         players = new ArrayList<>();
-        direction = Game.Direction.FORWARD;
+        //initialize players and draw their hands
+        for (int i = 0; i < numPlayers; i++) {
+            // Create the player and give them their starting conditions
+            String name = "Player " + (i + 1);
+            Player newPlayer = new Player(name);
+            players.add(newPlayer);
 
+        }
+        newRound();
+    }
+    public void newRound() {
+        direction = Game.Direction.FORWARD;
         //populate deck to draw from
         currentDeck = new Deck();
         pile = new Deck();
@@ -41,25 +53,19 @@ public class Game {
         gameOver = false;
         roundOver = false;
         skipNextPlayer = false;
-        //initialize players and draw their hands
-        for (int i = 0; i < numPlayers; i++) {
-            // Create the player and give them their starting conditions
-            String name = "Player " + (i+1);
-            Player newPlayer = new Player(name);
-            players.add(newPlayer);
+
+        currentPlayer = players.get(0);
+        // Get the players to draw their hands
+        for (Player p: players) {
             drawHands();
         }
-        currentPlayer = players.get(0);
+
         statusString = null;
         statusCard = null;
-        //updatePlayerLabelView(currentPLayer.getName());
-        //updateTopCardView(topCard);
-        //updateHandView(currentPlayer.getHand());
-        //Status panel should start empty
-        //updateNextPlayerButton(GREY_OUT)
+        update();
     }
     public int getNumPlayers(){
-        return players.size();
+        return numPlayers;
     }
     public ArrayList<Player> getPlayers() {
         return players;
@@ -68,34 +74,29 @@ public class Game {
         this.gameView = gameView;
         update();
     }
-
     /**
      * Updates every view
      */
     private void update(){
-        gameView.update(this);
+        if (gameView != null) {
+            gameView.update(this);
+        }
     }
-
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
     public Card getTopCard() {
         return topCard;
     }
-
     public boolean isGameOver() {
         return gameOver;
     }
-
     public boolean isRoundOver() {
         return roundOver;
     }
-
     public String getStatusString() {
         return statusString;
     }
-
     public Card getStatusCard() {
         return statusCard;
     }
@@ -138,12 +139,15 @@ public class Game {
                 processChoice(choice);
                 if (currentPlayer.getNumCards() == 0) {
                     currentPlayer.setScore(currentPlayer.getScore() + getPoints());
-                    if (currentPlayer.getScore() == WINNING_SCORE) {
+                    // update the view so that scores are accurate
+                    update();
+                    if (currentPlayer.getScore() >= WINNING_SCORE) {
                         // Generate win popup here
                         gameOver = true;
                         gameView.displayWinPopup(currentPlayer);
                     } else {
-                        gameView.displayScorePopup();
+                        gameView.displayRoundWinPopup(currentPlayer);
+                        newRound();
                     }
                 }
             } else {

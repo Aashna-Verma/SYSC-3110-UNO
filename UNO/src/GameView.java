@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -40,7 +41,6 @@ public class GameView extends JFrame implements View {
 
         gameFrame.setVisible(true);
     }
-
     static public int viewPlayerCount(){
         Object[] options = {2, 3, 4};
         Object selectionObject = JOptionPane.showInputDialog(null, "How many players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
@@ -52,17 +52,13 @@ public class GameView extends JFrame implements View {
         if (selectionObject == null) { return null; }
         return selectionObject.toString();
     }
-
-    /**
-     * Stub function - display the scores of each player in a popup (the game has ended and is tied)
-     */
-    static public void displayScorePopup() {}
-
-    /**
-     * Stub function - display the winner of the game
-     * @param p the winner
-     */
-    static public void displayWinPopup(Player p) {}
+    public void displayRoundWinPopup(Player p) {
+        JOptionPane.showMessageDialog(null,"Round Win: "+ p.getName() + "\nStarting Next Round");
+    }
+    public void displayWinPopup(Player p) {
+        JOptionPane.showMessageDialog(null,"WINNER: "+ p.getName());
+        gameFrame.dispatchEvent(new WindowEvent(gameFrame, WindowEvent.WINDOW_CLOSING));
+    }
     public void addNextListener (ActionListener l) {
         statusNext.addListener(l);
     }
