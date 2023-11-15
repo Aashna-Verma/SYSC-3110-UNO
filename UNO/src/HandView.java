@@ -4,21 +4,39 @@ import java.awt.event.ActionListener;
 import java.sql.Array;
 import java.util.ArrayList;
 
+/**
+ * HandView the view holding the players cards within their hand for game of UNO Flip
+ *
+ * @author Darren Wallace
+ * @version 1.0
+ */
 public class HandView implements View {
     private JScrollPane scrollPane;
     private JPanel handPanel;
     private ActionListener listener; // Store the listener, because this object regularly deletes and creates new buttons
     private ArrayList<JButton> cardButtons;
 
+    /**
+     * COnsturctor for HandView
+     */
     public HandView(){
         handPanel = new JPanel(new GridLayout(1,0));
         scrollPane = new JScrollPane(handPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         cardButtons = new ArrayList<>();
     }
+
+    /**
+     * Get the JScrollPannl for the players hand
+     * @return the panel holding the players cards
+     */
     public JScrollPane getView(){
         return scrollPane;
     }
 
+    /**
+     * the update implementation for Handview
+     * @param game model that provides the view with the cards within the players hand
+     */
     @Override
     public void update(Game game){
         Player player = game.getCurrentPlayer();

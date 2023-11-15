@@ -2,12 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * The status panel for UNO Flip
+ *
+ * @author Darren Wallace
+ * @version 1.0
+ */
 public class StatusNextView implements View {
     private JPanel statusNext;
     private JButton nextPlayer;
     private JTextArea gameStatus;
     private JLabel drawImg;
 
+    /**
+     * Constructor for class StatusNextView
+     */
     public StatusNextView(){
         statusNext = new JPanel(new BorderLayout());
         gameStatus = new JTextArea();
@@ -22,9 +31,19 @@ public class StatusNextView implements View {
         statusNext.add(gameStatus, BorderLayout.CENTER);
         statusNext.add(nextPlayer, BorderLayout.SOUTH);
     }
+
+    /**
+     * Getter method for the status Panel;
+     * @return the status JPanel
+     */
     public JPanel getView(){
         return statusNext;
     }
+
+    /**
+     * update method implementation to update the status view
+     * @param game the game model that manipulates the game data
+     */
     @Override
     public void update(Game game) {
         nextPlayer.setEnabled(game.isRoundOver());
@@ -37,6 +56,7 @@ public class StatusNextView implements View {
         }
         statusNext.updateUI();
     }
+
     /**
      * Add an action listener to this view for the next player button
      * @param l the listener to be added to the next player button

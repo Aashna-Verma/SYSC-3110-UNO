@@ -42,6 +42,10 @@ public class Game {
         }
         newRound();
     }
+
+    /**
+     * Generates a new round for the uno game
+     */
     public void newRound() {
         direction = Game.Direction.FORWARD;
         //populate deck to draw from
@@ -64,39 +68,85 @@ public class Game {
         statusCard = null;
         update();
     }
+
+    /**
+     * Getter for number of players in the uno game
+      * @return number of players in the game
+     */
     public int getNumPlayers(){
         return numPlayers;
     }
+
+    /**
+     * Getter for the ArrayList containing all Players within the game
+     * @return the ArrayList of players in the game
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
+
+    /**
+     * Adds a view for the model to update
+     * @param gameView the view for the game
+     */
     public void addView(GameView gameView){
         this.gameView = gameView;
         update();
     }
+
     /**
-     * Updates every view
+     * Updates every view it is listening to
      */
     private void update(){
         if (gameView != null) {
             gameView.update(this);
         }
     }
+
+    /**
+     * Getter for current players whose turn it is
+     * @return current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
+
+    /**
+     * Getter for the top card of the pile
+     * @return top card
+     */
     public Card getTopCard() {
         return topCard;
     }
+
+    /**
+     * Getter for the game status, if it is over or not
+     * @return true if game is over, otherwise false
+     */
     public boolean isGameOver() {
         return gameOver;
     }
+
+    /**
+     * Getter for the round status, if it is over or not
+     * @return true if round is over, otherwise false
+     */
     public boolean isRoundOver() {
         return roundOver;
     }
+
+    /**
+     * Getter for the string containing the status of the game
+     * @return status string
+     */
     public String getStatusString() {
         return statusString;
     }
+
+    /**
+     * Getter for the status card of the game
+     * @return status card
+     */
     public Card getStatusCard() {
         return statusCard;
     }
