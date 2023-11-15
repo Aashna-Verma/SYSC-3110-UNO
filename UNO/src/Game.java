@@ -194,6 +194,7 @@ public class Game {
             int nextPlayerIndex = players.indexOf(player) - 1;
             return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
+        statusCard = null;
         return player;
     }
 

@@ -6,6 +6,7 @@ public class DrawCardView implements View{
     private JPanel drawCardPanel;
     private JButton drawCard;
     private JTextArea scoreLabel;
+
     public DrawCardView(){
         drawCardPanel = new JPanel(new BorderLayout());
         drawCard = new JButton("Draw Card");
