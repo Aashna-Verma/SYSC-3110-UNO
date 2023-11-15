@@ -173,6 +173,7 @@ public class Game {
                 skipNextPlayer = false;
             }
             roundOver = false; // Next round starts
+            statusCard = null;
             update();
             return true;
         }
@@ -194,6 +195,7 @@ public class Game {
             int nextPlayerIndex = players.indexOf(player) - 1;
             return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
+        statusCard = null;
         return player;
     }
 
