@@ -1,5 +1,5 @@
 /**
- *This is the firstValidAI class within the UNO game which represents an AI bot player on the UNO game.
+ *This is the highestValueAI class within the UNO game which represents an AI bot player on the UNO game.
  *
  * @author Brian Tran 101231003
  * @version 1.0
