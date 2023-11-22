@@ -11,26 +11,43 @@ import java.net.URL;
  */
 
 public class Card {
-    private final Value VALUE;
-    private final Colour COLOUR;
-    private final ImageIcon ICON_IMAGE;
+    private final Value LIGHT_VALUE;
+    private final Colour LIGHT_COLOUR;
+    private final Value DARK_VALUE;
+    private final Colour DARK_COLOUR;
+    private final ImageIcon LIGHT_ICON_IMAGE;
+    private final ImageIcon DARK_ICON_IMAGE;
+    private static Side side;
     private URL url;
 
     /**
-     * Constructor for Card
+     * Constructor for card
      *
-     * @param value the Value of the card
-     * @param colour the Value of the card
+     * @param light_value value of the light side of the card
+     * @param light_colour color of the light side of the card
+     * @param dark_value value of the dark side of the card
+     * @param dark_colour colour of the dark side of the card
      */
-    public Card(Value value, Colour colour){
-        this.VALUE = value;
-        this.COLOUR = colour;
-        if (VALUE == Value.WILD || VALUE == Value.WILD_DRAW_TWO){
-            url = Card.class.getResource( "cardImgs/" + getValue().toString() + "_WILD" + ".png");
-        } else {
-            url = Card.class.getResource("cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
-        }
-        this.ICON_IMAGE = new ImageIcon(url);
+    public Card(Value light_value, Colour light_colour, Value dark_value, Colour dark_colour){
+        this.LIGHT_VALUE = light_value;
+        this.LIGHT_COLOUR = light_colour;
+        this.DARK_VALUE = dark_value;
+        this.DARK_COLOUR = dark_colour;
+        this.LIGHT_ICON_IMAGE = getImageIconResource(Side.LIGHT);
+        this.DARK_ICON_IMAGE = getImageIconResource(Side.DARK);
+    }
+
+    /**
+     * Creates an image icon for the image a card
+     *
+     * @param s the side that the game is on
+     * @return the ImageIcon
+     */
+    private ImageIcon getImageIconResource(Side s){
+        Value v = Side.LIGHT == side ? LIGHT_VALUE : DARK_VALUE;
+        Colour c = Side.LIGHT == side ? LIGHT_COLOUR : DARK_COLOUR;
+        String colour = (v == Value.WILD || v == Value.WILD_DRAW_TWO || v == Value.WILD_DRAW_COLOUR) ? "WILD" : DARK_COLOUR.toString();
+        return new ImageIcon(Card.class.getResource( "cardImgs/" + v.toString() + "_" + colour + ".png"));
     }
 
     /**
@@ -39,7 +56,7 @@ public class Card {
      * @return the Value of the card
      */
     public Value getValue(){
-        return this.VALUE;
+        return Side.LIGHT == side ? LIGHT_VALUE : DARK_VALUE;
     }
 
     /**
@@ -48,7 +65,7 @@ public class Card {
      * @return the Colour of the card
      */
     public Colour getColour(){
-        return this.COLOUR;
+        return Side.LIGHT == side ? LIGHT_COLOUR : DARK_COLOUR;
     }
 
     /**
@@ -68,8 +85,10 @@ public class Card {
             case EIGHT -> 8;
             case NINE -> 9;
             case DRAW_ONE -> 10;
+            case SKIP_ALL -> 30;
             case WILD -> 40;
             case WILD_DRAW_TWO -> 50;
+            case WILD_DRAW_COLOUR -> 60;
             default -> 20;
         };
     }
@@ -85,7 +104,7 @@ public class Card {
     }
 
     public ImageIcon getImageIcon(double scale){
-        return new ImageIcon(this.ICON_IMAGE.getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
+        return new ImageIcon((Side.LIGHT == side ? LIGHT_ICON_IMAGE : DARK_ICON_IMAGE).getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
     }
 
     /**
