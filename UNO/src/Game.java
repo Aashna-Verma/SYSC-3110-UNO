@@ -313,7 +313,7 @@ public class Game {
             return null;
         }
         else {
-            return new Card(wild.getValue(), Colour.valueOf(chosen));
+            return new Card(wild.getValue(), Colour.valueOf(chosen), wild.getValue(), Colour.valueOf(chosen));
         }
     }
 
