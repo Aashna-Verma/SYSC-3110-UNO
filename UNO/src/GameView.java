@@ -46,12 +46,22 @@ public class GameView extends JFrame implements View {
     }
 
     /**
-     * Generates a popup to select number of players
+     * Generates a popup to select number of human players
      * @return the number of players selected
      */
     static public int getHumans(){
         Object[] options = {2, 3, 4, 5, 6};
         Object selectionObject = JOptionPane.showInputDialog(null, "How many human players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        return (int) selectionObject;
+    }
+
+    /**
+     * Generates a popup to select number of AI players
+     * @return the number of AI players
+     */
+    static public int getAI(){
+        Object[] options = {0, 1, 2, 3, 4, 5, 6};
+        Object selectionObject = JOptionPane.showInputDialog(null, "How many AI players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return (int) selectionObject;
     }
 
