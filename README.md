@@ -18,7 +18,8 @@ A playable version of the Uno card game, allowing players to engage through the 
 2. Place cards.
 3. Draw one card.
 4. Execute actions associated with special cards, including Reverse, Skip, Wild, and Wild Draw Two cards.
-5. Observe the resultant state of the cards, presented in text format.
+5. Observe the resultant state of the cards.
+6. __Experience the UNO game with a full Graphical User Interface.__
 
 ## System requirements
 
@@ -30,7 +31,8 @@ A playable version of the Uno card game, allowing players to engage through the 
 2. Run the jar using `java -jar UNO.jar`
 3. Follow the instructions on the terminal and enjoy!!
 
-![Alt text](image.png)
+![image](https://github.com/Aashna-Verma/SYSC-3110-UNO/assets/43392946/e57593f8-08cb-47e0-abe0-8526956d4df4)
+
 
 ## Copyright
 Uno® is a registered trademark of Mattel, Inc. This software is an unofficial implementation of the Uno card game and is not affiliated with or endorsed by Mattel, Inc. All rights to the original Uno card game and its trademarks are owned by Mattel, Inc.

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 /**
  * The Card class within the UNO game which represents a card in the UNO game.
@@ -13,6 +14,7 @@ public class Card {
     private final Value VALUE;
     private final Colour COLOUR;
     private final ImageIcon ICON_IMAGE;
+    private URL url;
 
     /**
      * Constructor for Card
@@ -23,7 +25,12 @@ public class Card {
     public Card(Value value, Colour colour){
         this.VALUE = value;
         this.COLOUR = colour;
-        this.ICON_IMAGE = new ImageIcon("UNO/cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
+        if (VALUE == Value.WILD || VALUE == Value.WILD_DRAW_TWO){
+            url = Card.class.getResource( "cardImgs/" + getValue().toString() + "_WILD" + ".png");
+        } else {
+            url = Card.class.getResource("cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
+        }
+        this.ICON_IMAGE = new ImageIcon(url);
     }
 
     /**
