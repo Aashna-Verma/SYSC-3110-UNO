@@ -38,7 +38,7 @@ public class GameController {
      * @param args
      */
     public static void main(String[] args) {
-        Game game = new Game(GameView.viewPlayerCount());
+        Game game = new Game(GameView.getHumans());
         GameView view = new GameView(game);
         new GameController(game, view);
     }
