@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class Player {
     public static final int STARTING_HAND_SIZE = 7;
-    private String name;
-    private int score;
-    private ArrayList<Card> hand;
+    protected String name;
+    protected int score;
+    protected ArrayList<Card> hand;
 
     /**
      * Constructor for class Player
@@ -30,7 +30,7 @@ public class Player {
      *
      * @return the player's name
      */
-    public String getName() {
+    protected String getName() {
         return this.name;
     }
 
@@ -39,7 +39,7 @@ public class Player {
      *
      * @param score the player's score
      */
-    public void setScore(int score) {
+    protected void setScore(int score) {
         this.score = score;
     }
 
@@ -48,7 +48,7 @@ public class Player {
      *
      * @return the player's score
      */
-    public int getScore() {
+    protected int getScore() {
         return this.score;
     }
 
@@ -57,7 +57,7 @@ public class Player {
      *
      * @return the number of cards the player has
      */
-    public int getNumCards() {
+    protected int getNumCards() {
         return this.hand.size();
     }
 
@@ -67,7 +67,7 @@ public class Player {
      * @param i the index of the card to be removed
      * @return the card removed if valid, null otherwise
      */
-    public Card removeCard(int i) {
+    protected Card removeCard(int i) {
         try {
             //card 0 is to pick up, however in the hand attribute 0 is the players' first card
             return this.hand.remove(i - 1);
@@ -80,7 +80,7 @@ public class Player {
     /**
      * Resets the players hand to an empty hand
      */
-    public void resetHand() {
+    protected void resetHand() {
         this.hand = new ArrayList<Card>();
     }
 
@@ -89,7 +89,7 @@ public class Player {
      *
      * @return the point worth of the players hand
      */
-    public int getHandPoints() {
+    protected int getHandPoints() {
         int points = 0;
         for (Card card : hand) {
             points += card.getScore();
@@ -103,7 +103,7 @@ public class Player {
      * @param c the card added to the players hand
      * @return true if the add was successful, otherwise false
      */
-    public boolean addCard(Card c) {
+    protected boolean addCard(Card c) {
         return this.hand.add(c);
     }
 
@@ -113,7 +113,7 @@ public class Player {
      * @param drawn the card requested to be drawn
      * @return the card that was drawn and added to the hand, null if no card was drawn
      */
-    public Card drawCard(Card drawn) {
+    protected Card drawCard(Card drawn) {
         if (drawn != null) {
             addCard(drawn);
             return drawn;
@@ -126,7 +126,7 @@ public class Player {
      *
      * @param deck The deck to draw from
      */
-    public void drawHand(Deck deck) {
+    protected void drawHand(Deck deck) {
         for (int i = 0; i < STARTING_HAND_SIZE; i++) {
             drawCard(deck.removeCard());
         }
@@ -137,7 +137,7 @@ public class Player {
      *
      * @return the players hand as an ArrayList of Cards
      */
-    public ArrayList<Card> getHand() {
+    protected ArrayList<Card> getHand() {
         return this.hand;
     }
 
@@ -159,7 +159,7 @@ public class Player {
      *
      * @return a string with the player's hand
      */
-    public String handToString() {
+    protected String handToString() {
         StringBuilder string = new StringBuilder();
         int i = 1;
         for (Card card : this.hand) {
