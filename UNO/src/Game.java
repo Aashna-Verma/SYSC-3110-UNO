@@ -60,9 +60,7 @@ public class Game {
 
         currentPlayer = players.get(0);
         // Get the players to draw their hands
-        for (Player p: players) {
-            drawHands();
-        }
+        drawHands();
 
         statusString = null;
         statusCard = null;
