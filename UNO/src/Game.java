@@ -14,6 +14,7 @@ public class Game {
     private Game.Direction direction;
     private ArrayList<Player> players;
     private int numPlayers;
+    private int numAI;
     private Player currentPlayer;
     private Card topCard;
     private Deck currentDeck; // deck being played with
