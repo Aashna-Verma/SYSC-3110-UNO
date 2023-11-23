@@ -6,8 +6,8 @@ import java.net.URL;
  * The Card class within the UNO game which represents a card in the UNO game.
  * Each card has a value and a colour
  *
- * @author  Aashna Verma 101225434
- * @version 1.0
+ * @author  Aashna Verma 101225434 - modified for flip
+ * @version 3.0
  */
 
 public class Card {
@@ -127,6 +127,12 @@ public class Card {
         return this.getColour().toString() + " " + this.getValue().toString() + " " + ((wildColor != null) ? wildColor.toString() : "");
     }
 
+    /**
+     * Get scaled image of the card
+     *
+     * @param scale float of scaling value
+     * @return an ImageIcon of the card
+     */
     public ImageIcon getImageIcon(double scale){
         return new ImageIcon((Side.LIGHT == side ? LIGHT_ICON_IMAGE : DARK_ICON_IMAGE).getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
     }
