@@ -224,19 +224,22 @@ public class Game {
      * @return true if the player was changed, false otherwise
      */
     public boolean advanceCurrentPlayer() {
-        if (roundOver && !gameOver) {
+        if (roundOver && !gameOver ) {
             statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
-            currentPlayer = nextPlayer(currentPlayer);
+            if (skipAllPlayers){
+                skipAllPlayers = false;
+            } else {
+                currentPlayer = nextPlayer(currentPlayer);
+            }
+
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
                 currentPlayer = nextPlayer(currentPlayer);
                 skipNextPlayer = false;
             }
-            if (skipAllPlayers) {
-                skipAllPlayers = false;
-            } else {
-                roundOver = false; // Next round starts
-            }
+            skipAllPlayers = false;
+            roundOver = false; // Next round starts
+
             statusCard = null;
             update();
             return true;

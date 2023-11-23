@@ -60,15 +60,16 @@ public class Deck {
                 cards.add(new Card(Value.values()[j], Colour.YELLOW, Value.values()[8-j], Colour.PURPLE));
             }
         }
-        for(i = 0; i < 2; i++) {
+        //should be 2?????
+        for(i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
                 cards.add(new Card(Value.DRAW_ONE, Colour.values()[j], Value.REVERSE, Colour.values()[j+4]));
                 cards.add(new Card(Value.REVERSE, Colour.values()[j], Value.SKIP_ALL, Colour.values()[j+4]));
                 cards.add(new Card(Value.SKIP, Colour.values()[j], Value.DRAW_FIVE, Colour.values()[j+4]));
             }
         }
-        //should be 4???
-        for(i = 0; i < 10; i++) {
+
+        for(i = 0; i < 4; i++) {
             cards.add(new Card(Value.WILD, Colour.WILD, Value.WILD_DRAW_COLOUR, Colour.WILD));
             cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD, Value.WILD, Colour.WILD));
         }

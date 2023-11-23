@@ -34,7 +34,7 @@ public class Card {
         this.LIGHT_COLOUR = light_colour;
         this.DARK_VALUE = dark_value;
         this.DARK_COLOUR = dark_colour;
-        this.side = Side.LIGHT;
+        this.side = Side.DARK;
         this.LIGHT_ICON_IMAGE = getImageIconResource(Side.LIGHT);
         this.DARK_ICON_IMAGE = getImageIconResource(Side.DARK);
     }
@@ -124,7 +124,7 @@ public class Card {
      */
     @Override
     public String toString(){
-        return this.getColour().toString() + " " + this.getValue().toString();
+        return this.getColour().toString() + " " + this.getValue().toString() + " " + ((wildColor != null) ? wildColor.toString() : "");
     }
 
     public ImageIcon getImageIcon(double scale){
