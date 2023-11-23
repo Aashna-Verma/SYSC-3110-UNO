@@ -6,31 +6,64 @@ import java.net.URL;
  * The Card class within the UNO game which represents a card in the UNO game.
  * Each card has a value and a colour
  *
- * @author  Aashna Verma 101225434
- * @version 1.0
+ * @author  Aashna Verma 101225434 - modified for flip
+ * @version 3.0
  */
 
 public class Card {
-    private final Value VALUE;
-    private final Colour COLOUR;
-    private final ImageIcon ICON_IMAGE;
+    private final Value LIGHT_VALUE;
+    private final Colour LIGHT_COLOUR;
+    private final Value DARK_VALUE;
+    private final Colour DARK_COLOUR;
+    private final ImageIcon LIGHT_ICON_IMAGE;
+    private final ImageIcon DARK_ICON_IMAGE;
+    private Colour wildColor;
+    private static Side side;
     private URL url;
 
     /**
-     * Constructor for Card
+     * Constructor for card
      *
-     * @param value the Value of the card
-     * @param colour the Value of the card
+     * @param light_value value of the light side of the card
+     * @param light_colour color of the light side of the card
+     * @param dark_value value of the dark side of the card
+     * @param dark_colour colour of the dark side of the card
      */
-    public Card(Value value, Colour colour){
-        this.VALUE = value;
-        this.COLOUR = colour;
-        if (VALUE == Value.WILD || VALUE == Value.WILD_DRAW_TWO){
-            url = Card.class.getResource( "cardImgs/" + getValue().toString() + "_WILD" + ".png");
-        } else {
-            url = Card.class.getResource("cardImgs/" + getValue().toString() + "_" + getColour().toString() + ".png");
+    public Card(Value light_value, Colour light_colour, Value dark_value, Colour dark_colour){
+        this.LIGHT_VALUE = light_value;
+        this.LIGHT_COLOUR = light_colour;
+        this.DARK_VALUE = dark_value;
+        this.DARK_COLOUR = dark_colour;
+        this.side = Side.DARK;
+        this.LIGHT_ICON_IMAGE = getImageIconResource(Side.LIGHT);
+        this.DARK_ICON_IMAGE = getImageIconResource(Side.DARK);
+    }
+
+    /**
+     * Creates an image icon for the image a card
+     *
+     * @param s the side that the game is on
+     * @return the ImageIcon
+     */
+    private ImageIcon getImageIconResource(Side s){
+        Value v = Side.LIGHT == s ? LIGHT_VALUE : DARK_VALUE;
+        Colour c = Side.LIGHT == s ? LIGHT_COLOUR : DARK_COLOUR;
+        StringBuilder str = new StringBuilder();
+        if (c == Colour.WILD){
+            str.append("WILD");
+            str.append(Side.LIGHT == s ? "" : "_DARK");
+        } else{
+            str.append(c.toString());
         }
-        this.ICON_IMAGE = new ImageIcon(url);
+        return new ImageIcon(Card.class.getResource( "cardImgs/" + v.toString() + "_" + str + ".png"));
+    }
+
+    public void setWildColour(Colour c){
+        wildColor = c;
+    }
+
+    public Colour getWildColour(){
+        return this.wildColor;
     }
 
     /**
@@ -39,7 +72,7 @@ public class Card {
      * @return the Value of the card
      */
     public Value getValue(){
-        return this.VALUE;
+        return Side.LIGHT == side ? LIGHT_VALUE : DARK_VALUE;
     }
 
     /**
@@ -48,7 +81,15 @@ public class Card {
      * @return the Colour of the card
      */
     public Colour getColour(){
-        return this.COLOUR;
+        return Side.LIGHT == side ? LIGHT_COLOUR : DARK_COLOUR;
+    }
+
+    public static Side getSide(){
+        return side;
+    }
+
+    public static void flipSide(){
+        side = Side.LIGHT == side ? Side.DARK : Side.LIGHT;
     }
 
     /**
@@ -68,8 +109,10 @@ public class Card {
             case EIGHT -> 8;
             case NINE -> 9;
             case DRAW_ONE -> 10;
+            case SKIP_ALL -> 30;
             case WILD -> 40;
             case WILD_DRAW_TWO -> 50;
+            case WILD_DRAW_COLOUR -> 60;
             default -> 20;
         };
     }
@@ -81,11 +124,17 @@ public class Card {
      */
     @Override
     public String toString(){
-        return this.getColour().toString() + " " + this.getValue().toString();
+        return this.getColour().toString() + " " + this.getValue().toString() + " " + ((wildColor != null) ? wildColor.toString() : "");
     }
 
+    /**
+     * Get scaled image of the card
+     *
+     * @param scale float of scaling value
+     * @return an ImageIcon of the card
+     */
     public ImageIcon getImageIcon(double scale){
-        return new ImageIcon(this.ICON_IMAGE.getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
+        return new ImageIcon((Side.LIGHT == side ? LIGHT_ICON_IMAGE : DARK_ICON_IMAGE).getImage().getScaledInstance((int)(scale * 500), (int)(scale * 750), Image.SCALE_SMOOTH));
     }
 
     /**
@@ -98,15 +147,16 @@ public class Card {
             return false;
         }
         // A wild can be played on anything
-        else if (compareTo.getColour() == Colour.WILD || this.getColour() == Colour.WILD) {
+        else if (this.getWildColour() == null && (compareTo.getColour() == Colour.WILD || this.getColour() == Colour.WILD)) {
             return true;
         }
         else if (compareTo.getValue() == this.getValue()) {
             return true;
         }
-        else if (compareTo.getColour() == this.getColour()) {
+        else if (compareTo.getColour() == this.getColour() || compareTo.getColour() == this.getWildColour()) {
             return true;
         }
         return false;
     }
+
 }

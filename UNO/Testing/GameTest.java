@@ -73,7 +73,7 @@ public class GameTest extends junit.framework.TestCase {
         game = new GameDev(3);
         ArrayList<Player> players = game.getPlayers();
         for (int i = 0; i < 21; i++) {
-            game.currentDeck.addCard(new Card(Value.ONE, Colour.RED));
+            game.currentDeck.addCard(new Card(Value.ONE, Colour.RED,  Value.EIGHT, Colour.PINK));
         }
         game.drawHands();
         for (int j = 0; j < 7; j++) {

@@ -238,7 +238,7 @@ public class GameDev {
         //chosenColour = getNewColourPopUp() <- METHOD IN CONTROLLER
 
         // Create a new wild card with the same value, but with the chosen colour
-        return new Card(wild.getValue(), chosenColour);
+        return new Card(wild.getValue(), chosenColour, wild.getValue(), chosenColour);
     }
 
     /**

@@ -14,9 +14,9 @@ public class CardTest extends junit.framework.TestCase{
      * Called before every test case method.
      */
     protected void setUp() {
-        c_green_one = new Card(Value.ONE, Colour.GREEN);
-        c_wild_wild = new Card(Value.WILD, Colour.WILD);
-        c_red_reverse = new Card(Value.REVERSE, Colour.RED);
+        c_green_one = new Card(Value.ONE, Colour.GREEN, Value.EIGHT, Colour.PINK);
+        c_wild_wild = new Card(Value.WILD, Colour.WILD,  Value.WILD, Colour.WILD);
+        c_red_reverse = new Card(Value.REVERSE, Colour.RED,  Value.EIGHT, Colour.PINK);
     }
 
     /**
@@ -54,4 +54,5 @@ public class CardTest extends junit.framework.TestCase{
         assertEquals("String is incorrect", c_wild_wild.toString(), "WILD WILD");
         assertEquals("String is incorrect", c_red_reverse.toString(), "RED REVERSE");
     }
+
 }

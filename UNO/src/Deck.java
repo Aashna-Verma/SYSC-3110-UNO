@@ -53,24 +53,28 @@ public class Deck {
         int i;
         int j;
         for(i = 0; i < 2; i++) {
-            for(j = 0; j <= 8; j++) {
-                cards.add(new Card(Value.values()[j], Colour.BLUE));
-                cards.add(new Card(Value.values()[j], Colour.GREEN));
-                cards.add(new Card(Value.values()[j], Colour.RED));
-                cards.add(new Card(Value.values()[j], Colour.YELLOW));
+            for(j = 0; j < 9; j++) {
+                cards.add(new Card(Value.values()[j], Colour.BLUE, Value.values()[8-j], Colour.PINK));
+                cards.add(new Card(Value.values()[j], Colour.GREEN, Value.values()[8-j], Colour.TEAL));
+                cards.add(new Card(Value.values()[j], Colour.RED, Value.values()[8-j], Colour.ORANGE));
+                cards.add(new Card(Value.values()[j], Colour.YELLOW, Value.values()[8-j], Colour.PURPLE));
+
             }
         }
         for(i = 0; i < 2; i++) {
             for (j = 0; j < 4; j++) {
-                cards.add(new Card(Value.DRAW_ONE, Colour.values()[j]));
-                cards.add(new Card(Value.REVERSE, Colour.values()[j]));
-                cards.add(new Card(Value.SKIP, Colour.values()[j]));
+                cards.add(new Card(Value.DRAW_ONE, Colour.values()[j], Value.REVERSE, Colour.values()[j+4]));
+                cards.add(new Card(Value.REVERSE, Colour.values()[j], Value.SKIP_ALL, Colour.values()[j+4]));
+                cards.add(new Card(Value.SKIP, Colour.values()[j], Value.DRAW_FIVE, Colour.values()[j+4]));
+                cards.add(new Card(Value.FLIP, Colour.values()[j], Value.FLIP, Colour.values()[j+4]));
             }
         }
+
         for(i = 0; i < 4; i++) {
-            cards.add(new Card(Value.WILD, Colour.WILD));
-            cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD));
+            cards.add(new Card(Value.WILD, Colour.WILD, Value.WILD_DRAW_COLOUR, Colour.WILD));
+            cards.add(new Card(Value.WILD_DRAW_TWO, Colour.WILD, Value.WILD, Colour.WILD));
         }
+
         Collections.shuffle(cards);
         this.deck.addAll(cards);
     }
