@@ -21,15 +21,15 @@ public class firstValidAI extends Player implements AIBot {
      * Implementation of AI logic for selecting a card
      * Selects the first valid choice within the bots hand
      *
-     * @param topCard the card to be played on top of
-     * @return the card chosen to be played, null if no card is playable (DRAW CARD IF return is null)
+     * @param topCard the card to be played on
+     * @return the card chosen to be played, -1 if no card is playable (DRAW CARD IF return is null)
      */
-    public Card selectCard(Card topCard){
+    public int selectCard(Card topCard){
         for(int i = 0; i< this.hand.size(); i++){
             if (hand.get(i).validWith(topCard)){
-                return this.removeCard(i);
+                return i + 1;
             }
         }
-        return null;
+        return -1;
     }
 }

@@ -22,17 +22,17 @@ public class highestValueAI extends Player implements AIBot {
      * Selects the highest scoring choice within the bots hand
      *
      * @param topCard the card to be played on top of
-     * @return the card chosen to be played, null if no card is playable (DRAW CARD IF return is null)
+     * @return the card chosen to be played, -1 if no card is playable (DRAW CARD IF return is null)
      */
-    public Card selectCard(Card topCard){
-        Card selectedCard = null;
+    public int selectCard(Card topCard){
+        int selectedCard = -1;
         int highestPoint = 0;
 
         for(int i = 0; i< this.hand.size(); i++){
             if (hand.get(i).validWith(topCard)){
                 if(highestPoint < hand.get(i).getScore()) {
-                    selectedCard = hand.get(i);
-                    highestPoint = selectedCard.getScore();
+                    selectedCard = i + 1;
+                    highestPoint = hand.get(i).getScore();
                 }
             }
         }

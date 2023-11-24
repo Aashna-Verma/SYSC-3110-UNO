@@ -64,12 +64,11 @@ public class Player {
     /**
      * Remove a card from the Players hand
      *
-     * @param i the index of the card to be removed
+     * @param i the index of the card to be removed, 1 indexed
      * @return the card removed if valid, null otherwise
      */
     protected Card removeCard(int i) {
         try {
-            //card 0 is to pick up, however in the hand attribute 0 is the players' first card
             return this.hand.remove(i - 1);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Invalid card index\n");
@@ -168,5 +167,15 @@ public class Player {
             i++;
         }
         return string.toString();
+    }
+
+
+    public Colour chooseWildColour(Card topCard, Side side) {
+        if (side == Side.LIGHT) {
+            return Colour.BLUE;
+        }
+        else {
+            return Colour.TEAL;
+        }
     }
 }

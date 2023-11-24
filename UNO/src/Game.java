@@ -11,12 +11,11 @@ import java.util.Collection;
  * @version 2.0
  */
 public class Game {
-    private enum Direction { FORWARD, BACKWARD };
+    private enum Direction { FORWARD, BACKWARD }
     private final int WINNING_SCORE = 500;
     private Game.Direction direction;
     private ArrayList<Player> players;
     private int numPlayers;
-    private int numAI;
     private Player currentPlayer;
     private Card topCard;
     private Deck currentDeck; // deck being played with
@@ -226,7 +225,6 @@ public class Game {
             }
             //
             statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
-
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
                 currentPlayer = nextPlayer(currentPlayer);
@@ -234,8 +232,20 @@ public class Game {
             }
             skipAllPlayers = false;
             roundOver = false; // Next round starts
-
             statusCard = null;
+
+            // Check if the next player is a bot, and get them to take their turn
+            if (currentPlayer instanceof AIBot) {
+                int botChoice = ((AIBot)currentPlayer).selectCard(this.getTopCard());
+                if (botChoice < 0) {
+                    this.drawCard();
+                }
+                else {
+                    this.playCard(botChoice);
+                }
+                // Round will now be over, show that an AI just played in the status string
+                statusString = "AI Action: " + statusString;
+            }
             update();
             return true;
         }
@@ -342,11 +352,11 @@ public class Game {
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Colour handleWild(Card wild) {
-        String chosen = GameView.viewPickWildCard();
+        Colour chosen = currentPlayer.chooseWildColour(topCard, side);
         if (chosen != null) {
-            wild.setWildColour(Colour.valueOf(chosen));
+            wild.setWildColour(chosen);
         }
-        return Colour.valueOf(chosen);
+        return chosen;
     }
 
     /**
