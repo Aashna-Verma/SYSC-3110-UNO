@@ -23,6 +23,7 @@ public enum Value
     WILD_DRAW_TWO,
     DRAW_FIVE,
     SKIP_ALL,
-    WILD_DRAW_COLOUR
+    WILD_DRAW_COLOUR,
+    FLIP
 }
 

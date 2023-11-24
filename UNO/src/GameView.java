@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
  */
 public class GameView extends JFrame implements View {
     private JFrame gameFrame;
-    private Game game;
+    private static Game game;
     private HandView hand;
     private DrawCardView drawCardPanel;
     private TopCardView currCard;
@@ -70,7 +70,12 @@ public class GameView extends JFrame implements View {
      * @return the colour selected
      */
     static public String viewPickWildCard(){
-        Object[] colours = {"RED", "BLUE", "GREEN", "YELLOW"};
+        Object[] colours;
+        if (Card.getSide() == Side.LIGHT) {
+            colours = new Object[]{"RED", "BLUE", "GREEN", "YELLOW"};
+        } else{
+            colours = new Object[]{"PINK", "TEAL", "PURPLE", "ORANGE"};
+        }
         Object selectionObject = JOptionPane.showInputDialog(null, "Choose a colour:", "Wild Card Colour", JOptionPane.PLAIN_MESSAGE, null, colours, colours[0]);
         if (selectionObject == null) { return null; }
         return selectionObject.toString();

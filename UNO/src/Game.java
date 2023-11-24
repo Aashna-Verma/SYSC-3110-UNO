@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * 
  * @author Angus Jull
  * @author  Brian Tran - Modified for MVC
+ * @author  Aashna Verma - Modified for Flip
  * @version 2.0
  */
 public class Game {
@@ -22,9 +23,11 @@ public class Game {
     private boolean gameOver;
     private boolean roundOver;
     private boolean skipNextPlayer; // For skip cards
+    private boolean skipAllPlayers;
     private String statusString;
     private Card statusCard;
     private GameView gameView;
+    private Side side;
 
     /**
      * Constructor for Game
@@ -150,6 +153,14 @@ public class Game {
         return statusCard;
     }
 
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide() {
+        side = Card.getSide();
+    }
+
     /**
      * Makes the players each draw a hand from the current deck
      */
@@ -213,15 +224,22 @@ public class Game {
      * @return true if the player was changed, false otherwise
      */
     public boolean advanceCurrentPlayer() {
-        if (roundOver && !gameOver) {
+        if (roundOver && !gameOver ) {
             statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
-            currentPlayer = nextPlayer(currentPlayer);
+            if (skipAllPlayers){
+                skipAllPlayers = false;
+            } else {
+                currentPlayer = nextPlayer(currentPlayer);
+            }
+
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
                 currentPlayer = nextPlayer(currentPlayer);
                 skipNextPlayer = false;
             }
+            skipAllPlayers = false;
             roundOver = false; // Next round starts
+
             statusCard = null;
             update();
             return true;
@@ -260,14 +278,22 @@ public class Game {
         switch (choice.getValue()) {
             case DRAW_ONE -> {
                 Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                statusString += "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
+                statusString += "Next player receives: " + drawn.getColour() + " " + drawn.getValue();
             }
-            //updateStatus(drawn);
+            case DRAW_FIVE -> {
+                StringBuilder s = new StringBuilder();
+                for(int i=0; i<5; i++){
+                    s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
+                }
+                statusString += "Next player receives: \n" + s;
+            }
             case SKIP -> {
-                // Set to the next player, which will then skip the player
-                //updateStatus(NEXT PLAYER SKIPPED)
                 skipNextPlayer = true;
                 statusString += "Next player is skipped.";
+            }
+            case SKIP_ALL -> {
+                skipAllPlayers = true;
+                statusString += "All players are skipped.";
             }
             case REVERSE -> {
                 if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
@@ -277,22 +303,35 @@ public class Game {
             case WILD_DRAW_TWO -> {
                 Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                choice = handleWild(choice);
-                if (choice == null) { return; } // Don't go to the next round or continue handling
-                statusString += choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+                Colour c = handleWild(choice);
+                if (c == null) { return; } // Don't go to the next round or continue handling
+                statusString += c.toString() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
             }
-            //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
             case WILD -> {
-                choice = handleWild(choice);
-                if (choice == null) { return; } // Don't go to the next round or continue handling
-                statusString += choice.getColour() + " has been chosen.";
+                Colour c = handleWild(choice);
+                if (c == null) { return; } // Don't go to the next round or continue handling
+                statusString += c.toString() + " has been chosen.";
             }
-            //updateSatus(NEW_COLOUR: choice.getColour());
+            case WILD_DRAW_COLOUR -> {
+                Colour c = handleWild(choice);
+                Card card;
+                System.out.println(c);
+                StringBuilder s = new StringBuilder();
+                do{
+                    card = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
+                    s.append(card.toString() + "\n");
+                }while(card.getColour() != c);
+
+                if (c == null) { return; } // Don't go to the next round or continue handling
+                statusString += "Next player receives:\n" + s;
+            }
+            case FLIP -> {
+                Card.flipSide();
+                statusString += "Cards are flipped";
+            }
             default -> {
             }
         }
-        //updatePlayerHand(GREY_OUT);
-        //updateNextPlayerButton(UN_GREY);
 
         // The current card is no longer needed
         pile.addCard(topCard);
@@ -307,14 +346,12 @@ public class Game {
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
-    private Card handleWild(Card wild) {
+    private Colour handleWild(Card wild) {
         String chosen = GameView.viewPickWildCard();
-        if (chosen == null) {
-            return null;
+        if (chosen != null) {
+            wild.setWildColour(Colour.valueOf(chosen));
         }
-        else {
-            return new Card(wild.getValue(), Colour.valueOf(chosen), wild.getValue(), Colour.valueOf(chosen));
-        }
+        return Colour.valueOf(chosen);
     }
 
     /**
