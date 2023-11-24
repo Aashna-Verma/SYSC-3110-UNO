@@ -225,12 +225,12 @@ public class Game {
      */
     public boolean advanceCurrentPlayer() {
         if (roundOver && !gameOver ) {
-            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
             if (skipAllPlayers){
                 skipAllPlayers = false;
             } else {
                 currentPlayer = nextPlayer(currentPlayer);
             }
+            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
 
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {

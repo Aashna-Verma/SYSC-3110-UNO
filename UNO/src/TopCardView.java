@@ -34,6 +34,6 @@ public class TopCardView implements View{
         currCard.setBorder(BorderFactory.createTitledBorder(game.getCurrentPlayer().getName()));
         //Updates top card of pile
         currCard.setText(game.getTopCard().toString());
-        currCard.setIcon(game.getTopCard().getImageIcon(0.6));
+        currCard.setIcon(game.getTopCard().getImageIcon(0.5));
     }
 }
