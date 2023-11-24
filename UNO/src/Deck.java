@@ -58,7 +58,6 @@ public class Deck {
                 cards.add(new Card(Value.values()[j], Colour.GREEN, Value.values()[8-j], Colour.TEAL));
                 cards.add(new Card(Value.values()[j], Colour.RED, Value.values()[8-j], Colour.ORANGE));
                 cards.add(new Card(Value.values()[j], Colour.YELLOW, Value.values()[8-j], Colour.PURPLE));
-
             }
         }
         for(i = 0; i < 2; i++) {

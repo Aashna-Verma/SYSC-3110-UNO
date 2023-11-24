@@ -15,6 +15,7 @@ public class Game {
     private Game.Direction direction;
     private ArrayList<Player> players;
     private int numPlayers;
+    private int numAI;
     private Player currentPlayer;
     private Card topCard;
     private Deck currentDeck; // deck being played with
@@ -63,9 +64,7 @@ public class Game {
 
         currentPlayer = players.get(0);
         // Get the players to draw their hands
-        for (Player p: players) {
-            drawHands();
-        }
+        drawHands();
 
         statusString = null;
         statusCard = null;
@@ -352,7 +351,6 @@ public class Game {
         if (chosen != null) {
             wild.setWildColour(Colour.valueOf(chosen));
         }
-
         return Colour.valueOf(chosen);
     }
 
