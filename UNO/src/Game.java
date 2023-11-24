@@ -1,5 +1,6 @@
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Game allows users to play a game of UNO Flip
@@ -31,22 +32,15 @@ public class Game {
 
     /**
      * Constructor for Game
-     * @param numPlayers the number of players in the game
+     * @param newPlayers new player to add to the game
      */
-    public Game(int numPlayers) {
-        this.numPlayers = numPlayers;
+    public Game(Collection<Player> newPlayers) {
+        this.numPlayers = newPlayers.size();
         players = new ArrayList<>();
         //initialize players and draw their hands
-        for (int i = 0; i < numPlayers; i++) {
-            // Create the player and give them their starting conditions
-            String name = "Player " + (i + 1);
-            Player newPlayer = new Player(name);
-            players.add(newPlayer);
-
-        }
+        players.addAll(newPlayers);
         newRound();
     }
-
     /**
      * Generates a new round for the uno game
      */
@@ -230,6 +224,7 @@ public class Game {
             } else {
                 currentPlayer = nextPlayer(currentPlayer);
             }
+            //
             statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
 
             // A skip card was played, so don't just go to the next player
