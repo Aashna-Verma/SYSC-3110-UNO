@@ -19,7 +19,7 @@ public class lowestValueAI extends Player implements AIBot {
 
     /**
      * Implementation of AI logic for selecting a card
-     * Selects the highest scoring choice within the bots hand
+     * Selects the lowest scoring choice within the bots hand
      *
      * @param topCard the card to be played on top of
      * @return the card chosen to be played, -1 if no card is playable (DRAW CARD IF return is null)

@@ -28,7 +28,7 @@ public class highestValueAI extends Player implements AIBot {
         int selectedCard = -1;
         int highestPoint = 0;
 
-        for(int i = 0; i< this.hand.size(); i++){
+        for(int i = 0; i < this.hand.size(); i++){
             if (hand.get(i).validWith(topCard)){
                 if(highestPoint < hand.get(i).getScore()) {
                     selectedCard = i + 1;
