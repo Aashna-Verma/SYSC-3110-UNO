@@ -320,7 +320,6 @@ public class Game {
             case WILD_DRAW_COLOUR -> {
                 Colour c = handleWild(choice);
                 Card card;
-                System.out.println(c);
                 StringBuilder s = new StringBuilder();
                 do{
                     card = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
