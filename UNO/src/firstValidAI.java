@@ -26,7 +26,7 @@ public class firstValidAI extends Player implements AIBot {
      */
     public int selectCard(Card topCard){
         for(int i = 0; i< this.hand.size(); i++){
-            if (hand.get(i).validWith(topCard)){
+            if (topCard.validWith(hand.get(i))){
                 return i + 1;
             }
         }

@@ -58,13 +58,14 @@ public class Card {
         return new ImageIcon(Card.class.getResource( "cardImgs/" + v.toString() + "_" + str + ".png"));
     }
 
-    /**
-     * Sets the colour of this wild card, which will now be the colour returned by this card
-     * @param c
-     */
     public void setWildColour(Colour c){
         wildColour = c;
     }
+
+    public Colour getWildColour(){
+        return this.wildColour;
+    }
+
     /**
      * Shows the Value of the Card
      *
@@ -80,9 +81,6 @@ public class Card {
      * @return the Colour of the card
      */
     public Colour getColour(){
-        if (this.isWild() && (wildColour != null)) {
-            return wildColour;
-        }
         return Side.LIGHT == side ? LIGHT_COLOUR : DARK_COLOUR;
     }
 
@@ -140,35 +138,22 @@ public class Card {
     }
 
     /**
-     * Returns whether this card is a wild card
-     * @return true if this is a wild card, false otherwise
-     */
-    public boolean isWild() {
-        if (LIGHT_COLOUR == Colour.WILD || DARK_COLOUR == Colour.WILD) {
-            return true;
-        }
-        return false;
-    }
-    /**
      * Checks if compareTo could be played on this card or the other way around
      * @param compareTo the card to be compared with
      * @return true if playing compareTo on this would be a valid move, false otherwise
      */
     public boolean validWith(Card compareTo) {
-        // Anything can be played on nothing
         if (compareTo == null) {
             return false;
         }
-        // A wild without a colour can be played on anything
-        else if ((compareTo.isWild() && (compareTo.getColour() == Colour.WILD)) || (this.isWild() && (this.getColour() == Colour.WILD))) {
+        // A wild can be played on anything
+        else if (this.getWildColour() == null && (compareTo.getColour() == Colour.WILD || this.getColour() == Colour.WILD)) {
             return true;
         }
-        // A card can be played on a card with the same value
         else if (compareTo.getValue() == this.getValue()) {
             return true;
         }
-        // A card can be played on a card with the same colour
-        else if (compareTo.getColour() == this.getColour()) {
+        else if (compareTo.getColour() == this.getColour() || compareTo.getColour() == this.getWildColour()) {
             return true;
         }
         return false;

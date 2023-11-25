@@ -168,8 +168,6 @@ public class Player {
         }
         return string.toString();
     }
-
-
     public Colour chooseWildColour(Card topCard, Side side) {
         if (side == Side.LIGHT) {
             return Colour.BLUE;

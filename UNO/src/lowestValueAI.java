@@ -29,7 +29,7 @@ public class lowestValueAI extends Player implements AIBot {
         int lowestPoint = 100;
 
         for(int i = 0; i< this.hand.size(); i++){
-            if (hand.get(i).validWith(topCard)){
+            if (topCard.validWith(hand.get(i))){
                 if(lowestPoint > hand.get(i).getScore()) {
                     selectedCard = i + 1;
                     lowestPoint = hand.get(i).getScore();
