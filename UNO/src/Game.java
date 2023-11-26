@@ -166,9 +166,15 @@ public class Game {
 
     /**
      * Makes the current player draw a card and ends the round
+     * If the deck is empty it will reshuffle the played cards
      */
     public void drawCard(){
         if (!roundOver && !gameOver) {
+            if (currentDeck.getTopCard() == null){
+                topCard = pile.removeCard();
+                currentDeck = Deck.reshuffle(pile);
+                pile.addCard(topCard);
+            }
             Card drawn = currentDeck.removeCard();
             statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
             statusCard = drawn;

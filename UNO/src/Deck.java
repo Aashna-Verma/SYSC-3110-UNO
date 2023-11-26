@@ -79,6 +79,24 @@ public class Deck {
     }
 
     /**
+     * Takes a pile of cards and reshuffles them in a new deck
+     * @param pile
+     * @return reshuffled deck of cards
+     */
+    public static Deck reshuffle(Deck pile){
+        Deck newDeck = new Deck();
+        ArrayList<Card> cards = new ArrayList<>();
+
+        while (pile.getTopCard() != null){
+            cards.add(pile.removeCard());
+        }
+        Collections.shuffle(cards);
+
+        newDeck.deck.addAll(cards);
+        return newDeck;
+    }
+
+    /**
      * Adds a card to the top of the deck
      *
      * @param card Card to be added to the top of deck
