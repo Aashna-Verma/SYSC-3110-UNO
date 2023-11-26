@@ -330,7 +330,7 @@ public class GameDev {
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     public Colour handleWild(Card wild) {
-        Colour chosen = currentPlayer.chooseWildColour(topCard, side);
+        Colour chosen = currentPlayer.chooseWildColour(topCard);
         if (chosen != null) {
             wild.setWildColour(chosen);
         }

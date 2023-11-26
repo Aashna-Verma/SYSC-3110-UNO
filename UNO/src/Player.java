@@ -172,14 +172,13 @@ public class Player {
     /**
      * Chooses a random colour when the AI plays a wild card
      * @param topCard the card to  be played on
-     * @param side the current side of the game
      * @return the chosen colour
      */
-    public Colour chooseWildColour(Card topCard, Side side) {
+    public Colour chooseWildColour(Card topCard) {
         Random random = new Random();
         List<Colour> lightColors = Arrays.asList(Colour.BLUE, Colour.GREEN, Colour.RED, Colour.YELLOW);
         List<Colour> darkColors = Arrays.asList(Colour.PINK, Colour.PURPLE, Colour.ORANGE, Colour.TEAL);
-        if (side == Side.LIGHT) {
+        if (Card.getSide() == Side.LIGHT) {
             return lightColors.get(random.nextInt(lightColors.size()));
         }
         else {

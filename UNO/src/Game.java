@@ -27,7 +27,6 @@ public class Game {
     private String statusString;
     private Card statusCard;
     private GameView gameView;
-    private Side side;
 
     /**
      * Constructor for Game
@@ -144,14 +143,6 @@ public class Game {
      */
     public Card getStatusCard() {
         return statusCard;
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public void setSide() {
-        side = Card.getSide();
     }
 
     /**
@@ -357,7 +348,7 @@ public class Game {
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Colour handleWild(Card wild) {
-        Colour chosen = currentPlayer.chooseWildColour(topCard, side);
+        Colour chosen = currentPlayer.chooseWildColour(topCard);
         if (chosen != null) {
             wild.setWildColour(chosen);
         }

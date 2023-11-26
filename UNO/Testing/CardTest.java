@@ -53,6 +53,18 @@ public class CardTest extends junit.framework.TestCase{
         assertEquals("String is incorrect", c_green_one.toString(), "GREEN ONE");
         assertEquals("String is incorrect", c_wild_wild.toString(), "WILD WILD");
         assertEquals("String is incorrect", c_red_reverse.toString(), "RED REVERSE");
+        Card.flipSide();
+        assertEquals("String is incorrect", c_green_one.toString(), "PINK EIGHT");
     }
+
+    /**
+     * Tests the flip implementation of the game's Flip Card
+     */
+    public void testFlip(){
+        assertEquals("Initial side incorrect", Card.getSide(), Side.LIGHT);
+        Card.flipSide();
+        assertEquals("Flipped side incorrect", Card.getSide(), Side.DARK);
+    }
+
 
 }

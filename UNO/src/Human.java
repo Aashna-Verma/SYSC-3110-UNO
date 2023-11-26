@@ -19,11 +19,10 @@ public class Human extends Player{
     /**
      *
      * @param topCard the card to  be played on
-     * @param side the current side of the game
      * @return the wild colour chosen by the player
      */
     @Override
-    public Colour chooseWildColour(Card topCard, Side side) {
+    public Colour chooseWildColour(Card topCard) {
         return Colour.valueOf(GameView.viewPickWildCard());
     }
 }
