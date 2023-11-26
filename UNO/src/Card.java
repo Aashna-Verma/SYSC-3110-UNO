@@ -34,7 +34,7 @@ public class Card {
         this.LIGHT_COLOUR = light_colour;
         this.DARK_VALUE = dark_value;
         this.DARK_COLOUR = dark_colour;
-        this.side = Side.DARK;
+        this.side = Side.LIGHT;
         this.LIGHT_ICON_IMAGE = getImageIconResource(Side.LIGHT);
         this.DARK_ICON_IMAGE = getImageIconResource(Side.DARK);
     }
