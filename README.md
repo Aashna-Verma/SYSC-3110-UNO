@@ -20,7 +20,7 @@ A playable version of the Uno Flip card game, allowing players to engage through
 5. Play with the dark side of Uno, including Skip All, Draw Wild Colour, and more.
 6. Observe the resultant state of the cards.
 7. Experience the UNO game with a full Graphical User Interface.
-8. Experience the UNO game with 3 different AI's of 3 different startegic methods.
+8. Experience the UNO game with AI's of 3 different startegic methods.
 
 ## System requirements
 
