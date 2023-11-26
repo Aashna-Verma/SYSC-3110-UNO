@@ -6,15 +6,15 @@
  */
 
 public class LowestValueAI extends Player implements AIBot {
-    static int ID = 0;
+    private static int id = 0;
 
     /**
      * Constructor for LowestValueAI
      * Name is set as "LowestValueAI" plus an ID which is incremented with each AI
      */
     public LowestValueAI(){
-        super("LowestValueAI"+ ID);
-        ID += 1;
+        super("LowestValueAI"+ id);
+        id += 1;
     }
 
     /**

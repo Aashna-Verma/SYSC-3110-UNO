@@ -6,7 +6,7 @@
  */
 
 public class HighestValueAI extends Player implements AIBot {
-    static int ID = 0;
+    private static int id = 0;
 
     /**
      * Constructor for firstValidAI
@@ -14,8 +14,8 @@ public class HighestValueAI extends Player implements AIBot {
      */
 
     public HighestValueAI(){
-        super("HighestValueAI"+ ID);
-        ID += 1;
+        super("HighestValueAI"+ id);
+        id += 1;
     }
 
     /**
