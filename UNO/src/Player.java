@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *This is the Player class within the UNO game which represents a player on the UNO game.
@@ -168,12 +168,22 @@ public class Player {
         }
         return string.toString();
     }
+
+    /**
+     * Chooses a random colour when the AI plays a wild card
+     * @param topCard the card to  be played on
+     * @param side the current side of the game
+     * @return the chosen colour
+     */
     public Colour chooseWildColour(Card topCard, Side side) {
+        Random random = new Random();
+        List<Colour> lightColors = Arrays.asList(Colour.BLUE, Colour.GREEN, Colour.RED, Colour.YELLOW);
+        List<Colour> darkColors = Arrays.asList(Colour.PINK, Colour.PURPLE, Colour.ORANGE, Colour.TEAL);
         if (side == Side.LIGHT) {
-            return Colour.BLUE;
+            return lightColors.get(random.nextInt(lightColors.size()));
         }
         else {
-            return Colour.TEAL;
+            return darkColors.get(random.nextInt(darkColors.size()));
         }
     }
 }

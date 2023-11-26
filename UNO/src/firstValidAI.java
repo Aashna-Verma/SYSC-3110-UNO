@@ -13,7 +13,7 @@ public class firstValidAI extends Player implements AIBot {
      * Name is set as "firstValidAI" plus an ID which is incremented with each AI
      */
     public firstValidAI(){
-        super("firstValidAI"+ ID);
+        super("firstValidAI "+ ID);
         ID += 1;
     }
 
@@ -22,7 +22,7 @@ public class firstValidAI extends Player implements AIBot {
      * Selects the first valid choice within the bots hand
      *
      * @param topCard the card to be played on
-     * @return the card chosen to be played, -1 if no card is playable (DRAW CARD IF return is null)
+     * @return the card chosen to be played, -1 if no card is playable (DRAW CARD IF return is -1)
      */
     public int selectCard(Card topCard){
         for(int i = 0; i< this.hand.size(); i++){

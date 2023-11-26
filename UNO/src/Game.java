@@ -229,8 +229,8 @@ public class Game {
             } else {
                 currentPlayer = nextPlayer(currentPlayer);
             }
-            //
             statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
+
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
                 currentPlayer = nextPlayer(currentPlayer);
@@ -250,7 +250,7 @@ public class Game {
                     this.playCard(botChoice);
                 }
                 // Round will now be over, show that an AI just played in the status string
-                statusString = "AI Action: " + statusString;
+                statusString = "AI Action:\n" + statusString;
             }
             update();
             return true;
@@ -260,8 +260,8 @@ public class Game {
 
     /**
      * Returns the next player to play in the game
-     * @param player The player who's turn it currently is
-     * @return The next player who's turn it is, or the current player if nobody is next
+     * @param player The player whose turn it currently is
+     * @return The next player whose turn it is, or the current player if nobody is next
      */
     private Player nextPlayer(Player player) {
         if (direction == Game.Direction.FORWARD) {

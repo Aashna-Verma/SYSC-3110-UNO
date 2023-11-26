@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * GameController initialize the setup of the UNO game and connects the model and the view for and interactive experience through a GUI
@@ -47,16 +48,20 @@ public class GameController {
             players.add(new Human("Human " + (i + 1)));
         }
         int bots = GameView.getAI();
+        Random random = new Random();
         for (int i = 0; i < bots; i++) {
-            switch (i % 3) {
+            switch (random.nextInt(3)) {
                 case 0:
                     players.add(new firstValidAI());
+                    System.out.println("firstValidAI");
                     break;
                 case 1:
                     players.add(new highestValueAI());
+                    System.out.println("highestValueAI");
                     break;
                 case 2:
                     players.add(new lowestValueAI());
+                    System.out.println("lowestValueAI");
                     break;
             }
         }
