@@ -1,6 +1,6 @@
 # SYSC-3110-UNO
 _Final group project for SYSC 3110_  
-__Current Status: Milestone 2__
+__Current Status: Milestone 3__
 
 ## Table of content
 * [Project Description](#project-description)  
@@ -12,14 +12,15 @@ __Current Status: Milestone 2__
 
 ## Project Description
 
-A playable version of the Uno card game, allowing players to engage through the console using buttons on the Java GUI. Within this version, players will have the capability to:
+A playable version of the Uno Flip card game, allowing players to engage through a Java graphical user interface. Within this version, players will have the capability to:
 
-1. View their drawn cards.
-2. Place cards.
-3. Draw one card.
+1. View their hand.
+2. Place cards & draw one card.
 4. Execute actions associated with special cards, including Reverse, Skip, Wild, and Wild Draw Two cards.
-5. Observe the resultant state of the cards.
-6. __Experience the UNO game with a full Graphical User Interface.__
+5. Play with the dark side of Uno, including Skip All, Draw Wild Colour, and more.
+6. Observe the resultant state of the cards.
+7. Experience the UNO game with a full Graphical User Interface.
+8. Experience the UNO game with 3 different AI's of 3 different startegic methods.
 
 ## System requirements
 
