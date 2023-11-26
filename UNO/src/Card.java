@@ -84,10 +84,17 @@ public class Card {
         return Side.LIGHT == side ? LIGHT_COLOUR : DARK_COLOUR;
     }
 
+    /**
+     * Getter for side of the game
+     * @return the side the game is on
+     */
     public static Side getSide(){
         return side;
     }
 
+    /**
+     * flips the card's side
+     */
     public static void flipSide(){
         side = Side.LIGHT == side ? Side.DARK : Side.LIGHT;
     }
