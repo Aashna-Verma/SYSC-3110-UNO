@@ -39,6 +39,7 @@ public class Game {
         players.addAll(newPlayers);
         newRound();
     }
+
     /**
      * Generates a new round for the uno game
      */
