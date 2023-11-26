@@ -19,20 +19,20 @@ public class lowestValueAI extends Player implements AIBot {
 
     /**
      * Implementation of AI logic for selecting a card
-     * Selects the highest scoring choice within the bots hand
+     * Selects the lowest scoring choice within the bots hand
      *
      * @param topCard the card to be played on top of
-     * @return the card chosen to be played, null if no card is playable (DRAW CARD IF return is null)
+     * @return the card chosen to be played, -1 if no card is playable (DRAW CARD IF return is null)
      */
-    public Card selectCard(Card topCard){
-        Card selectedCard = null;
+    public int selectCard(Card topCard){
+        int selectedCard = -1;
         int lowestPoint = 100;
 
         for(int i = 0; i< this.hand.size(); i++){
-            if (hand.get(i).validWith(topCard)){
+            if (topCard.validWith(hand.get(i))){
                 if(lowestPoint > hand.get(i).getScore()) {
-                    selectedCard = hand.get(i);
-                    lowestPoint = selectedCard.getScore();
+                    selectedCard = i + 1;
+                    lowestPoint = hand.get(i).getScore();
                 }
             }
         }

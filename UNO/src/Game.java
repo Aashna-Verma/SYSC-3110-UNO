@@ -1,5 +1,6 @@
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Game allows users to play a game of UNO Flip
@@ -10,12 +11,11 @@ import java.util.ArrayList;
  * @version 2.0
  */
 public class Game {
-    private enum Direction { FORWARD, BACKWARD };
+    private enum Direction { FORWARD, BACKWARD }
     private final int WINNING_SCORE = 500;
     private Game.Direction direction;
     private ArrayList<Player> players;
     private int numPlayers;
-    private int numAI;
     private Player currentPlayer;
     private Card topCard;
     private Deck currentDeck; // deck being played with
@@ -31,22 +31,15 @@ public class Game {
 
     /**
      * Constructor for Game
-     * @param numPlayers the number of players in the game
+     * @param newPlayers new player to add to the game
      */
-    public Game(int numPlayers) {
-        this.numPlayers = numPlayers;
+    public Game(Collection<Player> newPlayers) {
+        this.numPlayers = newPlayers.size();
         players = new ArrayList<>();
         //initialize players and draw their hands
-        for (int i = 0; i < numPlayers; i++) {
-            // Create the player and give them their starting conditions
-            String name = "Player " + (i + 1);
-            Player newPlayer = new Player(name);
-            players.add(newPlayer);
-
-        }
+        players.addAll(newPlayers);
         newRound();
     }
-
     /**
      * Generates a new round for the uno game
      */
@@ -230,8 +223,8 @@ public class Game {
             } else {
                 currentPlayer = nextPlayer(currentPlayer);
             }
+            //
             statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
-
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
                 currentPlayer = nextPlayer(currentPlayer);
@@ -239,8 +232,20 @@ public class Game {
             }
             skipAllPlayers = false;
             roundOver = false; // Next round starts
-
             statusCard = null;
+
+            // Check if the next player is a bot, and get them to take their turn
+            if (currentPlayer instanceof AIBot) {
+                int botChoice = ((AIBot)currentPlayer).selectCard(this.getTopCard());
+                if (botChoice < 0) {
+                    this.drawCard();
+                }
+                else {
+                    this.playCard(botChoice);
+                }
+                // Round will now be over, show that an AI just played in the status string
+                statusString = "AI Action: " + statusString;
+            }
             update();
             return true;
         }
@@ -315,7 +320,6 @@ public class Game {
             case WILD_DRAW_COLOUR -> {
                 Colour c = handleWild(choice);
                 Card card;
-                System.out.println(c);
                 StringBuilder s = new StringBuilder();
                 do{
                     card = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
@@ -347,11 +351,11 @@ public class Game {
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
     private Colour handleWild(Card wild) {
-        String chosen = GameView.viewPickWildCard();
+        Colour chosen = currentPlayer.chooseWildColour(topCard, side);
         if (chosen != null) {
-            wild.setWildColour(Colour.valueOf(chosen));
+            wild.setWildColour(chosen);
         }
-        return Colour.valueOf(chosen);
+        return chosen;
     }
 
     /**

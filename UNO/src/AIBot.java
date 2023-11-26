@@ -1,3 +1,3 @@
 public interface AIBot {
-    public Card selectCard(Card topCard);
+    int selectCard(Card topCard);
 }

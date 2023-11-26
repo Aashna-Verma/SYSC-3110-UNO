@@ -17,7 +17,7 @@ public class Card {
     private final Colour DARK_COLOUR;
     private final ImageIcon LIGHT_ICON_IMAGE;
     private final ImageIcon DARK_ICON_IMAGE;
-    private Colour wildColor;
+    private Colour wildColour;
     private static Side side;
     private URL url;
 
@@ -59,11 +59,11 @@ public class Card {
     }
 
     public void setWildColour(Colour c){
-        wildColor = c;
+        wildColour = c;
     }
 
     public Colour getWildColour(){
-        return this.wildColor;
+        return this.wildColour;
     }
 
     /**
@@ -124,7 +124,7 @@ public class Card {
      */
     @Override
     public String toString(){
-        return this.getColour().toString() + " " + this.getValue().toString() + " " + ((wildColor != null) ? wildColor.toString() : "");
+        return this.getColour().toString() + " " + this.getValue().toString() + " " + ((wildColour != null) ? wildColour.toString() : "");
     }
 
     /**
