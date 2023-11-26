@@ -53,15 +53,12 @@ public class GameController {
             switch (random.nextInt(3)) {
                 case 0:
                     players.add(new firstValidAI());
-                    System.out.println("firstValidAI");
                     break;
                 case 1:
                     players.add(new highestValueAI());
-                    System.out.println("highestValueAI");
                     break;
                 case 2:
                     players.add(new lowestValueAI());
-                    System.out.println("lowestValueAI");
                     break;
             }
         }
