@@ -52,13 +52,13 @@ public class GameController {
         for (int i = 0; i < bots; i++) {
             switch (random.nextInt(3)) {
                 case 0:
-                    players.add(new firstValidAI());
+                    players.add(new FirstValidAI());
                     break;
                 case 1:
-                    players.add(new highestValueAI());
+                    players.add(new HighestValueAI());
                     break;
                 case 2:
-                    players.add(new lowestValueAI());
+                    players.add(new LowestValueAI());
                     break;
             }
         }

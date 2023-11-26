@@ -1,19 +1,20 @@
 /**
- *This is the highestValueAI class within the UNO game which represents an AI bot player on the UNO game.
+ *This is the HighestValueAI class within the UNO game which represents an AI bot player on the UNO game.
  *
  * @author Brian Tran 101231003
  * @version 1.0
  */
 
-public class highestValueAI extends Player implements AIBot {
+public class HighestValueAI extends Player implements AIBot {
     static int ID = 0;
 
     /**
      * Constructor for firstValidAI
      * Name is set as "firstValidAI" plus an ID which is incremented with each AI
      */
-    public highestValueAI(){
-        super("highestValueAI "+ ID);
+
+    public HighestValueAI(){
+        super("HighestValueAI"+ ID);
         ID += 1;
     }
 

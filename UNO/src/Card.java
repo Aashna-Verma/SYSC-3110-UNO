@@ -19,7 +19,6 @@ public class Card {
     private final ImageIcon DARK_ICON_IMAGE;
     private Colour wildColour;
     private static Side side;
-    private URL url;
 
     /**
      * Constructor for card
@@ -131,7 +130,7 @@ public class Card {
      */
     @Override
     public String toString(){
-        return this.getColour().toString() + " " + this.getValue().toString() + " " + ((wildColour != null) ? wildColour.toString() : "");
+        return this.getColour().toString() + " " + this.getValue().toString()  + ((wildColour != null) ? " " + wildColour.toString() : "");
     }
 
     /**

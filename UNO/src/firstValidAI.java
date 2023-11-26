@@ -1,19 +1,19 @@
 /**
- *This is the firstValidAI class within the UNO game which represents an AI bot player on the UNO game.
+ *This is the FirstValidAI class within the UNO game which represents an AI bot player on the UNO game.
  *
  * @author Brian Tran 101231003
  * @version 1.0
  */
 
-public class firstValidAI extends Player implements AIBot {
+public class FirstValidAI extends Player implements AIBot {
     static int ID = 0;
 
     /**
-     * Constructor for firstValidAI
-     * Name is set as "firstValidAI" plus an ID which is incremented with each AI
+     * Constructor for FirstValidAI
+     * Name is set as "FirstValidAI" plus an ID which is incremented with each AI
      */
-    public firstValidAI(){
-        super("firstValidAI "+ ID);
+    public FirstValidAI(){
+        super("FirstValidAI"+ ID);
         ID += 1;
     }
 

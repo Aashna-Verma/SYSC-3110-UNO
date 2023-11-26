@@ -1,19 +1,19 @@
 /**
- *This is the lowestValueAI class within the UNO game which represents an AI bot player on the UNO game.
+ *This is the LowestValueAI class within the UNO game which represents an AI bot player on the UNO game.
  *
  * @author Brian Tran 101231003
  * @version 1.0
  */
 
-public class lowestValueAI extends Player implements AIBot {
+public class LowestValueAI extends Player implements AIBot {
     static int ID = 0;
 
     /**
-     * Constructor for lowestValueAI
-     * Name is set as "lowestValueAI" plus an ID which is incremented with each AI
+     * Constructor for LowestValueAI
+     * Name is set as "LowestValueAI" plus an ID which is incremented with each AI
      */
-    public lowestValueAI(){
-        super("lowestValueAI "+ ID);
+    public LowestValueAI(){
+        super("LowestValueAI"+ ID);
         ID += 1;
     }
 

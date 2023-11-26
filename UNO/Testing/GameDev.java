@@ -1,37 +1,49 @@
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Collection;
 
 /**
- * GameDev allows users to play a game of UNO Flip
+ * Game allows users to play a game of UNO Flip
  *
  * @author Angus Jull
  * @author  Brian Tran - Modified for MVC
+ * @author  Aashna Verma - Modified for Flip
  * @version 2.0
  */
 public class GameDev {
-    public enum Direction { FORWARD, BACKWARD };
+    public enum Direction { FORWARD, BACKWARD }
     public final int WINNING_SCORE = 500;
     public GameDev.Direction direction;
     public ArrayList<Player> players;
+    public int numPlayers;
     public Player currentPlayer;
     public Card topCard;
     public Deck currentDeck; // deck being played with
     public Deck pile; // discard pile
     public boolean gameOver;
     public boolean roundOver;
+    public boolean skipNextPlayer; // For skip cards
+    public boolean skipAllPlayers;
     public String statusString;
     public Card statusCard;
-    public GameView gameView;
+    public Side side;
 
     /**
      * Constructor for Game
-     * @param numPlayers the number of players in the game
+     * @param newPlayers new player to add to the game
      */
-    public GameDev(int numPlayers) {
-        // Populate players list later
+    public GameDev(Collection<Player> newPlayers) {
+        this.numPlayers = newPlayers.size();
         players = new ArrayList<>();
+        //initialize players and draw their hands
+        players.addAll(newPlayers);
+        newRound();
+    }
+    /**
+     * Generates a new round for the uno game
+     */
+    public void newRound() {
         direction = GameDev.Direction.FORWARD;
-
         //populate deck to draw from
         currentDeck = new Deck();
         pile = new Deck();
@@ -40,63 +52,86 @@ public class GameDev {
 
         gameOver = false;
         roundOver = false;
-        //initialize players and draw their hands
-        for (int i = 0; i < numPlayers; i++) {
-            // Create the player and give them their starting conditions
-            String name = "Player " + (i+1);
-            Player newPlayer = new Player(name);
-            players.add(newPlayer);
-            drawHands();
-        }
+        skipNextPlayer = false;
+
         currentPlayer = players.get(0);
+        // Get the players to draw their hands
+        drawHands();
+
         statusString = null;
         statusCard = null;
-        //updatePlayerLabelView(currentPLayer.getName());
-        //updateTopCardView(topCard);
-        //updateHandView(currentPlayer.getHand());
-        //Status panel should start empty
-        //updateNextPlayerButton(GREY_OUT)
-    }
-    public int getNumPlayers(){
-        return players.size();
-    }
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-    public void addView(GameView gameView){
-        this.gameView = gameView;
-        update();
     }
 
     /**
-     * Updates every view
+     * Getter for number of players in the uno game
+     * @return number of players in the game
      */
-    public int update(){
-        return 1;
+    public int getNumPlayers(){
+        return numPlayers;
     }
 
+    /**
+     * Getter for the ArrayList containing all Players within the game
+     * @return the ArrayList of players in the game
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     * Getter for current players whose turn it is
+     * @return current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Getter for the top card of the pile
+     * @return top card
+     */
     public Card getTopCard() {
         return topCard;
     }
 
+    /**
+     * Getter for the game status, if it is over or not
+     * @return true if game is over, otherwise false
+     */
     public boolean isGameOver() {
         return gameOver;
     }
 
+    /**
+     * Getter for the round status, if it is over or not
+     * @return true if round is over, otherwise false
+     */
     public boolean isRoundOver() {
         return roundOver;
     }
 
+    /**
+     * Getter for the string containing the status of the game
+     * @return status string
+     */
     public String getStatusString() {
         return statusString;
     }
 
+    /**
+     * Getter for the status card of the game
+     * @return status card
+     */
     public Card getStatusCard() {
         return statusCard;
+    }
+
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide() {
+        side = Card.getSide();
     }
 
     /**
@@ -110,52 +145,91 @@ public class GameDev {
     }
 
     /**
-     * Triggered when player clicks draw card
+     * Makes the current player draw a card and ends the round
+     * If the deck is empty it will reshuffle the played cards
      */
     public void drawCard(){
-        Card drawn = currentDeck.removeCard();
-        statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
-        statusCard = drawn;
-        roundOver = true;
-
-        //updateStatusPanel(drawn);
-        //updateNextPlayerButton(UN-GREY);
-        update();
-        currentPlayer.drawCard(drawn);
+        if (!roundOver && !gameOver) {
+            if (currentDeck.getTopCard() == null){
+                topCard = pile.removeCard();
+                currentDeck = Deck.reshuffle(pile);
+                pile.addCard(topCard);
+            }
+            Card drawn = currentDeck.removeCard();
+            statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
+            statusCard = drawn;
+            roundOver = true;
+            currentPlayer.drawCard(drawn);
+        }
     }
 
     /**
      * Plays a card from the players hand to the deck
+     *
      * @param input the index of the card selected to play
-     * @return true if the play was valid
      * @return false if the play was invalid
      */
-    public boolean playCard(int input) {
-        Card choice = currentPlayer.removeCard(input);
-        if (topCard.validWith(choice)) {
-            topCard = choice;
-            processChoice(choice);
-            if (currentPlayer.getNumCards() == 0){
-                currentPlayer.setScore(currentPlayer.getScore() + getPoints());
-                if (currentPlayer.getScore() == WINNING_SCORE) {
-                    //Call method IN CONTROLLER to generate popup displaying winner
-                    roundOver = true;
-                    gameOver = true;
+    public void playCard(int input) {
+        if (!roundOver && !gameOver) {
+            Card choice = currentPlayer.removeCard(input);
+            if (topCard.validWith(choice)) {
+                statusString = "Played a card: " + choice.toString() + "\n";
+                processChoice(choice);
+                if (currentPlayer.getNumCards() == 0) {
+                    currentPlayer.setScore(currentPlayer.getScore() + getPoints());
+                    // update the view so that scores are accurate
+                    if (currentPlayer.getScore() >= WINNING_SCORE) {
+                        // Generate win popup here
+                        gameOver = true;
+                    } else {
+                        newRound();
+                    }
                 }
-                else{
-                    //Call method IN CONTROLLER to generate popup displaying scores
+            } else {
+                // The play was invalid, so give back the card
+                currentPlayer.addCard(choice);
+                statusString = "Invalid card choice.";
+            }
+        }
+    }
+
+    /**
+     * Changes the current player in the current direction, and sets the round to no longer be over
+     * @return true if the player was changed, false otherwise
+     */
+    public boolean advanceCurrentPlayer() {
+        if (roundOver && !gameOver ) {
+            if (skipAllPlayers){
+                skipAllPlayers = false;
+            } else {
+                currentPlayer = nextPlayer(currentPlayer);
+            }
+            //
+            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
+            // A skip card was played, so don't just go to the next player
+            if (skipNextPlayer) {
+                currentPlayer = nextPlayer(currentPlayer);
+                skipNextPlayer = false;
+            }
+            skipAllPlayers = false;
+            roundOver = false; // Next round starts
+            statusCard = null;
+
+            // Check if the next player is a bot, and get them to take their turn
+            if (currentPlayer instanceof AIBot) {
+                int botChoice = ((AIBot)currentPlayer).selectCard(this.getTopCard());
+                if (botChoice < 0) {
+                    this.drawCard();
                 }
-                update();
+                else {
+                    this.playCard(botChoice);
+                }
+                // Round will now be over, show that an AI just played in the status string
+                statusString = "AI Action: " + statusString;
             }
             return true;
         }
-        else {
-            statusString = "Invalid card choice.";
-
-            update();
-            //updateStatusPanel(Invalid choice);
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -173,15 +247,13 @@ public class GameDev {
             int nextPlayerIndex = players.indexOf(player) - 1;
             return players.get(nextPlayerIndex >= 0 ? nextPlayerIndex : players.size() - 1);
         }
-        update();
-        //updateCurrentPlayerLabel();
-        //UpdateTopCardView
-        //updateNextPlayerButton(GreyOut);
+        statusCard = null;
         return player;
     }
 
     /**
-     * Decide what to do based on the card played. Can change the current player and the top card
+     * Decide what to do based on the card played. Can change the current player and the top card.
+     * Append to the status string with what is done with the player's choice
      * @param choice The card that was played on the currentPlayer's turn
      */
     public void processChoice(Card choice) {
@@ -189,43 +261,67 @@ public class GameDev {
         if (choice == null) { return; }
 
         switch (choice.getValue()) {
-            case DRAW_ONE:
+            case DRAW_ONE -> {
                 Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                statusString = "Drew a card: " + drawn.getColour() + " " + drawn.getValue();
-                //updateStatus(drawn);
-            case SKIP:
-                // Set to the next player, which will then skip the player
-                //updateStatus(NEXT PLAYER SKIPPED)
-                currentPlayer = nextPlayer(currentPlayer);
-                statusString = "Next player is skipped.";
-            case REVERSE:
-                if (direction == GameDev.Direction.FORWARD) direction = GameDev.Direction.BACKWARD;
-                else if (direction == GameDev.Direction.BACKWARD) direction = GameDev.Direction.FORWARD;
-                statusString = "Direction reversed.";
-            case WILD_DRAW_TWO:
+                statusString += "Next player receives: " + drawn.getColour() + " " + drawn.getValue();
+            }
+            case DRAW_FIVE -> {
+                StringBuilder s = new StringBuilder();
+                for(int i=0; i<5; i++){
+                    s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
+                }
+                statusString += "Next player receives: \n" + s;
+            }
+            case SKIP -> {
+                skipNextPlayer = true;
+                statusString += "Next player is skipped.";
+            }
+            case SKIP_ALL -> {
+                skipAllPlayers = true;
+                statusString += "All players are skipped.";
+            }
+            case REVERSE -> {
+                if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
+                else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
+                statusString += "Direction reversed.";
+            }
+            case WILD_DRAW_TWO -> {
                 Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                choice = handleWild(choice);
-                statusString = choice.getColour() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
-                //updateSatus(NEW_COLOUR: choice.getColour(), drawn1, drawn2)
-                break;
-            case WILD:
-                choice = handleWild(choice);
-                statusString = choice.getColour() + " has been chosen.";
-                //updateSatus(NEW_COLOUR: choice.getColour());
-                break;
-            default:
-                break;
+                Colour c = handleWild(choice);
+                if (c == null) { return; } // Don't go to the next round or continue handling
+                statusString += c.toString() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+            }
+            case WILD -> {
+                Colour c = handleWild(choice);
+                if (c == null) { return; } // Don't go to the next round or continue handling
+                statusString += c.toString() + " has been chosen.";
+            }
+            case WILD_DRAW_COLOUR -> {
+                Colour c = handleWild(choice);
+                Card card;
+                StringBuilder s = new StringBuilder();
+                do{
+                    card = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
+                    s.append(card.toString() + "\n");
+                }while(card.getColour() != c);
+
+                if (c == null) { return; } // Don't go to the next round or continue handling
+                statusString += "Next player receives:\n" + s;
+            }
+            case FLIP -> {
+                Card.flipSide();
+                statusString += "Cards are flipped";
+            }
+            default -> {
+            }
         }
-        //updatePlayerHand(GREY_OUT);
-        //updateNextPlayerButton(UN_GREY);
 
         // The current card is no longer needed
         pile.addCard(topCard);
         // The top card is now the played card
         topCard = choice;
         roundOver = true;
-        update();
     }
 
 
@@ -233,12 +329,12 @@ public class GameDev {
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
      */
-    public Card handleWild(Card wild) {
-        Colour chosenColour = null;
-        //chosenColour = getNewColourPopUp() <- METHOD IN CONTROLLER
-
-        // Create a new wild card with the same value, but with the chosen colour
-        return new Card(wild.getValue(), chosenColour, wild.getValue(), chosenColour);
+    public Colour handleWild(Card wild) {
+        Colour chosen = currentPlayer.chooseWildColour(topCard, side);
+        if (chosen != null) {
+            wild.setWildColour(chosen);
+        }
+        return chosen;
     }
 
     /**
@@ -257,4 +353,5 @@ public class GameDev {
         }
         return total;
     }
+
 }
