@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
  * @version 1.0
  */
 public class GameView extends JFrame implements View {
-    private JFrame gameFrame;
+    private static JFrame gameFrame;
     private static Game game;
     private HandView hand;
     private DrawCardView drawCardPanel;
@@ -51,7 +51,10 @@ public class GameView extends JFrame implements View {
      */
     static public int getHumans(){
         Object[] options = {2, 3, 4, 5, 6};
-        Object selectionObject = JOptionPane.showInputDialog(null, "How many human players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        Object selectionObject = JOptionPane.showInputDialog(null, "How many human players", "UNO", JOptionPane.DEFAULT_OPTION, null, options, options[0]);
+        if (selectionObject == null){
+            System.exit(0);
+        }
         return (int) selectionObject;
     }
 
@@ -61,7 +64,10 @@ public class GameView extends JFrame implements View {
      */
     static public int getAI(){
         Object[] options = {0, 1, 2, 3, 4, 5, 6};
-        Object selectionObject = JOptionPane.showInputDialog(null, "How many AI players", "UNO", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        Object selectionObject = JOptionPane.showInputDialog(null, "How many AI players", "UNO", JOptionPane.DEFAULT_OPTION, null, options, options[0]);
+        if (selectionObject == null){
+            System.exit(0);
+        }
         return (int) selectionObject;
     }
 
@@ -76,7 +82,7 @@ public class GameView extends JFrame implements View {
         } else{
             colours = new Object[]{"PINK", "TEAL", "PURPLE", "ORANGE"};
         }
-        Object selectionObject = JOptionPane.showInputDialog(null, "Choose a colour:", "Wild Card Colour", JOptionPane.PLAIN_MESSAGE, null, colours, colours[0]);
+        Object selectionObject = colours[JOptionPane.showOptionDialog(null, "Choose a Colour", "Wild Card Colour", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, colours , colours[0])];
         if (selectionObject == null) { return null; }
         return selectionObject.toString();
     }
