@@ -221,13 +221,14 @@ public class Game {
             } else {
                 currentPlayer = nextPlayer(currentPlayer);
             }
-            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
 
             // A skip card was played, so don't just go to the next player
             if (skipNextPlayer) {
                 currentPlayer = nextPlayer(currentPlayer);
                 skipNextPlayer = false;
             }
+            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
+
             skipAllPlayers = false;
             roundOver = false; // Next round starts
             statusCard = null;
