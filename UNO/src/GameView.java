@@ -35,7 +35,7 @@ public class GameView extends JFrame implements View {
         gameFrame.setTitle("UNO");
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setSize(1000, 650);
+        gameFrame.setSize(1000, 675);
 
         gameFrame.add(currCard.getView(), BorderLayout.CENTER);
         gameFrame.add(statusNext.getView(), BorderLayout.WEST);
