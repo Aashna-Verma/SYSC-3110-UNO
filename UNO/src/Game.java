@@ -375,6 +375,9 @@ public class Game {
         return total;
     }
 
+    /**
+     * Restarts the Uno game
+     */
     public void replay(){
         int choice = GameView.displayReplayPopup();
         if (choice == JOptionPane.YES_OPTION) {

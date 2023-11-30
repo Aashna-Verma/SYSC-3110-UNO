@@ -13,6 +13,7 @@ public class Human extends Player{
      */
     public Human(){
         super("Human" + ID);
+        ID += 1;
     }
 
     /**
