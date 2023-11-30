@@ -18,7 +18,6 @@ public class StatusNextView implements View {
     private JButton redo;
     private JButton save;
     private JButton load;
-    private JButton replay;
     private JTextArea gameStatus;
     private JLabel drawImg;
 
@@ -52,17 +51,12 @@ public class StatusNextView implements View {
         load.setActionCommand("Load");
         load.setPreferredSize(new Dimension(90, 50));
 
-        replay = new JButton("replay");
-        replay.setActionCommand("replay");
-        replay.setPreferredSize(new Dimension(90, 50));
-
         buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setPreferredSize(new Dimension(200, 50));
         buttonPanel.add(undo);
         buttonPanel.add(redo);
         buttonPanel.add(save);
         buttonPanel.add(load);
-        buttonPanel.add(replay);
         buttonPanel.add(nextPlayer);
 
         gameStatus.setLineWrap(true);
@@ -106,15 +100,7 @@ public class StatusNextView implements View {
      * Add an action listener to this view for the next player button
      * @param l the listener to be added to the next player button
      */
-    public void addPlayerListener(ActionListener l) {
+    public void addListener(ActionListener l) {
         nextPlayer.addActionListener(l);
-    }
-
-    /**
-     * Add an action listener to this view for the next player button
-     * @param l the listener to be added to the next player button
-     */
-    public void addReplayListener(ActionListener l) {
-        replay.addActionListener(l);
     }
 }
