@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.WindowEvent;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -400,6 +401,45 @@ public class Game {
             players.addAll(newPlayers);
             newRound();
             update();
+        }
+    }
+
+    public GameView getGameView(){
+        return gameView;
+    }
+
+    /**
+     *Serializes the current state of the game.
+     * @throws IOException
+     */
+    public void serialize() throws IOException {
+        ObjectOutputStream oStream = new ObjectOutputStream(new FileOutputStream("UserSave.ser"));
+        try {
+            oStream.writeObject(this);
+            oStream.close();
+            System.out.println("User Saved");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Deserializes the saved state of the game.
+     * @return Loaded game
+     * @throws IOException
+     */
+    public static Game deserialize() throws IOException {
+        try {
+            ObjectInputStream oInput = new ObjectInputStream(new FileInputStream("UserSave.ser"));
+            System.out.println("User Loaded");
+            Game loadedGame = (Game) oInput.readObject();
+            oInput.close();
+            return loadedGame;
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
