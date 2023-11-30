@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -372,6 +373,31 @@ public class Game {
             }
         }
         return total;
+    }
+
+    public void replay(){
+        int choice = GameView.displayReplayPopup();
+        if (choice == JOptionPane.YES_OPTION) {
+            ArrayList<Player> newPlayers = new ArrayList<>();
+
+            //Reset ID's for names
+            Human.ID = 0;
+            FirstValidAI.ID = 0;
+            HighestValueAI.ID = 0;
+            LowestValueAI.ID = 0;
+
+            for (Player p : this.players){
+                if (p instanceof Human){newPlayers.add(new Human());}
+                else if (p instanceof FirstValidAI){newPlayers.add(new FirstValidAI());}
+                else if (p instanceof HighestValueAI){newPlayers.add(new HighestValueAI());}
+                else if (p instanceof LowestValueAI){newPlayers.add(new LowestValueAI());}
+            }
+
+            //initialize players and draw their hands
+            players.addAll(newPlayers);
+            newRound();
+            update();
+        }
     }
 
 }
