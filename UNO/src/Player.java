@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -8,7 +9,7 @@ import java.util.*;
  * @version 1.0
  */
 
-public class Player {
+public class Player implements Serializable {
     public static final int STARTING_HAND_SIZE = 7;
     protected String name;
     protected int score;

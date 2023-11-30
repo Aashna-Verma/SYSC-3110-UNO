@@ -33,7 +33,7 @@ public class NextPlayerListener implements ActionListener {
         }
         else if (Objects.equals(e.getActionCommand(), "Save")) {
             try {
-                this.game.serialize();
+                game.serialize();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -41,7 +41,7 @@ public class NextPlayerListener implements ActionListener {
         else if (Objects.equals(e.getActionCommand(), "Load")) {
             gameView = game.getGameView();
             try {
-                this.game = Game.deserialize();
+                game = Game.deserialize();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

@@ -5,6 +5,7 @@
  * @version 1.0
  */
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +35,7 @@ import java.util.Collections;
  * 4 Wild
  * 4 Wild Draw Colour
  */
-public class Deck {
+public class Deck implements Serializable {
     private ArrayDeque<Card> deck;
 
     /**

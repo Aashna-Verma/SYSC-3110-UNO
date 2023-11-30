@@ -12,7 +12,7 @@ import java.util.Collection;
  * @author  Aashna Verma - Modified for Flip
  * @version 2.0
  */
-public class Game {
+public class Game implements Serializable{
     private enum Direction { FORWARD, BACKWARD }
     private final int WINNING_SCORE = 500;
     private Game.Direction direction;
@@ -28,7 +28,7 @@ public class Game {
     private boolean skipAllPlayers;
     private String statusString;
     private Card statusCard;
-    private GameView gameView;
+    private transient GameView gameView;
 
     /**
      * Constructor for Game

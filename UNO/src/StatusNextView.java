@@ -108,6 +108,8 @@ public class StatusNextView implements View {
      */
     public void addPlayerListener(ActionListener l) {
         nextPlayer.addActionListener(l);
+        save.addActionListener(l);
+        load.addActionListener(l);
     }
 
     /**

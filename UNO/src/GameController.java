@@ -29,6 +29,7 @@ public class GameController {
         nextListener = new NextPlayerListener(model);
         replayListener = new ReplayListener(model);
 
+
         // Listen to the view for all events
         view.addHandListener(handListener);
         view.addDrawListener(drawListener);

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.net.URL;
 
 /**
@@ -10,7 +11,7 @@ import java.net.URL;
  * @version 3.0
  */
 
-public class Card {
+public class Card implements Serializable {
     private final Value LIGHT_VALUE;
     private final Colour LIGHT_COLOUR;
     private final Value DARK_VALUE;
