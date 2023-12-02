@@ -103,4 +103,13 @@ public class StatusNextView implements View {
     public void addListener(ActionListener l) {
         nextPlayer.addActionListener(l);
     }
+
+    /**
+     * Add an action listener to this view for the next player button
+     * @param l the listener to be added to the next player button
+     */
+    public void addURListener(ActionListener l) {
+        undo.addActionListener(l);
+        redo.addActionListener(l);
+    }
 }

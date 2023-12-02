@@ -1,0 +1,10 @@
+<Player>Human 1
+	<Hand>
+		<Card>GREEN EIGHT</Card>
+		<Card>BLUE SIX</Card>
+		<Card>BLUE FIVE</Card>
+		<Card>RED FOUR</Card>
+		<Card>GREEN FIVE</Card>
+		<Card>WILD WILD</Card>
+	</Hand>
+</Player>

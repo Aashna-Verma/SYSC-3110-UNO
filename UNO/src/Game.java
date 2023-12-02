@@ -1,4 +1,6 @@
 import java.awt.event.WindowEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -94,7 +96,18 @@ public class Game {
      */
     private void update(){
         if (gameView != null) {
+            saveCurrentPlayer();
             gameView.update(this);
+        }
+    }
+
+    private void saveCurrentPlayer(){
+        try {
+            FileWriter writer = new FileWriter("currentPlayerState.xml");
+            writer.write(currentPlayer.toXML(0));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -372,6 +385,10 @@ public class Game {
             }
         }
         return total;
+    }
+
+    public void undoRedo(){
+        System.out.println("yolo");
     }
 
 }

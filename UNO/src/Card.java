@@ -165,4 +165,9 @@ public class Card {
         return false;
     }
 
+    public String toXML(int numTabs){
+        String tabs = "\t".repeat( numTabs);
+        return tabs + "<Card>" + this.toString() + "</Card>\n";
+    }
+
 }

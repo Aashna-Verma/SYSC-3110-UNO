@@ -113,6 +113,14 @@ public class GameView extends JFrame implements View {
     }
 
     /**
+     * Add actionlistener for statusNext
+     * @param l Actionalistener
+     */
+    public void addURListener (ActionListener l) {
+        statusNext.addURListener(l);
+    }
+
+    /**
      * Add actionlistener for drawCardPanel
      * @param l Actionalistener
      */
