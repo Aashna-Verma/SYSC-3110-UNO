@@ -1,0 +1,10 @@
+<Player>Human 2
+	<Hand>
+		<Card>YELLOW THREE</Card>
+		<Card>RED FIVE</Card>
+		<Card>WILD WILD_DRAW_TWO</Card>
+		<Card>YELLOW FLIP</Card>
+		<Card>YELLOW THREE</Card>
+		<Card>RED NINE</Card>
+	</Hand>
+</Player>

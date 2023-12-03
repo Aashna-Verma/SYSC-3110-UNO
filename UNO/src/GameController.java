@@ -13,6 +13,8 @@ public class GameController {
     private HandListener handListener;
     private DrawCardListener drawListener;
     private NextPlayerListener nextListener;
+    private UndoListener undoListener;
+    private RedoListener redoListener;
 
     /**
      * constructor for GameController
@@ -26,11 +28,15 @@ public class GameController {
         handListener = new HandListener(model);
         drawListener = new DrawCardListener(model);
         nextListener = new NextPlayerListener(model);
+        undoListener = new UndoListener(model);
+        redoListener = new RedoListener(model);
 
         // Listen to the view for all events
         view.addHandListener(handListener);
         view.addDrawListener(drawListener);
         view.addNextListener(nextListener);
+        view.addUndoListener(undoListener);
+        view.addRedoListener(redoListener);
         // Add a view and update it to start the game
         model.addView(view);
     }
