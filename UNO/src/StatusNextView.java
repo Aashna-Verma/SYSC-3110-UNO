@@ -52,8 +52,8 @@ public class StatusNextView implements View {
         load.setActionCommand("Load");
         load.setPreferredSize(new Dimension(90, 50));
 
-        replay = new JButton("replay");
-        replay.setActionCommand("replay");
+        replay = new JButton("Replay");
+        replay.setActionCommand("Replay");
         replay.setPreferredSize(new Dimension(200, 50));
 
         buttonPanel = new JPanel(new FlowLayout());
