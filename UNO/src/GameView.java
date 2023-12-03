@@ -35,7 +35,7 @@ public class GameView extends JFrame implements View {
         gameFrame.setTitle("UNO");
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setSize(1000, 675);
+        gameFrame.setSize(1000, 715);
 
         gameFrame.add(currCard.getView(), BorderLayout.CENTER);
         gameFrame.add(statusNext.getView(), BorderLayout.WEST);
@@ -105,6 +105,15 @@ public class GameView extends JFrame implements View {
     }
 
     /**
+     * Generates the popup after a player wants to replay the game
+     */
+    public static int displayReplayPopup(){
+        JFrame frame = new JFrame();
+        int choice = JOptionPane.showConfirmDialog(frame, "Do you want to restart the game?", "Replay Confirmation", JOptionPane.YES_NO_OPTION);
+        return choice;
+    }
+
+    /**
      * Add actionlistener for statusNext
      * @param l Actionalistener
      */
@@ -142,6 +151,14 @@ public class GameView extends JFrame implements View {
      */
     public void addHandListener (ActionListener l) {
         hand.addListener(l);
+    }
+
+    /**
+     * Add actionlistener for statusNext
+     * @param l Actionalistener
+     */
+    public void addReplayListener (ActionListener l) {
+        statusNext.addReplayListener(l);
     }
 
     /**
