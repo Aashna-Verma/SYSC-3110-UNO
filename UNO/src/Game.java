@@ -287,14 +287,15 @@ public class Game {
     }
 
     /**
-     *
+     * Changes the topCard and gets colour for wild cards
+     * @param choice is the card played
      */
     private void processChoiceStatus(Card choice) {
         // Don't do anything with no choice
         if (choice == null) { return; }
         if (choice.getColour() == Colour.WILD) {
                 Colour c = handleWild(choice);
-                statusString += "smth\n";
+                statusString += "Color is set to " + topCard.getColour() + "\n";
         }
 
         // The top card is now the played card
@@ -305,7 +306,7 @@ public class Game {
     }
 
     /**
-     * Decide what to do based on the card played. Can change the current player and the top card.
+     * Decide what to do based on the card played.
      * Append to the status string with what is done with the player's choice
      * @param choice The card that was played on the currentPlayer's turn
      */
@@ -316,35 +317,37 @@ public class Game {
         switch (choice.getValue()) {
             case DRAW_ONE -> {
                 Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                statusString += "Next player receives: " + drawn.getColour() + " " + drawn.getValue();
+                statusString += "Receiving: " + drawn.getColour() + " " + drawn.getValue() + "\n";
             }
             case DRAW_FIVE -> {
                 StringBuilder s = new StringBuilder();
                 for(int i=0; i<5; i++){
                     s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
                 }
-                statusString += "Receiving: \n" + s;
+                statusString += "Receiving: \n" + s + "\n";
             }
             case SKIP -> {
                 skipNextPlayer = true;
-                statusString += "Last player skipped.";
+                statusString += "Last player skipped.\n";
             }
             case SKIP_ALL -> {
                 skipAllPlayers = true;
-                statusString += "All players skipped.";
+                statusString += "All players skipped.\n";
             }
             case REVERSE -> {
                 if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
                 else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
-                statusString += "Direction reversed.";
+                statusString += "Direction reversed.\n";
             }
             case WILD_DRAW_TWO -> {
-                Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                statusString += currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+                StringBuilder s = new StringBuilder();
+                for(int i=0; i<2; i++){
+                    s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
+                }
+                statusString += "Receiving: \n" + s + "\n";
             }
             case WILD -> {
-                statusString += "smth";
+                statusString += "";
             }
             case WILD_DRAW_COLOUR -> {
                 Card card;
@@ -354,7 +357,7 @@ public class Game {
                     s.append(card.toString() + "\n");
                 }while(card.getColour() != topCard.getColour());
 
-                statusString += "Next player receives:\n" + s;
+                statusString += "Reciving:\n" + s;
             }
             case FLIP -> {
                 Card.flipSide();
@@ -400,6 +403,7 @@ public class Game {
      * Restarts the Uno game
      */
     public void replay(){
+        statusString += "REPLAY!\n";
         int choice = GameView.displayReplayPopup();
         if (choice == JOptionPane.YES_OPTION) {
             for (Player p : this.players){
@@ -410,8 +414,11 @@ public class Game {
         }
     }
 
+    /**
+     * Undo's the last move by player
+     */
     public void undo(){
-        statusString += "UNDO last action!";
+        statusString += "UNDO last action!\n";
         if(statusCard != null){
             currentDeck.addCard(statusCard);
             currentPlayer.removeCard(currentPlayer.getNumCards());
@@ -428,7 +435,11 @@ public class Game {
         update();
     }
 
+    /**
+     * Redo's the last undid action by player
+     */
     public void redo(){
+        statusString += "REDO last action!\n";
         if (prevChoice == null){
             statusCard = currentPlayer.drawCard(currentDeck.removeCard());
         } else {

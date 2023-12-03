@@ -91,7 +91,7 @@ public class StatusNextView implements View {
     public void update(Game game) {
         nextPlayer.setEnabled(game.isRoundOver());
         gameStatus.setText(game.getStatusString());
-        undo.setEnabled(game.isRoundOver());
+        undo.setEnabled(game.isRoundOver() && !(game.getCurrentPlayer() instanceof AIBot));
         redo.setEnabled(game.hasPrevChoice());
         if(game.getStatusCard() != null){
             gameStatus.setPreferredSize(new Dimension(200, 150));
