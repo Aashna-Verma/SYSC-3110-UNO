@@ -4,8 +4,7 @@ import java.net.URL;
 
 /**
  * The Card class within the UNO game which represents a card in the UNO game.
- * Each card has a value and a colour
- *
+ * Each card has a dark and light side, each with their own value and colour
  * @author  Aashna Verma 101225434 - modified for flip
  * @version 3.0
  */
@@ -22,7 +21,6 @@ public class Card {
 
     /**
      * Constructor for card
-     *
      * @param light_value value of the light side of the card
      * @param light_colour color of the light side of the card
      * @param dark_value value of the dark side of the card
@@ -40,7 +38,6 @@ public class Card {
 
     /**
      * Creates an image icon for the image a card
-     *
      * @param s the side that the game is on
      * @return the ImageIcon
      */
@@ -57,17 +54,24 @@ public class Card {
         return new ImageIcon(Card.class.getResource( "cardImgs/" + v.toString() + "_" + str + ".png"));
     }
 
+    /**
+     * Sets the Colour of this Card's wildColour
+     * @param c the Colour chosen for the wildColour
+     */
     public void setWildColour(Colour c){
         wildColour = c;
     }
 
+    /**
+     * Getter for this Card's wildColour
+     * @return the chosen wildColor
+     */
     public Colour getWildColour(){
         return this.wildColour;
     }
 
     /**
      * Shows the Value of the Card
-     *
      * @return the Value of the card
      */
     public Value getValue(){
@@ -76,7 +80,6 @@ public class Card {
 
     /**
      * Shows the Colour of the Card
-     *
      * @return the Colour of the card
      */
     public Colour getColour(){
@@ -100,7 +103,6 @@ public class Card {
 
     /**
      * Gets the score related to the card
-     *
      * @return an Int of the cards score
      */
     public int getScore(){
@@ -125,7 +127,6 @@ public class Card {
 
     /**
      * Shows the Colour and Value of the Card
-     *
      * @return a String of the Colour and Value of the card
      */
     @Override
@@ -135,7 +136,6 @@ public class Card {
 
     /**
      * Get scaled image of the card
-     *
      * @param scale float of scaling value
      * @return an ImageIcon of the card
      */

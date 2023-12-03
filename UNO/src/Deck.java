@@ -98,7 +98,6 @@ public class Deck {
 
     /**
      * Adds a card to the top of the deck
-     *
      * @param card Card to be added to the top of deck
      */
     public boolean addCard(Card card){
@@ -115,7 +114,6 @@ public class Deck {
 
     /**
      * Returns the current top card of the deck, null if it is empty
-     *
      * @return The top card of the deck, null if it is empty
      */
     public Card getTopCard() {

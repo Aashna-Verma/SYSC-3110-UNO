@@ -51,7 +51,7 @@ public class GameController {
         // Add the number of players chosen by the human
         int humans = GameView.getHumans();
         for (int i = 0; i < humans; i++) {
-            players.add(new Human("Human " + (i + 1)));
+            players.add(new Human());
         }
         int bots = GameView.getAI();
         Random random = new Random();
