@@ -13,7 +13,6 @@ public class GameController {
     private HandListener handListener;
     private DrawCardListener drawListener;
     private NextPlayerListener nextListener;
-    private ReplayListener replayListener;
 
     /**
      * constructor for GameController
@@ -27,13 +26,11 @@ public class GameController {
         handListener = new HandListener(model);
         drawListener = new DrawCardListener(model);
         nextListener = new NextPlayerListener(model);
-        replayListener = new ReplayListener(model);
 
         // Listen to the view for all events
         view.addHandListener(handListener);
         view.addDrawListener(drawListener);
         view.addNextListener(nextListener);
-        view.addReplayListener(replayListener);
         // Add a view and update it to start the game
         model.addView(view);
     }
@@ -48,7 +45,7 @@ public class GameController {
         // Add the number of players chosen by the human
         int humans = GameView.getHumans();
         for (int i = 0; i < humans; i++) {
-            players.add(new Human());
+            players.add(new Human("Human " + (i + 1)));
         }
         int bots = GameView.getAI();
         Random random = new Random();
