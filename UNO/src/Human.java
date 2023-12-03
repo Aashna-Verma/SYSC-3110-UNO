@@ -12,8 +12,9 @@ public class Human extends Player{
      * Constructor for Human Class
      * @param name the name of the player
      */
-    public Human(String name){
-        super(name);
+    public Human(){
+        super("Human" + ID);
+        ID += 1;
     }
 
     /**

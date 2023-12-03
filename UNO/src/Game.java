@@ -395,6 +395,20 @@ public class Game {
         return total;
     }
 
+    /**
+     * Restarts the Uno game
+     */
+    public void replay(){
+        int choice = GameView.displayReplayPopup();
+        if (choice == JOptionPane.YES_OPTION) {
+            for (Player p : this.players){
+                p.setScore(0);
+            }
+            newRound();
+            update();
+        }
+    }
+
     public void undo(){
         statusString += "UNDO last action!";
         if(statusCard != null){
@@ -427,5 +441,4 @@ public class Game {
         roundOver = true;
         update();
     }
-
 }
