@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
 
@@ -16,10 +19,11 @@ public class Card implements Serializable {
     private final Colour LIGHT_COLOUR;
     private final Value DARK_VALUE;
     private final Colour DARK_COLOUR;
-    private final ImageIcon LIGHT_ICON_IMAGE;
-    private final ImageIcon DARK_ICON_IMAGE;
+    private transient ImageIcon LIGHT_ICON_IMAGE;
+    private transient ImageIcon DARK_ICON_IMAGE;
     private Colour wildColour;
     private static Side side;
+
 
     /**
      * Constructor for card
@@ -164,6 +168,12 @@ public class Card implements Serializable {
             return true;
         }
         return false;
+    }
+    @Serial
+    private void readObject(ObjectInputStream istream) throws ClassNotFoundException, IOException {
+        istream.defaultReadObject();
+        this.LIGHT_ICON_IMAGE = getImageIconResource(Side.LIGHT);
+        this.DARK_ICON_IMAGE = getImageIconResource(Side.DARK);
     }
 
 }
