@@ -113,6 +113,22 @@ public class GameView extends JFrame implements View {
     }
 
     /**
+     * Add actionlistener for statusUndo
+     * @param l Actionalistener
+     */
+    public void addUndoListener (ActionListener l) {
+        statusNext.addUndoListener(l);
+    }
+
+    /**
+     * Add actionlistener for statusRedo
+     * @param l Actionalistener
+     */
+    public void addRedoListener (ActionListener l) {
+        statusNext.addRedoListener(l);
+    }
+
+    /**
      * Add actionlistener for drawCardPanel
      * @param l Actionalistener
      */
