@@ -12,6 +12,8 @@ public class Human extends Player{
      * Constructor for Human Class
      * @param name the name of the player
      */
+    static int ID =0;
+
     public Human(){
         super("Human" + ID);
         ID += 1;
