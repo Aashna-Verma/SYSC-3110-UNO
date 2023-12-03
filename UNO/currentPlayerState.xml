@@ -1,10 +1,10 @@
-<Player>Human 1
+<Player>Human 2
 	<Hand>
-		<Card>GREEN EIGHT</Card>
-		<Card>BLUE SIX</Card>
-		<Card>BLUE FIVE</Card>
-		<Card>RED FOUR</Card>
-		<Card>GREEN FIVE</Card>
-		<Card>WILD WILD</Card>
+		<Card>YELLOW THREE</Card>
+		<Card>RED FIVE</Card>
+		<Card>WILD WILD_DRAW_TWO</Card>
+		<Card>YELLOW FLIP</Card>
+		<Card>YELLOW THREE</Card>
+		<Card>RED NINE</Card>
 	</Hand>
 </Player>

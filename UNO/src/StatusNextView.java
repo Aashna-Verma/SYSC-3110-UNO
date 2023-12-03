@@ -85,6 +85,8 @@ public class StatusNextView implements View {
     public void update(Game game) {
         nextPlayer.setEnabled(game.isRoundOver());
         gameStatus.setText(game.getStatusString());
+        undo.setEnabled(game.isRoundOver());
+        redo.setEnabled(game.hasPrevChoice());
         if(game.getStatusCard() != null){
             gameStatus.setPreferredSize(new Dimension(200, 150));
             drawImg.setIcon(game.getStatusCard().getImageIcon(0.2));
@@ -105,11 +107,18 @@ public class StatusNextView implements View {
     }
 
     /**
-     * Add an action listener to this view for the next player button
-     * @param l the listener to be added to the next player button
+     * Add an action listener to this view for the undo button
+     * @param l the listener to be added to the undo button
      */
-    public void addURListener(ActionListener l) {
+    public void addUndoListener(ActionListener l) {
         undo.addActionListener(l);
+    }
+
+    /**
+     * Add an action listener to this view for the redo button
+     * @param l the listener to be added to the redo button
+     */
+    public void addRedoListener(ActionListener l) {
         redo.addActionListener(l);
     }
 }

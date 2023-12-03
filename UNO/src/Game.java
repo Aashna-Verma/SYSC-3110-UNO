@@ -1,6 +1,4 @@
 import java.awt.event.WindowEvent;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,12 +18,14 @@ public class Game {
     private int numPlayers;
     private Player currentPlayer;
     private Card topCard;
+    private Card prevChoice;
     private Deck currentDeck; // deck being played with
     private Deck pile; // discard pile
     private boolean gameOver;
     private boolean roundOver;
     private boolean skipNextPlayer; // For skip cards
     private boolean skipAllPlayers;
+    private boolean prevDrew;
     private String statusString;
     private Card statusCard;
     private GameView gameView;
@@ -52,6 +52,7 @@ public class Game {
         pile = new Deck();
         currentDeck.populateDeck();
         topCard = currentDeck.removeCard();
+        pile.addCard(topCard);
 
         gameOver = false;
         roundOver = false;
@@ -96,18 +97,7 @@ public class Game {
      */
     private void update(){
         if (gameView != null) {
-            saveCurrentPlayer();
             gameView.update(this);
-        }
-    }
-
-    private void saveCurrentPlayer(){
-        try {
-            FileWriter writer = new FileWriter("currentPlayerState.xml");
-            writer.write(currentPlayer.toXML(0));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -144,6 +134,13 @@ public class Game {
     }
 
     /**
+     * Determines if undo was clicked earlier
+     *
+     * @return true is there is a prev choice
+     */
+    public boolean hasPrevChoice() {return prevChoice != null || prevDrew ;}
+
+    /**
      * Getter for the string containing the status of the game
      * @return status string
      */
@@ -175,6 +172,8 @@ public class Game {
      */
     public void drawCard(){
         if (!roundOver && !gameOver) {
+            prevDrew = false;
+            prevChoice = null;
             if (currentDeck.getTopCard() == null){
                 topCard = pile.removeCard();
                 currentDeck = Deck.reshuffle(pile);
@@ -198,9 +197,11 @@ public class Game {
     public void playCard(int input) {
         if (!roundOver && !gameOver) {
             Card choice = currentPlayer.removeCard(input);
+            prevChoice = null;
+            prevDrew = false;
             if (topCard.validWith(choice)) {
                 statusString = "Played a card: " + choice.toString() + "\n";
-                processChoice(choice);
+                processChoiceStatus(choice);
                 if (currentPlayer.getNumCards() == 0) {
                     currentPlayer.setScore(currentPlayer.getScore() + getPoints());
                     // update the view so that scores are accurate
@@ -229,6 +230,8 @@ public class Game {
      */
     public boolean advanceCurrentPlayer() {
         if (roundOver && !gameOver ) {
+            processChoice(topCard);
+
             if (skipAllPlayers){
                 skipAllPlayers = false;
             } else {
@@ -240,8 +243,7 @@ public class Game {
                 currentPlayer = nextPlayer(currentPlayer);
                 skipNextPlayer = false;
             }
-            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
-
+            //statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
             skipAllPlayers = false;
             roundOver = false; // Next round starts
             statusCard = null;
@@ -284,6 +286,24 @@ public class Game {
     }
 
     /**
+     *
+     */
+    private void processChoiceStatus(Card choice) {
+        // Don't do anything with no choice
+        if (choice == null) { return; }
+        if (choice.getColour() == Colour.WILD) {
+                Colour c = handleWild(choice);
+                statusString += "smth\n";
+        }
+
+        // The top card is now the played card
+        topCard = choice;
+        pile.addCard(topCard);
+        roundOver = true;
+        update();
+    }
+
+    /**
      * Decide what to do based on the card played. Can change the current player and the top card.
      * Append to the status string with what is done with the player's choice
      * @param choice The card that was played on the currentPlayer's turn
@@ -302,15 +322,15 @@ public class Game {
                 for(int i=0; i<5; i++){
                     s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
                 }
-                statusString += "Next player receives: \n" + s;
+                statusString += "Receiving: \n" + s;
             }
             case SKIP -> {
                 skipNextPlayer = true;
-                statusString += "Next player is skipped.";
+                statusString += "Last player skipped.";
             }
             case SKIP_ALL -> {
                 skipAllPlayers = true;
-                statusString += "All players are skipped.";
+                statusString += "All players skipped.";
             }
             case REVERSE -> {
                 if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
@@ -320,25 +340,19 @@ public class Game {
             case WILD_DRAW_TWO -> {
                 Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                 Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                Colour c = handleWild(choice);
-                if (c == null) { return; } // Don't go to the next round or continue handling
-                statusString += c.toString() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+                statusString += currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
             }
             case WILD -> {
-                Colour c = handleWild(choice);
-                if (c == null) { return; } // Don't go to the next round or continue handling
-                statusString += c.toString() + " has been chosen.";
+                statusString += "smth";
             }
             case WILD_DRAW_COLOUR -> {
-                Colour c = handleWild(choice);
                 Card card;
                 StringBuilder s = new StringBuilder();
                 do{
                     card = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                     s.append(card.toString() + "\n");
-                }while(card.getColour() != c);
+                }while(card.getColour() != topCard.getColour());
 
-                if (c == null) { return; } // Don't go to the next round or continue handling
                 statusString += "Next player receives:\n" + s;
             }
             case FLIP -> {
@@ -348,12 +362,6 @@ public class Game {
             default -> {
             }
         }
-
-        // The current card is no longer needed
-        pile.addCard(topCard);
-        // The top card is now the played card
-        topCard = choice;
-        roundOver = true;
         update();
     }
 
@@ -387,8 +395,37 @@ public class Game {
         return total;
     }
 
-    public void undoRedo(){
-        System.out.println("yolo");
+    public void undo(){
+        statusString += "UNDO last action!";
+        if(statusCard != null){
+            currentDeck.addCard(statusCard);
+            currentPlayer.removeCard(currentPlayer.getNumCards());
+            statusCard = null;
+            prevChoice = null;
+            prevDrew = true;
+        } else {
+            prevChoice = topCard;
+            currentPlayer.addCard(pile.removeCard());
+            topCard = pile.getTopCard();
+            prevDrew = false;
+        }
+        roundOver = false;
+        update();
+    }
+
+    public void redo(){
+        if (prevChoice == null){
+            statusCard = currentPlayer.drawCard(currentDeck.removeCard());
+        } else {
+            pile.addCard(prevChoice);
+            topCard = prevChoice;
+            currentPlayer.removeCard( currentPlayer.getHand().indexOf(prevChoice) + 1);
+        }
+
+        prevDrew = false;
+        prevChoice = null;
+        roundOver = true;
+        update();
     }
 
 }

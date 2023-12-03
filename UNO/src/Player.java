@@ -185,19 +185,4 @@ public class Player {
             return darkColors.get(random.nextInt(darkColors.size()));
         }
     }
-
-    public String toXML(int numTabs){
-        String tabs = "\t".repeat( numTabs);
-        StringBuilder s = new StringBuilder();
-
-        s.append(tabs + "<Player>" + getName()+"\n");
-        s.append(tabs + "\t<Hand>\n");
-        for (Card c: getHand()){
-            s.append(tabs + c.toXML(2));
-        }
-        s.append(tabs + "\t</Hand>\n");
-        s.append(tabs + "</Player>\n");
-
-        return s.toString();
-    }
 }
