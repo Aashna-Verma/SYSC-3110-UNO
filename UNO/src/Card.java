@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.Serial;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.Objects;
 
 /**
  * The Card class within the UNO game which represents a card in the UNO game.
@@ -176,4 +177,16 @@ public class Card implements Serializable {
         this.DARK_ICON_IMAGE = getImageIconResource(Side.DARK);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return LIGHT_VALUE == card.LIGHT_VALUE && LIGHT_COLOUR == card.LIGHT_COLOUR && DARK_VALUE == card.DARK_VALUE && DARK_COLOUR == card.DARK_COLOUR && wildColour == card.wildColour;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(LIGHT_VALUE, LIGHT_COLOUR, DARK_VALUE, DARK_COLOUR, wildColour);
+    }
 }

@@ -186,4 +186,17 @@ public class Player implements Serializable {
             return darkColors.get(random.nextInt(darkColors.size()));
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return score == player.score && Objects.equals(name, player.name) && Objects.equals(hand, player.hand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, score, hand);
+    }
 }

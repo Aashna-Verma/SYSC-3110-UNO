@@ -24,18 +24,26 @@ public class GameController {
     public GameController(Game model, GameView view) {
         this.model = model;
         this.view = view;
-        handListener = new HandListener(model);
-        drawListener = new DrawCardListener(model);
-        nextListener = new NextPlayerListener(model);
-        replayListener = new ReplayListener(model);
-
+        handListener = new HandListener(this);
+        drawListener = new DrawCardListener(this);
+        nextListener = new NextPlayerListener(this);
+        replayListener = new ReplayListener(this);
 
         // Listen to the view for all events
         view.addHandListener(handListener);
         view.addDrawListener(drawListener);
         view.addNextListener(nextListener);
         view.addReplayListener(replayListener);
-        // Add a view and update it to start the game
+        // Set the model of all listeners and this object
+        this.setModel(model);
+    }
+    public void setModel(Game model) {
+        this.model = model;
+        handListener.setModel(model);
+        drawListener.setModel(model);
+        nextListener.setModel(model);
+        replayListener.setModel(model);
+
         model.addView(view);
     }
 

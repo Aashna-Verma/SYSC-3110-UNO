@@ -10,16 +10,15 @@ import java.awt.event.ActionListener;
 
 public class DrawCardListener implements ActionListener {
     private Game game;
+    private GameController controller;
 
     /**
      * Constructor for DrawCardListener
      *
      * @param game the Game model
      */
-    public DrawCardListener(Game game) {
-        this.game = game;
-    }
-
+    public DrawCardListener(GameController controller) { this.controller = controller; }
+    public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
      *

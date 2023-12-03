@@ -435,7 +435,6 @@ public class Game implements Serializable{
             Game loadedGame = (Game) oInput.readObject();
             oInput.close();
             return loadedGame;
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {

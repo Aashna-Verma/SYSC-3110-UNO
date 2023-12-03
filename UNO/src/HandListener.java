@@ -10,16 +10,15 @@ import java.awt.event.ActionListener;
 
 public class HandListener implements ActionListener {
     private Game game;
+    private GameController controller;
 
     /**
      * Constructor for HandListener
      *
      * @param game the Game model
      */
-    public HandListener(Game game) {
-        this.game = game;
-    }
-
+    public HandListener(GameController controller) { this.controller = controller; }
+    public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
      *

@@ -10,14 +10,16 @@ import java.awt.event.ActionListener;
 
 public class ReplayListener implements ActionListener {
     private Game game;
+    private GameController controller;
 
     /**
      * Constructor for NextPlayerListener
      *
      * @param game the Game model
      */
-    public ReplayListener(Game game) { this.game = game; }
+    public ReplayListener(GameController controller) { this.controller = controller; }
 
+    public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
      *

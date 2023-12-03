@@ -12,15 +12,15 @@ import java.util.Objects;
 
 public class NextPlayerListener implements ActionListener {
     private Game game;
-    private GameView gameView;
+    private GameController controller;
 
     /**
      * Constructor for NextPlayerListener
      *
-     * @param game the Game model
+     * @param GameController the controller that owns this listener
      */
-    public NextPlayerListener(Game game) { this.game = game; }
-
+    public NextPlayerListener(GameController controller) { this.controller = controller; }
+    public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
      *
@@ -39,14 +39,13 @@ public class NextPlayerListener implements ActionListener {
             }
         }
         else if (Objects.equals(e.getActionCommand(), "Load")) {
-            gameView = game.getGameView();
             try {
                 game = Game.deserialize();
+                controller.setModel(game);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            game.addView(gameView);
-            game.getGameView().update(game);
+
         }
     }
 }
