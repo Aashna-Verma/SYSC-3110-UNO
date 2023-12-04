@@ -4,22 +4,22 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * NextPlayerListener is the ActionListener for the Next Player button
+ * StatusListener is the ActionListener for the Next Player button
  *
  * @author Angus Jull
  * @version 2.0
  */
 
-public class NextPlayerListener implements ActionListener {
+public class StatusListener implements ActionListener {
     private Game game;
     private GameController controller;
 
     /**
-     * Constructor for NextPlayerListener
+     * Constructor for StatusListener
      *
      * @param controller the controller that owns this listener
      */
-    public NextPlayerListener(GameController controller) { this.controller = controller; }
+    public StatusListener(GameController controller) { this.controller = controller; }
     public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
@@ -30,6 +30,12 @@ public class NextPlayerListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(Objects.equals(e.getActionCommand(), "NextPlayer")) {
             game.advanceCurrentPlayer();
+        }
+        else if (Objects.equals(e.getActionCommand(), "Undo")) {
+            game.undo();
+        }
+        else if (Objects.equals(e.getActionCommand(), "Redo")) {
+            game.redo();
         }
         else if (Objects.equals(e.getActionCommand(), "Save")) {
             try {
@@ -47,6 +53,9 @@ public class NextPlayerListener implements ActionListener {
                 throw new RuntimeException(ex);
             }
 
+        }
+        else if (Objects.equals(e.getActionCommand(), "Replay")) {
+            game.replay();
         }
     }
 }

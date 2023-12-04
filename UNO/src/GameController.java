@@ -12,10 +12,7 @@ public class GameController {
     private GameView view;
     private HandListener handListener;
     private DrawCardListener drawListener;
-    private NextPlayerListener nextListener;
-    private UndoListener undoListener;
-    private RedoListener redoListener;
-    private ReplayListener replayListener;
+    private StatusListener statusListener;
 
     /**
      * constructor for GameController
@@ -29,18 +26,12 @@ public class GameController {
 
         handListener = new HandListener(this);
         drawListener = new DrawCardListener(this);
-        nextListener = new NextPlayerListener(this);
-        undoListener = new UndoListener(this);
-        redoListener = new RedoListener(this);
-        replayListener = new ReplayListener(this);
+        statusListener = new StatusListener(this);
 
         // Listen to the view for all events
         view.addHandListener(handListener);
         view.addDrawListener(drawListener);
-        view.addNextListener(nextListener);
-        view.addUndoListener(undoListener);
-        view.addRedoListener(redoListener);
-        view.addReplayListener(replayListener);
+        view.addStatusListener(statusListener);
         // Set the model of all listeners and this object
         this.setModel(model);
     }
@@ -48,10 +39,7 @@ public class GameController {
         this.model = model;
         handListener.setModel(model);
         drawListener.setModel(model);
-        nextListener.setModel(model);
-        undoListener.setModel(model);
-        redoListener.setModel(model);
-        replayListener.setModel(model);
+        statusListener.setModel(model);
 
         model.addView(view);
     }

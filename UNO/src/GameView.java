@@ -124,24 +124,8 @@ public class GameView extends JFrame implements View {
      * Add actionlistener for statusNext
      * @param l Actionalistener
      */
-    public void addNextListener (ActionListener l) {
+    public void addStatusListener (ActionListener l) {
         statusNext.addListener(l);
-    }
-
-    /**
-     * Add actionlistener for statusUndo
-     * @param l Actionalistener
-     */
-    public void addUndoListener (ActionListener l) {
-        statusNext.addUndoListener(l);
-    }
-
-    /**
-     * Add actionlistener for statusRedo
-     * @param l Actionalistener
-     */
-    public void addRedoListener (ActionListener l) {
-        statusNext.addRedoListener(l);
     }
 
     /**
@@ -158,14 +142,6 @@ public class GameView extends JFrame implements View {
      */
     public void addHandListener (ActionListener l) {
         hand.addListener(l);
-    }
-
-    /**
-     * Add actionlistener for statusNext
-     * @param l Actionalistener
-     */
-    public void addReplayListener (ActionListener l) {
-        statusNext.addReplayListener(l);
     }
 
     /**

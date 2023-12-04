@@ -110,32 +110,10 @@ public class StatusNextView implements View {
      */
     public void addListener(ActionListener l) {
         nextPlayer.addActionListener(l);
+        undo.addActionListener(l);
+        redo.addActionListener(l);
         save.addActionListener(l);
         load.addActionListener(l);
-    }
-
-    /**
-     * Add an action listener to this view for the next player button
-     * @param l the listener to be added to the next player button
-     */
-    public void addReplayListener(ActionListener l) {
         replay.addActionListener(l);
-    }
-
-
-    /**
-     * Add an action listener to this view for the undo button
-     * @param l the listener to be added to the undo button
-     */
-    public void addUndoListener(ActionListener l) {
-        undo.addActionListener(l);
-    }
-
-    /**
-     * Add an action listener to this view for the redo button
-     * @param l the listener to be added to the redo button
-     */
-    public void addRedoListener(ActionListener l) {
-        redo.addActionListener(l);
     }
 }
