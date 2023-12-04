@@ -11,6 +11,7 @@
     <void property="methods">
      <void property="text">
       <string>+ DrawCardListener(Game)
++ setModel(Game)
 + actionPerformed(ActionEvent): void</string>
      </void>
     </void>
@@ -32,12 +33,12 @@
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double0"/>
-      <double>200.0</double>
+      <double>210.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>90.0</double>
-     <double>200.0</double>
+     <double>210.0</double>
     </void>
    </object>
   </void>
@@ -84,6 +85,7 @@
     <void property="methods">
      <void property="text">
       <string>+ GameController(Game, GameView)
++ setModel(Game)
 + &lt;u&gt;main(String[] args): void&lt;u&gt;</string>
      </void>
     </void>
@@ -124,6 +126,7 @@
     <void property="methods">
      <void property="text">
       <string>+ HandListener(Game)
++ setModel(Game)
 + actionPerformed(ActionEvent e): void</string>
      </void>
     </void>
@@ -163,13 +166,14 @@
     </void>
     <void property="methods">
      <void property="text">
-      <string>+ NextPlayerListener(Game)
+      <string>+ StatusListener(Game)
++ setModel(Game)
 + actionPerformed(ActionEvent): void</string>
      </void>
     </void>
     <void property="name">
      <void property="text">
-      <string>NextPlayerListener</string>
+      <string>StatusListener</string>
      </void>
     </void>
    </object>
@@ -185,12 +189,12 @@
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double4"/>
-      <double>200.0</double>
+      <double>210.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>670.0</double>
-     <double>200.0</double>
+     <double>210.0</double>
     </void>
    </object>
   </void>

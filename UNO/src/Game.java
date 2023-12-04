@@ -370,7 +370,6 @@ public class Game implements Serializable{
         update();
     }
 
-
     /**
      * Handle the user input for playing a wild card, in choosing a colour and setting that colour
      * @return A card with the chosen colour, or the top card if the top card is not a wild card.
