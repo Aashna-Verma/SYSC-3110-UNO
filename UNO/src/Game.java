@@ -20,12 +20,14 @@ public class Game implements Serializable{
     private int numPlayers;
     private Player currentPlayer;
     private Card topCard;
+    private Card prevChoice;
     private Deck currentDeck; // deck being played with
     private Deck pile; // discard pile
     private boolean gameOver;
     private boolean roundOver;
     private boolean skipNextPlayer; // For skip cards
     private boolean skipAllPlayers;
+    private boolean prevDrew;
     private String statusString;
     private Card statusCard;
     private transient GameView gameView;
@@ -52,6 +54,7 @@ public class Game implements Serializable{
         pile = new Deck();
         currentDeck.populateDeck();
         topCard = currentDeck.removeCard();
+        pile.addCard(topCard);
 
         gameOver = false;
         roundOver = false;
@@ -133,6 +136,13 @@ public class Game implements Serializable{
     }
 
     /**
+     * Determines if undo was clicked earlier
+     *
+     * @return true is there is a prev choice
+     */
+    public boolean hasPrevChoice() {return prevChoice != null || prevDrew ;}
+
+    /**
      * Getter for the string containing the status of the game
      * @return status string
      */
@@ -164,6 +174,8 @@ public class Game implements Serializable{
      */
     public void drawCard(){
         if (!roundOver && !gameOver) {
+            prevDrew = false;
+            prevChoice = null;
             if (currentDeck.getTopCard() == null){
                 topCard = pile.removeCard();
                 currentDeck = Deck.reshuffle(pile);
@@ -187,9 +199,11 @@ public class Game implements Serializable{
     public void playCard(int input) {
         if (!roundOver && !gameOver) {
             Card choice = currentPlayer.removeCard(input);
+            prevChoice = null;
+            prevDrew = false;
             if (topCard.validWith(choice)) {
                 statusString = "Played a card: " + choice.toString() + "\n";
-                processChoice(choice);
+                processChoiceStatus(choice);
                 if (currentPlayer.getNumCards() == 0) {
                     currentPlayer.setScore(currentPlayer.getScore() + getPoints());
                     // update the view so that scores are accurate
@@ -218,6 +232,8 @@ public class Game implements Serializable{
      */
     public boolean advanceCurrentPlayer() {
         if (roundOver && !gameOver ) {
+            processChoice(topCard);
+
             if (skipAllPlayers){
                 skipAllPlayers = false;
             } else {
@@ -229,8 +245,7 @@ public class Game implements Serializable{
                 currentPlayer = nextPlayer(currentPlayer);
                 skipNextPlayer = false;
             }
-            statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
-
+            //statusString = currentPlayer.getName() + "'s Turn. Play a card or draw";
             skipAllPlayers = false;
             roundOver = false; // Next round starts
             statusCard = null;
@@ -273,7 +288,26 @@ public class Game implements Serializable{
     }
 
     /**
-     * Decide what to do based on the card played. Can change the current player and the top card.
+     * Changes the topCard and gets colour for wild cards
+     * @param choice is the card played
+     */
+    private void processChoiceStatus(Card choice) {
+        // Don't do anything with no choice
+        if (choice == null) { return; }
+        if (choice.getColour() == Colour.WILD) {
+                Colour c = handleWild(choice);
+                statusString += "Color is set to " + topCard.getColour() + "\n";
+        }
+
+        // The top card is now the played card
+        topCard = choice;
+        pile.addCard(topCard);
+        roundOver = true;
+        update();
+    }
+
+    /**
+     * Decide what to do based on the card played.
      * Append to the status string with what is done with the player's choice
      * @param choice The card that was played on the currentPlayer's turn
      */
@@ -284,51 +318,47 @@ public class Game implements Serializable{
         switch (choice.getValue()) {
             case DRAW_ONE -> {
                 Card drawn = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                statusString += "Next player receives: " + drawn.getColour() + " " + drawn.getValue();
+                statusString += "Receiving: " + drawn.getColour() + " " + drawn.getValue() + "\n";
             }
             case DRAW_FIVE -> {
                 StringBuilder s = new StringBuilder();
                 for(int i=0; i<5; i++){
                     s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
                 }
-                statusString += "Next player receives: \n" + s;
+                statusString += "Receiving: \n" + s + "\n";
             }
             case SKIP -> {
                 skipNextPlayer = true;
-                statusString += "Next player is skipped.";
+                statusString += "Last player skipped.\n";
             }
             case SKIP_ALL -> {
                 skipAllPlayers = true;
-                statusString += "All players are skipped.";
+                statusString += "All players skipped.\n";
             }
             case REVERSE -> {
                 if (direction == Direction.FORWARD) direction = Direction.BACKWARD;
                 else if (direction == Direction.BACKWARD) direction = Direction.FORWARD;
-                statusString += "Direction reversed.";
+                statusString += "Direction reversed.\n";
             }
             case WILD_DRAW_TWO -> {
-                Card drawn1 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                Card drawn2 = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
-                Colour c = handleWild(choice);
-                if (c == null) { return; } // Don't go to the next round or continue handling
-                statusString += c.toString() + " has been chosen. " + currentPlayer.getName() + " has to draw two cards due to Wild Draw Two.";
+                StringBuilder s = new StringBuilder();
+                for(int i=0; i<2; i++){
+                    s.append(nextPlayer(currentPlayer).drawCard(currentDeck.removeCard()).toString() + "\n");
+                }
+                statusString += "Receiving: \n" + s + "\n";
             }
             case WILD -> {
-                Colour c = handleWild(choice);
-                if (c == null) { return; } // Don't go to the next round or continue handling
-                statusString += c.toString() + " has been chosen.";
+                statusString += "";
             }
             case WILD_DRAW_COLOUR -> {
-                Colour c = handleWild(choice);
                 Card card;
                 StringBuilder s = new StringBuilder();
                 do{
                     card = nextPlayer(currentPlayer).drawCard(currentDeck.removeCard());
                     s.append(card.toString() + "\n");
-                }while(card.getColour() != c);
+                }while(card.getColour() != topCard.getColour());
 
-                if (c == null) { return; } // Don't go to the next round or continue handling
-                statusString += "Next player receives:\n" + s;
+                statusString += "Reciving:\n" + s;
             }
             case FLIP -> {
                 Card.flipSide();
@@ -337,12 +367,6 @@ public class Game implements Serializable{
             default -> {
             }
         }
-
-        // The current card is no longer needed
-        pile.addCard(topCard);
-        // The top card is now the played card
-        topCard = choice;
-        roundOver = true;
         update();
     }
 
@@ -380,25 +404,12 @@ public class Game implements Serializable{
      * Restarts the Uno game
      */
     public void replay(){
+        statusString += "REPLAY!\n";
         int choice = GameView.displayReplayPopup();
         if (choice == JOptionPane.YES_OPTION) {
-            ArrayList<Player> newPlayers = new ArrayList<>();
-
-            //Reset ID's for names
-            Human.ID = 0;
-            FirstValidAI.ID = 0;
-            HighestValueAI.ID = 0;
-            LowestValueAI.ID = 0;
-
             for (Player p : this.players){
-                if (p instanceof Human){newPlayers.add(new Human());}
-                else if (p instanceof FirstValidAI){newPlayers.add(new FirstValidAI());}
-                else if (p instanceof HighestValueAI){newPlayers.add(new HighestValueAI());}
-                else if (p instanceof LowestValueAI){newPlayers.add(new LowestValueAI());}
+                p.setScore(0);
             }
-
-            //initialize players and draw their hands
-            players.addAll(newPlayers);
             newRound();
             update();
         }
@@ -440,6 +451,46 @@ public class Game implements Serializable{
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Undo's the last move by player
+     */
+    public void undo(){
+        statusString += "UNDO last action!\n";
+        if(statusCard != null){
+            currentDeck.addCard(statusCard);
+            currentPlayer.removeCard(currentPlayer.getNumCards());
+            statusCard = null;
+            prevChoice = null;
+            prevDrew = true;
+        } else {
+            prevChoice = topCard;
+            currentPlayer.addCard(pile.removeCard());
+            topCard = pile.getTopCard();
+            prevDrew = false;
+        }
+        roundOver = false;
+        update();
+    }
+
+    /**
+     * Redo's the last undid action by player
+     */
+    public void redo(){
+        statusString += "REDO last action!\n";
+        if (prevChoice == null){
+            statusCard = currentPlayer.drawCard(currentDeck.removeCard());
+        } else {
+            pile.addCard(prevChoice);
+            topCard = prevChoice;
+            currentPlayer.removeCard( currentPlayer.getHand().indexOf(prevChoice) + 1);
+        }
+
+        prevDrew = false;
+        prevChoice = null;
+        roundOver = true;
+        update();
     }
 
 }

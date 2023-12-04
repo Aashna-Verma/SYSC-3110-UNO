@@ -7,10 +7,13 @@
  */
 
 public class Human extends Player{
-    static int ID = 0;
+
     /**
      * Constructor for Human Class
+     * @param name the name of the player
      */
+    static int ID =0;
+
     public Human(){
         super("Human" + ID);
         ID += 1;

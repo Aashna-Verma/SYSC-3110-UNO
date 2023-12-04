@@ -6,15 +6,15 @@
  */
 
 public class FirstValidAI extends Player implements AIBot {
-    public static int ID = 0;
+    private static int id = 0;
 
     /**
      * Constructor for FirstValidAI
      * Name is set as "FirstValidAI" plus an ID which is incremented with each AI
      */
     public FirstValidAI(){
-        super("FirstValidAI"+ ID);
-        ID += 1;
+        super("FirstValidAI"+ id);
+        id += 1;
     }
 
     /**

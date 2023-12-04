@@ -52,9 +52,9 @@ public class StatusNextView implements View {
         load.setActionCommand("Load");
         load.setPreferredSize(new Dimension(90, 50));
 
-        replay = new JButton("replay");
-        replay.setActionCommand("replay");
-        replay.setPreferredSize(new Dimension(90, 50));
+        replay = new JButton("Replay");
+        replay.setActionCommand("Replay");
+        replay.setPreferredSize(new Dimension(200, 50));
 
         buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setPreferredSize(new Dimension(200, 50));
@@ -91,6 +91,8 @@ public class StatusNextView implements View {
     public void update(Game game) {
         nextPlayer.setEnabled(game.isRoundOver());
         gameStatus.setText(game.getStatusString());
+        undo.setEnabled(game.isRoundOver() && !(game.getCurrentPlayer() instanceof AIBot));
+        redo.setEnabled(game.hasPrevChoice());
         if(game.getStatusCard() != null){
             gameStatus.setPreferredSize(new Dimension(200, 150));
             drawImg.setIcon(game.getStatusCard().getImageIcon(0.2));
@@ -106,7 +108,7 @@ public class StatusNextView implements View {
      * Add an action listener to this view for the next player button
      * @param l the listener to be added to the next player button
      */
-    public void addPlayerListener(ActionListener l) {
+    public void addListener(ActionListener l) {
         nextPlayer.addActionListener(l);
         save.addActionListener(l);
         load.addActionListener(l);
@@ -118,5 +120,22 @@ public class StatusNextView implements View {
      */
     public void addReplayListener(ActionListener l) {
         replay.addActionListener(l);
+    }
+
+
+    /**
+     * Add an action listener to this view for the undo button
+     * @param l the listener to be added to the undo button
+     */
+    public void addUndoListener(ActionListener l) {
+        undo.addActionListener(l);
+    }
+
+    /**
+     * Add an action listener to this view for the redo button
+     * @param l the listener to be added to the redo button
+     */
+    public void addRedoListener(ActionListener l) {
+        redo.addActionListener(l);
     }
 }

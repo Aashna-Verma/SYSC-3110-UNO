@@ -35,7 +35,7 @@ public class GameView extends JFrame implements View {
         gameFrame.setTitle("UNO");
         gameFrame.setLayout(new BorderLayout());
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setSize(1000, 710);
+        gameFrame.setSize(1000, 715);
 
         gameFrame.add(currCard.getView(), BorderLayout.CENTER);
         gameFrame.add(statusNext.getView(), BorderLayout.WEST);
@@ -118,11 +118,23 @@ public class GameView extends JFrame implements View {
      * @param l Actionalistener
      */
     public void addNextListener (ActionListener l) {
-        statusNext.addPlayerListener(l);
+        statusNext.addListener(l);
     }
 
-    public void addReplayListener (ActionListener l){
-        statusNext.addReplayListener(l);
+    /**
+     * Add actionlistener for statusUndo
+     * @param l Actionalistener
+     */
+    public void addUndoListener (ActionListener l) {
+        statusNext.addUndoListener(l);
+    }
+
+    /**
+     * Add actionlistener for statusRedo
+     * @param l Actionalistener
+     */
+    public void addRedoListener (ActionListener l) {
+        statusNext.addRedoListener(l);
     }
 
     /**
@@ -139,6 +151,14 @@ public class GameView extends JFrame implements View {
      */
     public void addHandListener (ActionListener l) {
         hand.addListener(l);
+    }
+
+    /**
+     * Add actionlistener for statusNext
+     * @param l Actionalistener
+     */
+    public void addReplayListener (ActionListener l) {
+        statusNext.addReplayListener(l);
     }
 
     /**
