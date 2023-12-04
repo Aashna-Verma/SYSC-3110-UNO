@@ -26,6 +26,7 @@ public class GameController {
     public GameController(Game model, GameView view) {
         this.model = model;
         this.view = view;
+
         handListener = new HandListener(model);
         drawListener = new DrawCardListener(model);
         nextListener = new NextPlayerListener(model);
@@ -40,7 +41,16 @@ public class GameController {
         view.addUndoListener(undoListener);
         view.addRedoListener(redoListener);
         view.addReplayListener(replayListener);
-        // Add a view and update it to start the game
+        // Set the model of all listeners and this object
+        this.setModel(model);
+    }
+    public void setModel(Game model) {
+        this.model = model;
+        handListener.setModel(model);
+        drawListener.setModel(model);
+        nextListener.setModel(model);
+        replayListener.setModel(model);
+
         model.addView(view);
     }
 

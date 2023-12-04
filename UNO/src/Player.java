@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -8,7 +9,7 @@ import java.util.*;
  * @version 1.0
  */
 
-public class Player {
+public class Player implements Serializable {
     public static final int STARTING_HAND_SIZE = 7;
     protected String name;
     protected int score;
@@ -184,5 +185,18 @@ public class Player {
         else {
             return darkColors.get(random.nextInt(darkColors.size()));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return score == player.score && Objects.equals(name, player.name) && Objects.equals(hand, player.hand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, score, hand);
     }
 }

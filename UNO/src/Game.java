@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.WindowEvent;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,7 +12,7 @@ import java.util.Collection;
  * @author  Aashna Verma - Modified for Flip
  * @version 2.0
  */
-public class Game {
+public class Game implements Serializable{
     private enum Direction { FORWARD, BACKWARD }
     private final int WINNING_SCORE = 500;
     private Game.Direction direction;
@@ -29,7 +30,7 @@ public class Game {
     private boolean prevDrew;
     private String statusString;
     private Card statusCard;
-    private GameView gameView;
+    private transient GameView gameView;
 
     /**
      * Constructor for Game
@@ -414,6 +415,44 @@ public class Game {
         }
     }
 
+    public GameView getGameView(){
+        return gameView;
+    }
+
+    /**
+     *Serializes the current state of the game.
+     * @throws IOException
+     */
+    public void serialize() throws IOException {
+        ObjectOutputStream oStream = new ObjectOutputStream(new FileOutputStream("UserSave.ser"));
+        try {
+            oStream.writeObject(this);
+            oStream.close();
+            System.out.println("User Saved");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Deserializes the saved state of the game.
+     * @return Loaded game
+     * @throws IOException
+     */
+    public static Game deserialize() throws IOException {
+        try {
+            ObjectInputStream oInput = new ObjectInputStream(new FileInputStream("UserSave.ser"));
+            System.out.println("User Loaded");
+            Game loadedGame = (Game) oInput.readObject();
+            oInput.close();
+            return loadedGame;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Undo's the last move by player
      */
@@ -453,4 +492,5 @@ public class Game {
         roundOver = true;
         update();
     }
+
 }

@@ -114,4 +114,36 @@ public class GameTest extends junit.framework.TestCase {
         assertEquals("Total points were not summed correctly", 14, game.getPoints());
     }
 
+    public void testSerialization() {
+        Collection<Player> p = new ArrayList<Player>();
+        Player p1, p2;
+        p.add(p1 = new Player("p1"));
+        p.add(p2 = new Player("p2"));
+        Game game = new Game(p);
+        try {
+            Player current = game.getCurrentPlayer();
+            game.serialize();
+            Game newgame = Game.deserialize();
+            assertEquals(newgame.getPlayers().get(0), p1);
+            assertEquals(newgame.getPlayers().get(1), p2);
+            assertEquals(newgame.getCurrentPlayer(), current);
+            assertEquals(newgame.getStatusCard(), null);
+            assertEquals(newgame.getStatusString(), null);
+            assertEquals(newgame.isGameOver(), false);
+            assertEquals(newgame.isRoundOver(), false);
+
+            current.drawCard(game.getTopCard());
+            game.playCard(current.getHand().size());
+            current = game.getCurrentPlayer();
+            game.serialize();
+            newgame = Game.deserialize();
+            assertEquals(newgame.getCurrentPlayer(), current);
+            assertEquals(newgame.getStatusCard(), null);
+            assertEquals(newgame.isGameOver(), false);
+            assertEquals(newgame.isRoundOver(), true);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
