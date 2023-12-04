@@ -17,7 +17,7 @@ public class NextPlayerListener implements ActionListener {
     /**
      * Constructor for NextPlayerListener
      *
-     * @param GameController the controller that owns this listener
+     * @param controller the controller that owns this listener
      */
     public NextPlayerListener(GameController controller) { this.controller = controller; }
     public void setModel(Game game) { this.game = game; }
@@ -34,6 +34,7 @@ public class NextPlayerListener implements ActionListener {
         else if (Objects.equals(e.getActionCommand(), "Save")) {
             try {
                 game.serialize();
+                GameView.displaySavedGame();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
 
 public class UndoListener implements ActionListener {
     private Game game;
-
+    private GameController controller;
     /**
      * Constructor for NextPlayerListener
      *
-     * @param game the Game model
+     * @param GameController the Game controller
      */
-    public UndoListener(Game game) { this.game = game; }
-
+    public UndoListener(GameController controller) { this.controller = controller; }
+    public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
      *

@@ -10,14 +10,15 @@ import java.awt.event.ActionListener;
 
 public class RedoListener implements ActionListener {
     private Game game;
+    private GameController controller;
 
     /**
      * Constructor for NextPlayerListener
      *
-     * @param game the Game model
+     * @param GameController the controller this listener belongs to
      */
-    public RedoListener(Game game) { this.game = game; }
-
+    public RedoListener(GameController controller) { this.controller = controller; }
+    public void setModel(Game game) { this.game = game; }
     /**
      * The actionPerformed when an event occurs
      *

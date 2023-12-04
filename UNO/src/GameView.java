@@ -105,6 +105,13 @@ public class GameView extends JFrame implements View {
     }
 
     /**
+     * Generates the popup after a player saves the state of the game
+     */
+    public static void displaySavedGame() {
+        JOptionPane.showMessageDialog(null,"The game has been saved");
+    }
+
+    /**
      * Generates the popup after a player wants to replay the game
      */
     public static int displayReplayPopup(){
