@@ -8,14 +8,14 @@ import java.awt.event.ActionListener;
  * @version 2.0
  */
 
-public class DrawCardListener implements ActionListener {
+public class DrawCardListener implements ActionListener, ControllerListener {
     private Game game;
     private GameController controller;
 
     /**
      * Constructor for DrawCardListener
      *
-     * @param game the Game model
+     * @param controller the Game controller
      */
     public DrawCardListener(GameController controller) { this.controller = controller; }
     public void setModel(Game game) { this.game = game; }

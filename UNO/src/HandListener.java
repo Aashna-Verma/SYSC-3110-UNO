@@ -8,14 +8,14 @@ import java.awt.event.ActionListener;
  * @version 2.0
  */
 
-public class HandListener implements ActionListener {
+public class HandListener implements ActionListener, ControllerListener {
     private Game game;
     private GameController controller;
 
     /**
      * Constructor for HandListener
      *
-     * @param game the Game model
+     * @param controller the Game controller
      */
     public HandListener(GameController controller) { this.controller = controller; }
     public void setModel(Game game) { this.game = game; }

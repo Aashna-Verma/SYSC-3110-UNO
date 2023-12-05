@@ -10,7 +10,7 @@ import java.util.Objects;
  * @version 2.0
  */
 
-public class StatusListener implements ActionListener {
+public class StatusListener implements ActionListener, ControllerListener {
     private Game game;
     private GameController controller;
 
