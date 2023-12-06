@@ -10,7 +10,7 @@ import java.util.Collection;
  * @author Angus Jull
  * @author  Brian Tran - Modified for MVC
  * @author  Aashna Verma - Modified for Flip
- * @version 2.0
+ * @version 3.0
  */
 public class Game implements Serializable{
     private enum Direction { FORWARD, BACKWARD }

@@ -1,4 +1,9 @@
-import java.awt.event.ActionListener;
+/**
+ * The interface for all controller listeners
+ *
+ * @author Angus Jull
+ * @version 1.0
+ */
 
 public interface ControllerListener {
     // Sets the model that this listener will update

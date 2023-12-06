@@ -35,6 +35,11 @@ public class GameController {
         // Set the model of all listeners and this object
         this.setModel(model);
     }
+
+    /**
+     * Sets the model for the controller
+     * @param model the model for the game
+     */
     public void setModel(Game model) {
         this.model = model;
         handListener.setModel(model);
