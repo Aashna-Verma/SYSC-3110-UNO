@@ -1,6 +1,6 @@
 # SYSC-3110-UNO
 _Final group project for SYSC 3110_  
-__Current Status: Milestone 3__
+__Current Status: Milestone 4__
 
 ## Table of content
 * [Project Description](#project-description)  
@@ -21,6 +21,7 @@ A playable version of the Uno Flip card game, allowing players to engage through
 6. Observe the resultant state of the cards.
 7. Experience the UNO game with a full Graphical User Interface.
 8. Experience the UNO game with AI's of 3 different startegic methods.
+9. **New functionalies: Undo, Redo, Replay, Save, Load**
 
 ## System requirements
 
